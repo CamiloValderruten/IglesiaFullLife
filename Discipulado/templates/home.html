@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Full Life Ministry">
+	<title>Discipulado | Full Life Ministry</title>
+	<link
+			 href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+			 rel='stylesheet' type='text/css'/>
+	<link
+			 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+			 rel="stylesheet">
+	<link
+			 href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic'
+			 rel='stylesheet' type='text/css'>
+	<link
+			 href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700'
+			 rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+	      rel="stylesheet" type="text/css">
+	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script'
+	      rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://cdn.plyr.io/2.0.13/plyr.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+<div id="wrapper" class="toggled">
+
+	<!-- Sidebar -->
+	<div id="sidebar-wrapper">
+		<ul class="sidebar-nav">
+			<li class="sidebar-brand">
+				<a href="#">
+					<center><img class="img img-responsive"
+					     src="{{ url_for('static', filename='logo.png') }}"
+					     style="width: 80%;"></center>
+
+				</a>
+			</li>
+			<li>
+				<a href="{{ url_for('home', category='predica') }}">Predicas</a>
+			</li>
+			<li>
+				<a href="{{ url_for('home', category='discipulado') }}">Discipulado</a>
+			</li>
+		</ul>
+	</div>
+
+	<section>
+		<div class="container">
+			{% for entry in media %}
+
+				{% if entry.type == 'audio' %}
+
+					<div class="audio-box col-md-3" style="margin-top: 10px">
+						<img class="img img-responsive" src="{{ entry.poster_url }}"
+						     style="margin-top: 15px"/>
+						<audio>
+							<source
+									 src="{{ entry.url }}"
+									 type="audio/mp3"/>
+						</audio>
+						<h4>{{ entry.title }}</h4>
+						<h5>{{ entry.author }}</h5>
+						<h5>{{ entry.date }}</h5>
+						<hr>
+					</div>
+
+
+
+
+				{% elif entry.type == 'video' %}
+					<video
+							 {% if entry.poster_url %}poster="{{ entry.poster_url }}"{% endif %}
+							 controls>
+						<source src="{{ entry.url }}" type="video/mp4">
+					</video>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</section>
+</div>
+
+
+<script
+		 src="https://code.jquery.com/jquery-3.2.1.min.js"
+		 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		 crossorigin="anonymous"></script>
+<script
+		 src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.plyr.io/2.0.13/plyr.js"></script>
+<script>plyr.setup();</script>
+</body>
+</html>
