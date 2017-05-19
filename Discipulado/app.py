@@ -21,7 +21,8 @@ def create_app():
         if request.args.get('author'):
             query['author'] = request.args.get('author')
         media = db.media.find(query)
-        return render_template('home.html', media=media)
+        data = {"categories": db.media.distinct("category"), 'media': media}
+        return render_template('home.html', **data)
 
     @app.route('/upload', methods=['GET', 'POST'])
     def upload():

@@ -41,19 +41,22 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"
-						   role="button" aria-haspopup="true" aria-expanded="false">Discipulado
-							<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a
-									 href="{{ url_for('home', category="discipulado", author="Pastor Pedro Villegas") }}">Pastor
-								Pedro Villegas</a></li>
-							<li><a
-									 href="{{ url_for('home', category="discipulado", author="Pastor Frank Lopez") }}">Pastor
-								Frank Lopez</a></li>
-						</ul>
-					</li>
+					{% for category in categories %}
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+							   role="button" aria-haspopup="true"
+							   aria-expanded="false">{{ category.title() }}
+								<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a
+										 href="{{ url_for('home', category="discipulado", author="Pastor Pedro Villegas") }}">Pastor
+									Pedro Villegas</a></li>
+								<li><a
+										 href="{{ url_for('home', category="discipulado", author="Pastor Frank Lopez") }}">Pastor
+									Frank Lopez</a></li>
+							</ul>
+						</li>
+					{% endfor %}
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 				</ul>
@@ -64,28 +67,19 @@
 <section>
 	<div class="container">
 		{% for entry in media %}
-			<div class="media-box col-md-3">
-				{% if entry.type == 'audio' %}
+				<div class="media-box col-md-3">
 					<div class="audio-box">
-						<img class="img img-responsive" src="{{ entry.poster_url }}"
-						     style="margin-top: 15px"/>
-						<audio>
-							<source src="{{ entry.url }}" type="audio/mp3"/>
-						</audio>
+						<video
+								 {% if entry.poster_url %}poster="{{ entry.poster_url }}"{% endif %}
+								 controls>
+							<source src="{{ entry.url }}" type="video/mp4">
+						</video>
 						<div class="description" style="height: 100px">
 							<h4>{{ entry.title }}</h4>
-							<h6>{{ entry.author }}</h6>
-							<h6>{{ entry.date }}</h6>
+							<p>{{ entry.author }}<br>{{ entry.date }}</p>
 						</div>
 					</div>
-				{% elif entry.type == 'video' %}
-					<video
-							 {% if entry.poster_url %}poster="{{ entry.poster_url }}"{% endif %}
-							 controls>
-						<source src="{{ entry.url }}" type="video/mp4">
-					</video>
-				{% endif %}
-			</div>
+				</div>
 		{% endfor %}
 	</div>
 </section>
