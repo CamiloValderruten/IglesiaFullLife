@@ -67,19 +67,19 @@
 <section>
 	<div class="container">
 		{% for entry in media %}
-				<div class="media-box col-md-3">
-					<div class="audio-box">
-						<video
-								 {% if entry.poster_url %}poster="{{ entry.poster_url }}"{% endif %}
-								 controls>
-							<source src="{{ entry.url }}" type="video/mp4">
-						</video>
-						<div class="description" style="height: 100px">
-							<h4>{{ entry.title }}</h4>
-							<p>{{ entry.author }}<br>{{ entry.date }}</p>
-						</div>
+			<div class="media-box col-md-3">
+				<div class="audio-box">
+					<video
+							 {% if entry.poster_url %}poster="{{ entry.poster_url }}"{% endif %}
+							 controls>
+						<source src="{{ entry.url }}" type="video/mp4">
+					</video>
+					<div class="description" style="height: 100px">
+						<h4>{{ entry.title }}</h4>
+						<p>{{ entry.author }}<br>{{ entry.date }}</p>
 					</div>
 				</div>
+			</div>
 		{% endfor %}
 	</div>
 </section>
