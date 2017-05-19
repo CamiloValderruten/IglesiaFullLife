@@ -1,7 +1,7 @@
 body {
     padding-top: 20px;
     padding-bottom: 20px;
-    background: #c4dfe6 url("http://fulllifeministry.org/templates/yoo_cloud/styles/landscape/images/texture_b.jpg") no-repeat fixed 50% 100%;
+    background: #c4dfe6 url("/static/background.jpg") no-repeat fixed 50% 100%;
 }
 
 .media-box {
