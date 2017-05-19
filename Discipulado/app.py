@@ -15,7 +15,9 @@ def create_app():
 
     @app.route('/', methods=['GET'])
     def home():
-        query = {"category": request.args.get('category', 'preach')}
+        query = dict()
+        if request.args.get('category'):
+            query = {"category": request.args.get('category')}
         if request.args.get('author'):
             query['author'] = request.args.get('author')
         media = db.media.find(query)

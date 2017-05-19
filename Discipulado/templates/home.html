@@ -38,9 +38,6 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				{#				<a class="navbar-brand" href="#">#}
-				{#					<img class="logo img img-responsive" src="{{ url_for('static', filename='logo.png') }}">#}
-				{#				</a>#}
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
@@ -75,9 +72,11 @@
 						<audio>
 							<source src="{{ entry.url }}" type="audio/mp3"/>
 						</audio>
-						<h4>{{ entry.title }}</h4>
-						<h5>{{ entry.author }}</h5>
-						<h5>{{ entry.date }}</h5>
+						<div class="description" style="height: 100px">
+							<h4>{{ entry.title }}</h4>
+							<h6>{{ entry.author }}</h6>
+							<h6>{{ entry.date }}</h6>
+						</div>
 					</div>
 				{% elif entry.type == 'video' %}
 					<video
