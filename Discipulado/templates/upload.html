@@ -21,6 +21,11 @@
 
 <section>
 	<div class="container">
+		{% if media_url %}
+			<div class="alert alert-success" role="alert">
+				Successfully uploaded! You can now access it here: {{ media_url }}
+			</div>
+		{% endif %}
 		<div class="jumbotron">
 			<form method="post"
 			      action="{{ url_for('upload') }}" enctype="multipart/form-data">
@@ -34,11 +39,7 @@
 				</div>
 				<div class="form-group">
 					<label for="category">Category</label>
-					<select class="form-control" id="category" name="category" required>
-						{% for category in categories %}
-							<option value="{{ category }}">{{ category.title() }}</option>
-						{% endfor %}
-					</select>
+					<input type="text" class="form-control" name="category" required>
 				</div>
 				<div class="form-group">
 					<label for="subcategory">Subcategory</label>
