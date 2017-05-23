@@ -5,7 +5,9 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="">
+	<meta name="description"
+	      content="Discipleship content for Full Life Ministry's Leadership">
+	<meta name="robots" content="noindex">
 	<meta name="author" content="Full Life Ministry">
 	<title>Media | Full Life Ministry</title>
 	<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
@@ -15,146 +17,38 @@
 	<link
 			 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 			 rel="stylesheet">
-	<link
-			 href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic'
-			 rel='stylesheet' type='text/css'>
-	<link
-			 href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700'
-			 rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://cdn.plyr.io/2.0.13/plyr.css">
 	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
+
 <body>
-<div class="container">
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-				        data-toggle="collapse" data-target="#navbar"
-				        aria-expanded="false"
-				        aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					{% for category in db.media.distinct("category") %}
-						{% if category in ['discipulado', 'snack'] %}
-							{% if 'logged_in' in session %}
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown"
-									   role="button" aria-haspopup="true"
-									   aria-expanded="false">{{ category.title() }}
-										<span class="caret"></span></a>
-									<ul class="dropdown-menu">
-										{% for sub in db.media.distinct("subcategory", {"category": category}) %}
-											<li><a
-													 href="{{ url_for('home', category=category, subcategory=sub) }}">{{ sub.title() }}</a>
-											</li>
-										{% endfor %}
-									</ul>
-								</li>
-							{% endif %}
-						{% else %}
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown"
-								   role="button" aria-haspopup="true"
-								   aria-expanded="false">{{ category.title() }}
-									<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									{% for sub in db.media.distinct("subcategory", {"category": category}) %}
-										<li><a
-												 href="{{ url_for('home', category=category, subcategory=sub) }}">{{ sub.title() }}</a>
-										</li>
-									{% endfor %}
-								</ul>
-							</li>
-						{% endif %}
-					{% endfor %}
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					{% if 'logged_in' in session %}
-						<li><a href="{{ url_for('logout') }}">Logout</a>
-						</li>
-					{% else %}
-						<li><a href="#login-modal" data-toggle="modal"
-						       data-target="#login-modal">Login</a>
-						</li>
-					{% endif %}
-				</ul>
-			</div>
-		</div>
-	</nav>
-</div>
 <section>
+
+	<div class="container"
+	     style="text-align: center; max-width: 300px; padding-bottom: 20px;">
+		<img src="{{ url_for('static', filename='logo-black.png') }}"
+		     class="img img-responsive">
+	</div>
+
 	<div class="container">
-		{% for entry in db.media.find(request.args) %}
-			{% if entry.category in ['discipulado', 'snack'] %}
-				{% if 'logged_in' in session %}
-					<div class="media-box col-md-3">
-						<div class="audio-box">
-							<video
-									 {% if entry.poster_url %}poster="{{ entry.poster_url }}"{% endif %}
-									 controls>
-								<source src="{{ entry.url }}" type="audio/mp3">
-							</video>
-							<div class="description" style="height: 100px">
-								<h4>{{ entry.title }}</h4>
-								<p>{{ entry.author }}<br><span
-									 class="date">{{ entry.date }}</span></p>
-							</div>
-						</div>
-					</div>
-				{% endif %}
-			{% else %}
-				<div class="media-box col-md-3">
-					<div class="audio-box">
-						<video
-								 {% if entry.poster_url %}poster="{{ entry.poster_url }}"{% endif %}
-								 controls>
-							<source src="{{ entry.url }}" type="video/mp4">
-						</video>
-						<div class="description" style="height: 100px">
-							<h4>{{ entry.title }}</h4>
-							<p>{{ entry.author }}<br><span
-									 class="date">{{ entry.date }}</span></p>
-						</div>
+		{% for entry in db.media.find({'category': 'discipulado'}).sort("date", -1) %}
+			{% set type = 'audio/mp3' if entry.url.endswith('mp3') else 'video/mp4' %}
+			<div class="media-box col-md-3">
+				<div class="audio-box">
+					<video poster="{{ entry.poster_url }}" controls>
+						<source src="{{ entry.url }}" type="{{ type }}">
+					</video>
+					<div class="description" style="height: 100px">
+						<h4>{{ entry.title }}</h4>
+						<p>{{ entry.author }}<br><span
+								 class="date">{{ entry.date }}</span></p>
 					</div>
 				</div>
-			{% endif %}
+			</div>
 		{% endfor %}
 	</div>
+
 </section>
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-				        aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h5 class="modal-title">Login</h5>
-			</div>
-			<div class="modal-body">
-				<form method="post" action="{{ url_for('login') }}" id="login-form">
-					<div class="form-group">
-						<label for="password">Password</label>
-						<input type="password" class="form-control" name="password"
-						       required>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary btn-block"
-				        onclick="$('#login-form').submit()">Login
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <script
 		 src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -167,9 +61,9 @@
 		 src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
 <script>
     plyr.setup();
-    $('.date').each(function(i, obj) {
-      obj.innerHTML = moment(obj.innerHTML).calendar();
-		});
+    $('.date').each(function (i, obj) {
+        obj.innerHTML = moment(obj.innerHTML).calendar();
+    });
 </script>
 </body>
 </html>
