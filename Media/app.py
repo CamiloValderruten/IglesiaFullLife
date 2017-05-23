@@ -42,7 +42,6 @@ def create_app():
 
             media = request.files.get('media')
             key = secure_filename(media.filename)
-            data['type'] = 'audio' if key.split('.')[-1] == 'mp3' else 'video'
             data['url'] = "https://s3.amazonaws.com/{}/{}".format(bucket, key)
             s3.upload_fileobj(media, bucket, key)
             return_data['media_url'] = data['url']

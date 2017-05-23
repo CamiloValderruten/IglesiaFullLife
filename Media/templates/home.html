@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="Full Life Ministry">
-	<title>Medios | Full Life Ministry</title>
+	<title>Media | Full Life Ministry</title>
 	<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
 	<link
 			 href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -42,7 +42,7 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					{% for category in db.media.distinct("category") %}
-						{% if category == 'discipulado' %}
+						{% if category in ['discipulado', 'snack'] %}
 							{% if 'logged_in' in session %}
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -92,18 +92,19 @@
 <section>
 	<div class="container">
 		{% for entry in db.media.find(request.args) %}
-			{% if entry.category == 'discipulado' %}
+			{% if entry.category in ['discipulado', 'snack'] %}
 				{% if 'logged_in' in session %}
 					<div class="media-box col-md-3">
 						<div class="audio-box">
 							<video
 									 {% if entry.poster_url %}poster="{{ entry.poster_url }}"{% endif %}
 									 controls>
-								<source src="{{ entry.url }}" type="video/mp4">
+								<source src="{{ entry.url }}" type="audio/mp3">
 							</video>
 							<div class="description" style="height: 100px">
 								<h4>{{ entry.title }}</h4>
-								<p>{{ entry.author }}<br>{{ entry.date }}</p>
+								<p>{{ entry.author }}<br><span
+									 class="date">{{ entry.date }}</span></p>
 							</div>
 						</div>
 					</div>
@@ -118,7 +119,8 @@
 						</video>
 						<div class="description" style="height: 100px">
 							<h4>{{ entry.title }}</h4>
-							<p>{{ entry.author }}<br>{{ entry.date }}</p>
+							<p>{{ entry.author }}<br><span
+									 class="date">{{ entry.date }}</span></p>
 						</div>
 					</div>
 				</div>
@@ -161,6 +163,13 @@
 <script
 		 src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.plyr.io/2.0.13/plyr.js"></script>
-<script>plyr.setup();</script>
+<script
+		 src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+<script>
+    plyr.setup();
+    $('.date').each(function(i, obj) {
+      obj.innerHTML = moment(obj.innerHTML).calendar();
+		});
+</script>
 </body>
 </html>
