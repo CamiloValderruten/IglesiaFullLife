@@ -3,7 +3,7 @@ from flask import render_template
 
 timers = [
     {"title": "Starting", "minutes": 5, 'icon': 'adjust'},
-    {"title": "Worship", "minutes": 5, 'icon': 'music'},
+    {"title": "Worship", "minutes": 30, 'icon': 'music'},
     {"title": "Interlude", "minutes": 5, 'icon': 'clock-o'},
     {"title": "Preach", "minutes": 32, 'icon': 'commenting'},
     {"title": "Ministering", "minutes": 8, 'icon': 'fire'},
