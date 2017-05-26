@@ -34,6 +34,9 @@
 		#title {
 			font-size: 90px;
 		}
+		#current-time {
+			font-size: 50px;
+		}
 	</style>
 </head>
 <body class="hold-transition skin-black sidebar-mini">
@@ -82,6 +85,7 @@
 					<span class="hours">00</span>:<span class="minutes">00</span>:<span
 						 class="seconds">00</span>
 				</div>
+				<div id="current-time"></div>
 			</div>
 		</section>
 	</div>
@@ -95,8 +99,11 @@
 <script
 		 src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
-    var timeinterval = setInterval(function () {
+    setInterval(function () {
+        var currentTime = document.getElementById('current-time');
+        currentTime.innerHTML = moment().format('h:mm:ss');
     }, 1000);
+    var timeinterval = null;
 
     function getTimeRemaining(time) {
         var t = Date.parse(time) - Date.parse(new Date());
