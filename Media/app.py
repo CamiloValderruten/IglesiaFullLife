@@ -19,17 +19,6 @@ def create_app():
     def home():
         return render_template('home.html', db=db)
 
-    @app.route('/login', methods=['POST'])
-    def login():
-        if request.form['password'] == u_password:
-            session['logged_in'] = request.form['password']
-        return redirect(url_for('home'))
-
-    @app.route('/logout')
-    def logout():
-        session.pop('logged_in', None)
-        return redirect(url_for('home'))
-
     @app.route('/upload', methods=['GET', 'POST'])
     def upload():
         return_data = dict(db=db)
