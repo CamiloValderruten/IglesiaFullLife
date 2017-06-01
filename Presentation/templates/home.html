@@ -1,10 +1,9 @@
-<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Presentation | Full Life Ministry</title>
-	<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+	<link rel="icon" href="/static/favicon.png">
 	<meta
 			 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 			 name="viewport">
@@ -17,176 +16,225 @@
 	<link rel="stylesheet"
 	      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style>
-		.content-wrapper {
-			text-align: center;
-			background: black;
-			font-family: sans-serif;
-			font-weight: 100;
-			color: white;
-			padding-top: 10%;
-			height: 100%;
+		body {
+			padding-top: 70px;
 		}
 
-		#clockdiv {
-			font-size: 200px;
+		.category, .category-title {
+			text-transform: capitalize;
 		}
 
-		#title {
-			font-size: 90px;
-		}
-		#current-time {
+		#timer {
 			font-size: 50px;
+			text-align: center;
+			padding-top: 20px;
+			padding-bottom: 50px;
 		}
 	</style>
 </head>
-<body class="hold-transition skin-black sidebar-mini">
-<div class="wrapper">
+<body>
 
-	<header class="main-header">
-		<!-- Logo -->
-		<a href="/" class="logo">
-			<!-- mini logo for sidebar mini 50x50 pixels -->
-			<span class="logo-mini"><b>P</b>C</span>
-			<!-- logo for regular state and mobile devices -->
-			<span class="logo-lg"><b>Presentation</b>Center</span>
-		</a>
-		<!-- Header Navbar: style can be found in header.less -->
-		<nav class="navbar navbar-static-top">
-			<!-- Sidebar toggle button-->
-			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-				<span class="sr-only">Toggle navigation</span>
-			</a>
-		</nav>
-	</header>
-
-	<aside class="main-sidebar">
-		<section class="sidebar">
-			<ul class="sidebar-menu">
-				{% for timer in timers %}
-					<li>
-						<a onclick="startTimer('{{ timer.title.title() }}', '{{ timer.hours }}', '{{ timer.minutes }}', '{{ timer.seconds }}')">
-							<i class="fa fa-{{ timer.get('icon', 'clock-o') }}"></i>
-							<span>{{ timer.title.title() }}</span>
-							<span class="pull-right-container">
-							<small class="label pull-right bg-green">{{ timer.minutes }} Minutes</small>
-            </span>
-						</a>
-					</li>
-				{% endfor %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+			        data-target="#mobile-menu">
+				<span class="fa fa-bars"></span>
+			</button>
+			<a class="navbar-brand" href="/">PresentationCenter</a>
+		</div>
+		<div class="collapse navbar-collapse" id="mobile-menu">
+			<ul class="nav navbar-nav" id="categories">
 			</ul>
-		</section>
-	</aside>
+		</div>
+	</div>
+</nav>
 
-	<div class="content-wrapper">
-		<section class="content">
-			<div class="main">
-				<div id="title">Welcome</div>
-				<div id="clockdiv">
-					<span class="hours">00</span>:<span class="minutes">00</span>:<span
-						 class="seconds">00</span>
-				</div>
-				<div id="current-time"></div>
-			</div>
-		</section>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<button type="button" class="btn btn-primary" data-toggle="modal"
+			        data-target="#create-category">Create Category
+			</button>
+			<h1 id="category-title"></h1>
+			<div id="timers"></div>
+			<div id="timer"><span id="hours">00</span>:<span
+					 id="minutes">00</span>:<span
+					 id="seconds">00</span></div>
+		</div>
 	</div>
 </div>
 
+<div class="modal fade" id="create-category">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form>
+					<div class="form-group">
+						<input type="text" class="form-control" id="category-name"
+						       placeholder="Category">
+					</div>
+				</form>
+				<button class="btn btn-primary btn-block" onclick="createCategory()">
+					Create
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="create-timer">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form>
+					<div class="form-group">
+						<input type="text" class="form-control" id="timer-name"
+						       placeholder="Timer Name">
+					</div>
+					<div class="form-group">
+						<input type="number" class="form-control" id="timer-minutes"
+						       placeholder="Timer Minutes">
+					</div>
+				</form>
+				<button class="btn btn-primary btn-block" onclick="createTimer()">
+					Create
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script
-		 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		 src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
-		 src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.11/js/app.min.js"></script>
+		 src="//cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.11/js/app.min.js"></script>
 <script
-		 src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+		 src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script
+		 src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js"></script>
+<script
+		 src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/static/main.js"></script>
 <script>
-    setInterval(function () {
-        var currentTime = document.getElementById('current-time');
-        currentTime.innerHTML = moment().format('h:mm:ss');
-    }, 1000);
-    var timeinterval = null;
+    var socket = io.connect('//' + document.domain + ':' + location.port);
+    var categories = $('nav #categories');
+    var timers = $('#timers');
+    var title = $('#category-title');
+    var currentCategory = null;
 
-    function getTimeRemaining(time) {
-        var t = Date.parse(time) - Date.parse(new Date());
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 60);
-        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        return {
-            'total': t,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
+    getCategories();
+
+    function getCategories() {
+        categories.empty();
+        $.ajax({
+            url: "//" + document.domain + ':' + location.port + "/categories",
+            dataType: "JSON",
+            success: function (data) {
+                $.each(data, function (i, obj) {
+                    var category = $('<a>');
+                    category.text(obj.name);
+                    category.click(function () {
+                        getTimers(obj.name)
+                    });
+                    currentCategory = obj.name;
+                    categories.append($('<li>').append(category));
+                });
+            }
+        });
     }
 
-    function getExtraTime(time) {
-        console.log(time);
-        var data = {};
-        data.hours = time.hours;
-        data.minutes = time.minutes;
-        data.seconds = time.seconds + 1;
-        if (data.seconds === 61) {
-            data.minutes += 1;
-            data.seconds = 0;
+    function getTimers(categoryName) {
+        timers.empty();
+        title.text(categoryName);
+        $.ajax({
+            url: "//" + document.domain + ':' + location.port + "/timers",
+            dataType: "JSON",
+            data: {category: categoryName},
+            success: function (data) {
+                $.each(data, function (i, timer) {
+                    insertTimer(timer);
+                })
+            }
+        }).done(function () {
+            var b = $('<button class="btn btn-block btn-warning" data-toggle="modal" data-target="#create-timer">Create Timer</button>');
+            $('#timers').append(b);
+        });
+    }
+
+    function startTimer(timer) {
+        socket.emit('start_timer', timer);
+    }
+
+    function insertTimer(timer) {
+        var button = $('<button>');
+        button.addClass('btn btn-success btn-block');
+        button.click(function () {
+            startTimer(timer)
+        });
+        button.append("<span class='pull-left'>" + timer.title + "</span>");
+
+        if (timer.hours === undefined) {
+            timer.hours = "00";
         }
-        if (data.minutes === 61) {
-            data.hours += 1;
-            data.minutes = 0;
+        if (timer.minutes === undefined) {
+            timer.minutes = "00";
         }
-        return data;
-    }
-
-    function initializeClock(id, title, time) {
-        var clock = document.getElementById(id);
-        var hoursSpan = clock.querySelector('.hours');
-        var minutesSpan = clock.querySelector('.minutes');
-        var secondsSpan = clock.querySelector('.seconds');
-        var titleSpan = document.getElementById('title');
-        var background = document.getElementsByClassName("content-wrapper")[0];
-        titleSpan.innerHTML = title;
-
-        var done = false;
-        var t = {hours: 0, minutes: 0, seconds: 0};
-
-        function updateClock() {
-            if (done) {
-                t = getExtraTime(t)
-            } else {
-                t = getTimeRemaining(time);
-            }
-            hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-            minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-            secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-            if (t.minutes < 5 && t.hours === 0 && !done) {
-                background.style.backgroundColor = '#C4C442';
-            }
-
-            if (t.minutes === 0 && t.hours === 0 && t.seconds === 0) {
-                done = true;
-                background.style.backgroundColor = '#c4434f';
-                if (title === 'Starting') {
-                    startTimer("Worship", 0, 30);
-                }
-                if (title === 'Preach') {
-                    startTimer("Ministering", 0, 8);
-                }
-            }
-
-            if (t.minutes > 5) {
-                background.style.backgroundColor = 'black';
-            }
+        if (timer.seconds === undefined) {
+            timer.seconds = "00";
         }
+        timer.hours = ("0" + timer.hours).slice(-2);
+        timer.minutes = ("0" + timer.minutes).slice(-2);
+        timer.seconds = ("0" + timer.seconds).slice(-2);
 
-        updateClock();
-        timeinterval = setInterval(updateClock, 1000);
+        var badge = $('<span>');
+        badge.addClass('pull-right badge');
+        badge.text(timer.hours + ":" + timer.minutes + ":" + timer.seconds);
+
+        button.append(badge);
+        $('#timers').append(button);
     }
 
-    function startTimer(title, hours, minutes, seconds) {
-        clearInterval(timeinterval);
-        var deadline = moment().add(hours, 'hours').add(minutes, 'minutes').add(seconds, 'seconds');
-        initializeClock('clockdiv', title, deadline);
+    function createCategory() {
+        var name = $('#category-name').val();
+        $.ajax({
+            method: "POST",
+            url: "//" + document.domain + ':' + location.port + "/categories",
+            dataType: "JSON",
+            data: JSON.stringify({name: name}),
+            success: function () {
+                $('#create-category').modal('hide');
+                getCategories();
+            }
+        });
     }
 
+    function createTimer(){
+        var name = $('#timer-name').val();
+        var minutes = $('#timer-minutes').val();
+        $.ajax({
+            method: "POST",
+            url: "//" + document.domain + ':' + location.port + "/timers",
+            dataType: "JSON",
+            data: JSON.stringify({title: name, minutes: minutes, category: currentCategory}),
+            success: function () {
+                $('#create-timer').modal('hide');
+                getTimers(currentCategory);
+            }
+        });
+    }
+
+
+    socket.on('timer_changed', function (time) {
+        $('#timer').css('color', 'black');
+        $('#hours').text(("0" + time.hours).slice(-2));
+        $('#minutes').text(("0" + time.minutes).slice(-2));
+        $('#seconds').text(("0" + time.seconds).slice(-2));
+        if (time.overtime) {
+            $('#hours').text("+ " + ("0" + time.hours).slice(-2));
+            $('#timer').css('color', 'red');
+        }
+    })
 </script>
 </body>
 </html>

@@ -1,0 +1,148 @@
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex">
+	<meta name="author" content="Full Life Ministry">
+
+	<title>Presentation | Full Life Ministry</title>
+
+	<link rel="icon" href="/static/favicon.png">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+		html, body {
+			text-align: center;
+			background: black;
+			font-family: sans-serif;
+			color: white;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			display: table
+		}
+
+		#clock {
+			display: table-cell;
+			vertical-align: middle;
+		}
+
+		#title {
+			font-size: 100px;
+		}
+
+		#time {
+			font-size: 300px;
+		}
+
+	</style>
+</head>
+
+<body>
+<section id="clock">
+	<div id="title">Welcome</div>
+	<div id="time">
+		<span id="hours">00</span>:<span id="minutes">00</span>:<span
+			 id="seconds">00</span>
+	</div>
+</section>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js">
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js">
+</script>
+<script>
+    var socket = io.connect('//' + document.domain + ':' + location.port);
+    var title = $('#title');
+    var hours = $('#hours');
+    var minutes = $('#minutes');
+    var seconds = $('#seconds');
+    var interval = null;
+    var timerDone = false;
+
+    function removeSecond(time) {
+        var data = {};
+        data.hours = time.hours;
+        data.minutes = time.minutes;
+        data.seconds = time.seconds - 1;
+
+        if (data.seconds === -1) {
+            data.minutes -= 1;
+            data.seconds = 59;
+        }
+        if (data.minutes === -1) {
+            data.hours -= 1;
+            data.minutes = 0;
+        }
+        return data;
+    }
+    function addSecond(time) {
+        var data = {};
+        data.hours = time.hours;
+        data.minutes = time.minutes;
+        data.seconds = time.seconds + 1;
+
+        if (data.seconds === 61) {
+            data.minutes += 1;
+            data.seconds = 0;
+        }
+        if (data.minutes === 61) {
+            data.hours += 1;
+            data.minutes = 0;
+        }
+        return data;
+    }
+    function remainingSeconds(timer){
+        var total = timer.seconds;
+        total += (timer.minutes * 60);
+        total += (timer.hours * 60 * 60);
+		    return total
+    }
+    function startTimer(timer) {
+        var temp = timer;
+        interval = setInterval(function () {
+            title.text(timer.title);
+            hours.text(("0" + timer.hours).slice(-2));
+
+            minutes.text(("0" + timer.minutes).slice(-2));
+            seconds.text(("0" + timer.seconds).slice(-2));
+            if (remainingSeconds(timer) <= 300 && !timerDone) {
+                $('body').css('backgroundColor', "#9a983f");
+            }
+            if (remainingSeconds(timer) <= 0 && !timerDone) {
+                timerDone = true;
+                socket.emit('timer_done', temp);
+                $('body').css('backgroundColor', "#7f0e17");
+            }
+            if (timerDone) {
+                timer = addSecond(timer)
+            }
+            else {
+                timer = removeSecond(timer)
+            }
+            timer['overtime'] = timerDone;
+            socket.emit('timer_changed', timer);
+        }, 1000);
+    }
+    socket.on('clock_start', function (timer) {
+        if (interval !== null) {
+            clearInterval(interval);
+        }
+        if (timer.hours === undefined) {
+            timer.hours = 0;
+        }
+        if (timer.minutes === undefined) {
+            timer.minutes = 0;
+        }
+        if (timer.seconds === undefined) {
+            timer.seconds = 0;
+        }
+        $('body').css('backgroundColor', "black");
+        timerDone = false;
+        startTimer(timer);
+    });
+</script>
+</body>
