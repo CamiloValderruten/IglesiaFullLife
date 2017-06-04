@@ -1,5 +1,14 @@
 version: '2'
 services:
+  discipleship:
+    build: "Discipleship"
+    container_name: "Discipleship"
+    environment:
+     - ENVIRONMENT=PRODUCTION
+    ports:
+     - "5000:5000"
+    links:
+     - mongodb
   presentation:
     build: "Presentation"
     container_name: "Presentation"
@@ -14,6 +23,5 @@ services:
     image: "mongo:latest"
     volumes:
     - ~/.mongo/db/:/data/db/
-
 volumes:
     mongodb:
