@@ -1,0 +1,14 @@
+version: '2'
+services:
+  presentation:
+    build: "Presentation"
+    container_name: "Presentation"
+    environment:
+     - ENVIRONMENT=PRODUCTION
+    ports:
+     - "5001:5000"
+    links:
+     - mongodb
+  mongodb:
+    container_name: "mongodb"
+    image: "mongo:latest"
