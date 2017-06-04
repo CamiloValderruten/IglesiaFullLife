@@ -35,12 +35,18 @@
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 			        data-target="#mobile-menu">
-				<span class="fa fa-bars"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="/">PresentationCenter</a>
 		</div>
 		<div class="collapse navbar-collapse" id="mobile-menu">
-			<ul class="nav navbar-nav" id="categories">
+			<ul class="nav navbar-nav" id="categories"></ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a data-toggle="modal" data-target="#create-category">Create
+					Category</a></li>
+				<li><a href="/clock" target="_blank">Clock</a></li>
 			</ul>
 		</div>
 	</div>
@@ -49,11 +55,11 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
-			<button type="button" class="btn btn-primary" data-toggle="modal"
-			        data-target="#create-category">Create Category
-			</button>
 			<h1 id="category-title"></h1>
-			<div id="timers"></div>
+			<div id="timers">
+				<button class="btn btn-success btn-block"><span class="pull-left">Starting</span><span
+						 class="pull-right badge">00:60:00</span></button>
+			</div>
 			<div id="timer"><span id="hours">00</span>:<span
 					 id="minutes">00</span>:<span
 					 id="seconds">00</span></div>
@@ -83,14 +89,18 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-				<form>
+				<form style="width: 100%">
 					<div class="form-group">
 						<input type="text" class="form-control" id="timer-name"
 						       placeholder="Timer Name">
 					</div>
-					<div class="form-group">
+					<div class="form-inline">
+						<input type="number" class="form-control" id="timer-hours"
+						       placeholder="Hours">
 						<input type="number" class="form-control" id="timer-minutes"
-						       placeholder="Timer Minutes">
+						       placeholder="Minutes">
+						<input type="number" class="form-control" id="timer-seconds"
+						       placeholder="Seconds">
 					</div>
 				</form>
 				<button class="btn btn-primary btn-block" onclick="createTimer()">
@@ -115,6 +125,17 @@
     var currentCategory = null;
 
     getCategories();
+
+    function deleteTimer(timer) {
+        $.ajax({
+            url: "//" + document.domain + ':' + location.port + "/timers/" + timer._id,
+            dataType: "JSON",
+            method: 'DELETE',
+            success: function (data) {
+
+            }
+        });
+    }
 
     function getCategories() {
         categories.empty();
@@ -200,14 +221,18 @@
         });
     }
 
-    function createTimer(){
+    function createTimer() {
         var name = $('#timer-name').val();
         var minutes = $('#timer-minutes').val();
         $.ajax({
             method: "POST",
             url: "//" + document.domain + ':' + location.port + "/timers",
             dataType: "JSON",
-            data: JSON.stringify({title: name, minutes: minutes, category: currentCategory}),
+            data: JSON.stringify({
+                title: name,
+                minutes: minutes,
+                category: currentCategory
+            }),
             success: function () {
                 $('#create-timer').modal('hide');
                 getTimers(currentCategory);
@@ -225,6 +250,8 @@
             $('#timer').css('color', 'red');
         }
     })
+
+    $('#create-category')
 </script>
 </body>
 </html>
