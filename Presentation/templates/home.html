@@ -220,14 +220,18 @@
 
     function createTimer() {
         var name = $('#timer-name').val();
+        var hours = $('#timer-hours').val();
         var minutes = $('#timer-minutes').val();
+        var seconds = $('#timer-seconds').val();
         $.ajax({
             method: "POST",
             url: "//" + document.domain + ':' + location.port + "/timers",
             dataType: "JSON",
             data: JSON.stringify({
                 title: name,
+                hours: hours,
                 minutes: minutes,
+                seconds: seconds,
                 category: currentCategory
             }),
             success: function () {
