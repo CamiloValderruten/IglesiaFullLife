@@ -5,12 +5,12 @@ from .students import students
 from bson import json_util, ObjectId
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user, logout_user, current_user
-from datetime import datetime
 from ..models import Account
 import boto3
 import random
 from flask import current_app as app
 from ..utilities import clean_phone, db
+import jwt
 
 blueprint = Blueprint("home", __name__)
 
@@ -30,15 +30,14 @@ def login():
         account = db.accounts.find_one({"cell_phone": cell_phone})
         if account:
             hashed = account.get('password')
-            next_url = request.args.get('next', url_for('home.dashboard'))
             if hashed and check_password_hash(hashed, data['password']):
                 if login_user(Account(account)):
-                    return jsonify({'success': True, "next_url": next_url})
+                    return jsonify({'success': True})
         return jsonify({'success': False}), 400
 
     if request.method == "POST":
         return post()
-    return render_template('login.html')
+    return render_template('login.html', next=request.args.get('next'))
 
 
 @blueprint.route('/logout', methods=['GET'])

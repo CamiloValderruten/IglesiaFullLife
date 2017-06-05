@@ -43,7 +43,7 @@
                   password: $('#password').val()
               }),
               success: function (data, message) {
-                  window.location = data['next_url'];
+                  window.location = '{{ next }}';
               },
               error: function () {
                   $(".login-box-body").effect("shake");

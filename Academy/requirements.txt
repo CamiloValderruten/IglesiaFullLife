@@ -4,3 +4,4 @@ pymongo
 phonenumbers
 boto3
 gunicorn
+PyJWT
