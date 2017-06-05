@@ -1,6 +1,6 @@
 /*jshint strict:false */
 
-var url = "//" + document.domain + ':' + location.port;
+var url = location.protocol + "//" + document.domain + ':' + location.port;
 
 function create_report(student_id, data, callback) {
     $.ajax({
@@ -20,7 +20,7 @@ function get_reports(student_id, callback) {
         type: "GET",
         dataType: "JSON",
         success: function (data) {
-            $.each(data, function(i){
+            $.each(data, function (i) {
                 data[i]._id = data[i]['_id']['$oid'];
             });
             return callback(data);
@@ -57,7 +57,7 @@ function delete_report(student_id, report_id) {
         }
     });
 }
-function send_report(student_id, report_id, parent_id, callback){
+function send_report(student_id, report_id, parent_id, callback) {
     $.ajax({
         url: url + "/students/" + student_id + "/reports/" + report_id + '/send',
         type: "POST",

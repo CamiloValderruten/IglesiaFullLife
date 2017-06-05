@@ -1,6 +1,6 @@
 /*jshint strict:false */
 
-var url = "//" + document.domain + ':' + location.port;
+var url = location.protocol + "//" + document.domain + ':' + location.port;
 
 function create_student(data, callback) {
     $.ajax({
@@ -56,7 +56,6 @@ function delete_student(studentId) {
         }
     });
 }
-
 function create_parent(data, callback) {
     $.ajax({
         method: 'POST',
@@ -70,6 +69,7 @@ function create_parent(data, callback) {
     });
 }
 function get_parents(callback) {
+    console.log(url + "/parents?json=true");
     $.ajax({
         method: 'GET',
         dataType: "JSON",
@@ -82,6 +82,7 @@ function get_parents(callback) {
         }
     });
 }
+
 function get_parent(parentId, callback) {
     $.ajax({
         method: 'GET',
@@ -93,6 +94,7 @@ function get_parent(parentId, callback) {
         }
     });
 }
+
 function update_parent(parentId, data, callback) {
     $.ajax({
         method: 'PUT',
@@ -102,6 +104,7 @@ function update_parent(parentId, data, callback) {
         success: callback
     });
 }
+
 function delete_parent(parentId) {
     $.ajax({
         url: url + "/parents/" + parentId,

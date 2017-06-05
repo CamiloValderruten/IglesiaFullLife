@@ -1,5 +1,6 @@
 /*jshint strict:false */
-var url = "//" + document.domain + ':' + location.port;
+
+var url = location.protocol + "//" + document.domain + ':' + location.port;
 
 function create_event(student_id, report_id, data, callback) {
     $.ajax({
