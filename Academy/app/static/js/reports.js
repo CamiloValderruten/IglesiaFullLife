@@ -1,8 +1,10 @@
 /*jshint strict:false */
 
+var url = "//" + document.domain + ':' + location.port;
+
 function create_report(student_id, data, callback) {
     $.ajax({
-        url: "/students/" + student_id + "/reports",
+        url: url + "/students/" + student_id + "/reports",
         type: "POST",
         data: JSON.stringify(data),
         dataType: "JSON",
@@ -14,7 +16,7 @@ function create_report(student_id, data, callback) {
 }
 function get_reports(student_id, callback) {
     $.ajax({
-        url: "/students/" + student_id + '/reports',
+        url: url + "/students/" + student_id + '/reports',
         type: "GET",
         dataType: "JSON",
         success: function (data) {
@@ -27,7 +29,7 @@ function get_reports(student_id, callback) {
 }
 function get_report(student_id, report_id, callback) {
     $.ajax({
-        url: "/students/" + student_id + '/reports/' + report_id + '?json=true',
+        url: url + "/students/" + student_id + '/reports/' + report_id + '?json=true',
         type: "GET",
         dataType: "JSON",
         success: function (data) {
@@ -38,7 +40,7 @@ function get_report(student_id, report_id, callback) {
 }
 function update_report(student_id, report_id, data, callback) {
     $.ajax({
-        url: "/students/" + student_id + "/reports/" + report_id,
+        url: url + "/students/" + student_id + "/reports/" + report_id,
         type: "PUT",
         dataType: "JSON",
         data: JSON.stringify(data),
@@ -47,7 +49,7 @@ function update_report(student_id, report_id, data, callback) {
 }
 function delete_report(student_id, report_id) {
     $.ajax({
-        url: "/students/" + student_id + "/reports/" + report_id,
+        url: url + "/students/" + student_id + "/reports/" + report_id,
         type: "DELETE",
         dataType: "JSON",
         success: function () {
@@ -57,7 +59,7 @@ function delete_report(student_id, report_id) {
 }
 function send_report(student_id, report_id, parent_id, callback){
     $.ajax({
-        url: "/students/" + student_id + "/reports/" + report_id + '/send',
+        url: url + "/students/" + student_id + "/reports/" + report_id + '/send',
         type: "POST",
         dataType: "JSON",
         data: JSON.stringify({parent_id: parent_id}),

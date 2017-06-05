@@ -1,8 +1,9 @@
 /*jshint strict:false */
+var url = "//" + document.domain + ':' + location.port;
 
 function create_event(student_id, report_id, data, callback) {
     $.ajax({
-        url: "/students/" + student_id + "/reports/" + report_id + '/events',
+        url: url + "/students/" + student_id + "/reports/" + report_id + '/events',
         type: "POST",
         dataType: "JSON",
         data: JSON.stringify(data),
@@ -14,7 +15,7 @@ function create_event(student_id, report_id, data, callback) {
 }
 function update_event(student_id, report_id, event_id, event, callback) {
     $.ajax({
-        url: "/students/" + student_id + "/reports/" + report_id + '/events/' + event_id,
+        url: url + "/students/" + student_id + "/reports/" + report_id + '/events/' + event_id,
         type: "PUT",
         dataType: "JSON",
         data: JSON.stringify(event),
@@ -23,7 +24,7 @@ function update_event(student_id, report_id, event_id, event, callback) {
 }
 function get_events(student_id, report_id, callback) {
     $.ajax({
-        url: "/students/" + student_id + "/reports/" + report_id + '/events?json=true',
+        url: url + "/students/" + student_id + "/reports/" + report_id + '/events?json=true',
         dataType: "JSON",
         type: "GET",
         success: function (events) {
