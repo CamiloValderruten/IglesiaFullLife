@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+{% block head %}
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" id="viewport"
+		      content="width=device-width, initial-scale=1">
+		<title>AcademyCenter | {% block title %}{% endblock %}</title>
+		<link rel="icon"
+		      href="{{ url_for('static', filename='images/favicon.png') }}">
+		{% block styles %}
+			<link rel="stylesheet" type="text/css"
+			      href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+			<link rel="stylesheet" type="text/css"
+			      href="{{ url_for('static', filename='bower_components/jquery-ui/themes/base/jquery-ui.min.css') }}">
+			<link rel="stylesheet" type="text/css"
+			      href="{{ url_for('static', filename='bower_components/adminlte/dist/css/AdminLTE.min.css') }}">
+			<link rel="stylesheet" type="text/css"
+			      href="{{ url_for('static', filename='bower_components/adminlte/dist/css/skins/_all-skins.css') }}">
+			<link rel="stylesheet" type="text/css"
+			      href="{{ url_for('static', filename='bower_components/fontawesome/css/font-awesome.min.css') }}">
+			<link rel="stylesheet" type="text/css"
+			      href="{{ url_for('static', filename='bower_components/jquery-timepicker-wvega/jquery.timepicker.css') }}">
+			<link rel="stylesheet" type="text/css"
+			      href="{{ url_for('static', filename='bower_components/dropzone/dist/dropzone.css') }}">
+			<link rel="stylesheet"
+			      href="{{ url_for('static', filename='bower_components/fullcalendar/dist/fullcalendar.css') }}">
+			<link rel="stylesheet"
+			      href="{{ url_for('static', filename='bower_components/fullcalendar/dist/fullcalendar.print.css') }}"
+			      media="print">
+		{% endblock %}
+	</head>
+{% endblock %}
+{% block body %}
+	<body class="hold-transition skin-green sidebar-mini">
+	<div class="wrapper">
+		<header class="main-header">
+			{% block nav %}
+			{% endblock %}
+		</header>
+		{% block sideleft %}
+		{% endblock %}
+		<div class="content-wrapper" style="min-height: 638px;">
+			{% block content %}
+			{% endblock %}
+		</div>
+		{% block footer %}
+			<footer class="main-footer">
+				<div class="pull-right hidden-xs">
+					<b>Version</b> {{ config['VERSION'] }}
+				</div>
+				Copyright &copy; 2017 {{ config['DAYCARE_NAME'] }}
+			</footer>
+		{% endblock %}
+	</div>
+	</body>
+{% endblock %}
+{% block scripts %}
+	<script
+			 src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script
+			 src="{{ url_for('static', filename='bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+	<script
+			 src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script
+			 src="{{ url_for('static', filename='bower_components/moment/moment.js') }}"></script>
+	<script
+			 src="{{ url_for('static', filename='bower_components/jquery-timepicker-wvega/jquery.timepicker.js') }}"></script>
+	<script
+			 src="{{ url_for('static', filename='bower_components/dropzone/dist/dropzone.js') }}"></script>
+	<script
+			 src="{{ url_for('static', filename='bower_components/list.js/dist/list.min.js') }}"></script>
+	<script
+			 src="{{ url_for('static', filename='bower_components/fullcalendar/dist/fullcalendar.js') }}"></script>
+	<script
+			 src="{{ url_for('static', filename='bower_components/adminlte/dist/js/app.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/accounts.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/events.js') }}"></script>
+{% endblock %}
+</html>

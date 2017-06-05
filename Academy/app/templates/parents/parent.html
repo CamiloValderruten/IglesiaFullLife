@@ -1,0 +1,250 @@
+{% extends "base-nav.html" %}
+{% block title %}{{ parent.name }}{% endblock %}
+
+{% block content %}
+	<section class="content">
+		<div id="alert" class="alert alert-success" role="alert">
+			{{ parent.name.title() }} has been updated!
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div id="profile-box" class="box box-primary">
+					<div class="box-body box-profile">
+						<img id="profile-image"
+						     class="img img-responsive img-circle profile-user-img"
+						     src="{{ parent.profile_image_url }}">
+						<h3 class="profile-username text-center">
+							<span id="name">{{ parent.name }}</span>
+						</h3>
+						<form id="account-form">
+							<div class="form-group">
+								<label>Name</label>
+								<input id='name' name="name" type="text" class="form-control"
+								       value="{{ parent.name }}">
+							</div>
+							<div class="form-group">
+								<label>Birthday</label>
+								<input name="birthday" id='birthday' type="date"
+								       class="form-control"
+								       value="{{ parent.birthday }}">
+							</div>
+							<div class="form-group">
+								<label>Email</label>
+								<input type="email" name="email"
+								       class="form-control update-input"
+								       value="{{ parent.email }}">
+							</div>
+							<div class="form-group">
+								<label>Cell Phone</label>
+								<input type="tel" name="cell_phone"
+								       class="form-control update-input"
+								       value="{{ parent.cell_phone }}">
+							</div>
+
+							<div class="form-group">
+								<label>Work Phone</label>
+								<input name="work_phone"
+								       id='work_phone'
+								       type="tel"
+								       class="form-control update-input"
+								       value="{{ parent.work_phone }}">
+							</div>
+						</form>
+						<button type="button" onclick="_update_account()"
+						        class="btn bg-aqua btn-block">Update
+						</button>
+						{% if current_user.role == 'administrator' %}
+							<button type="button" data-toggle="modal"
+							        data-target="#delete_modal"
+							        class="btn btn-danger btn-block">Delete
+							</button>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div id="students-box" class="box box-solid">
+					<div class="box-header with-border">
+						{% if current_user.role in ['administrator'] %}
+						<div class="btn-group pull-right" role="group">
+							<button class="btn bg-aqua" data-toggle="modal"
+							        data-target="#link_student_modal">Link
+							</button>
+							<button class="btn bg-purple" data-toggle="modal"
+							        data-target="#create_account_modal">Create
+							</button>
+						</div>
+						{% endif %}
+						<h4 class="box-title">Students</h4>
+					</div>
+					<div id="existing-students" class="box-body"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="modals">
+		<div class="modal fade" id="delete_modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h5 style="text-align: center;">Are you sure you want to
+							remove <span id="parent-name"></span>?</h5>
+					</div>
+					<div class="modal-body">
+						<button id="delete" class="btn btn-danger btn-block">Delete
+						</button>
+						<button class="btn btn-success btn-block" data-dismiss="modal">
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="create_account_modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						Create a new student
+						<button type="button" class="close" data-dismiss="modal"
+						        aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="create-form">
+							<input type="hidden" name="parent_id" class="form-control"
+							       value="{{ parent._id }}">
+							<div class="form-group">
+								<label>Name</label>
+								<input name="name" type="text" class="form-control">
+							</div>
+						</form>
+						<button id="create" class="btn btn-success btn-block">Create
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="link_student_modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">Link an existing student
+						<button class="close" data-dismiss="modal"
+						        aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+						<div class="students"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript">
+      var accountId = "{{ parent._id }}";
+      var alert = $("#alert");
+      var calendar = $("#calendar");
+      var form = $("#account-form");
+      var profileImage = $('#profile-image');
+      var deleteButton = $('#delete');
+      var createStudentButton = $('#create');
+
+      function _update_account() {
+          var data = {};
+          $.each(form.serializeArray(), function (i, field) {
+              data[field.name] = field.value;
+          });
+          update_parent(accountId, data, function () {
+              alert.fadeTo(2000, 500).slideUp(500, function () {
+                  alert.slideUp(500);
+              });
+          });
+      }
+      function insert_student(student) {
+          var li = $('<li>');
+          li.click(function () {
+              window.location = "/students/" + student._id;
+          });
+          li.addClass('info-box box-success');
+          var span = $('<span>');
+          span.addClass('info-box-icon');
+          var img = $('<img>');
+          img.addClass('img img-responsive');
+          img.attr('src', student.profile_image_url);
+          span.append(img);
+          var div = $('<div>');
+          div.addClass('info-box-content name');
+          div.text(student.name);
+          li.append(span);
+          li.append(div);
+          $('#existing-students').append(li)
+      }
+      function initialize(parent) {
+
+      }
+
+      alert.hide();
+      profileImage.dropzone({
+          url: "/parents/" + accountId + '/image',
+          init: function () {
+              this.on('success', function (file, image) {
+                  image = JSON.parse(image);
+                  profileImage.attr('src', '/static/' + image.source);
+              });
+          }
+      });
+      deleteButton.click(function () {
+          delete_parent(accountId)
+      });
+      get_parent(accountId, initialize);
+      get_parent_students(accountId, function (students) {
+          $.each(students, function (index, student) {
+              insert_student(student)
+          });
+      });
+      createStudentButton.click(function () {
+          var data = {};
+          var form = $('#create-form');
+          $.each(form.serializeArray(), function (i, field) {
+              data[field.name] = field.value;
+          });
+          create_student(data, function (student) {
+              insert_student(student);
+              $('#create_account_modal').modal('hide');
+          });
+      });
+
+      {# Student Linking #}
+      var linkModal = $('#link_student_modal');
+      var search = linkModal.find('input');
+      var students = linkModal.find('div .students');
+      search.keyup(function () {
+          search_student(this.value, function (data) {
+              students.empty();
+              $.each(data, function (index, student) {
+                  var button = $('<button>');
+                  button.addClass("btn btn-success btn-block");
+                  button.text(student.name);
+                  button.click(function () {
+                      link_parent_student(accountId, student._id, function () {
+                          insert_student(student);
+                          linkModal.modal('hide');
+                      });
+                  });
+                  students.append(button)
+              });
+          });
+      });
+	</script>
+{% endblock %}

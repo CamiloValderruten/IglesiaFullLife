@@ -1,0 +1,54 @@
+{% extends "base.html" %} {% block title %} Login {% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block body %}
+	<body class="hold-transition login-page">
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="/"><b>Academy</b>Center</a>
+		</div>
+		<div class="login-box-body">
+			<div class="form-group">
+				<input type="tel" class="form-control" placeholder="Cell Phone"
+				       id="cell_phone">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="Password"
+				       id="password">
+			</div>
+			<button class="btn bg-green btn-block btn-flat" onclick="login()">
+				Sign In
+			</button>
+			<button class="btn bg-aqua btn-block btn-flat"
+			        onclick="window.location = '/verify'">
+				Activate
+			</button>
+		</div>
+	</div>
+	</body>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript">
+      function login() {
+          $.ajax({
+              type: "POST",
+              dataType: "JSON",
+              url: "{{ url_for('home.login') }}",
+              data: JSON.stringify({
+                  cell_phone: $('#cell_phone').val(),
+                  password: $('#password').val()
+              }),
+              success: function (data, message) {
+                  window.location = data['next_url'];
+              },
+              error: function () {
+                  $(".login-box-body").effect("shake");
+              }
+          });
+      }
+	</script>
+{% endblock %}
