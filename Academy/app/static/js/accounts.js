@@ -18,7 +18,7 @@ function get_students(callback) {
     $.ajax({
         method: 'GET',
         dataType: "JSON",
-        url: url + "/students?json=true",
+        url: url + "/students/?json=true",
         success: function (students) {
             $.each(students, function (i) {
                 students[i]._id = students[i]['_id']['$oid'];
@@ -69,11 +69,10 @@ function create_parent(data, callback) {
     });
 }
 function get_parents(callback) {
-    console.log(url + "/parents?json=true");
     $.ajax({
         method: 'GET',
         dataType: "JSON",
-        url: url + "/parents?json=true",
+        url: url + "/parents/?json=true",
         success: function (parents) {
             $.each(parents, function (i) {
                 parents[i]._id = parents[i]['_id']['$oid'];
