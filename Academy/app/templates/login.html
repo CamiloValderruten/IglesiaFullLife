@@ -42,8 +42,9 @@
                   cell_phone: $('#cell_phone').val(),
                   password: $('#password').val()
               }),
-              success: function (data, message) {
-                  window.location = '{{ next }}';
+              success: function () {
+		              {% set next_url = next if next else '/' %}
+                  window.location = "{{ next_url }}";
               },
               error: function () {
                   $(".login-box-body").effect("shake");
