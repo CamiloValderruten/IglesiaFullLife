@@ -5,6 +5,8 @@ services:
     container_name: "Discipleship"
     environment:
      - ENVIRONMENT=PRODUCTION
+     - AWS_ACCESS_KEY_ID=AKIAJYNWGNXVDU2GOOWQ
+     - AWS_SECRET_ACCESS_KEY=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
     ports:
      - "5000:5000"
     links:
