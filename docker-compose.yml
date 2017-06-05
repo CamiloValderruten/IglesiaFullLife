@@ -7,6 +7,7 @@ services:
      - ENVIRONMENT=PRODUCTION
      - AWS_ACCESS_KEY_ID=AKIAJYNWGNXVDU2GOOWQ
      - AWS_SECRET_ACCESS_KEY=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
+     - AWS_DEFAULT_REGION=us-east-1
     ports:
      - "5000:5000"
     links:
