@@ -16,7 +16,7 @@ host = "mongodb" if os.environ.get('ENVIRONMENT') == "PRODUCTION" else "0.0.0.0"
 db = MongoClient(host=host)['Presentation']
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'BNJqqX8cuQe^$U68DrxMb8aGSk8LaD0CKO$78WKB!ySM'
-socket = SocketIO(app, async='threading')
+socket = SocketIO(app, async=None)
 
 thread = None
 currentTimer = None
