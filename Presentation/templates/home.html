@@ -12,6 +12,10 @@
 	<link rel="stylesheet"
 	      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style>
+		.fa {
+			font-size: 20px;
+		}
+
 		body {
 			padding-top: 70px;
 		}
@@ -44,8 +48,7 @@
 		<div class="collapse navbar-collapse" id="mobile-menu">
 			<ul class="nav navbar-nav" id="categories"></ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a data-toggle="modal" data-target="#create-category">Create
-					Category</a></li>
+				<li><a id="createCategory">Create Category</a></li>
 				<li><a href="/clock" target="_blank">Clock</a></li>
 			</ul>
 		</div>
@@ -55,54 +58,73 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 id="category-title"></h1>
-			<div id="timers"></div>
-			<div id="timer"><span id="hours">00</span>:<span
-					 id="minutes">00</span>:<span
+			<h1 id="title"></h1>
+			<div id="table-content">
+				<table class="table">
+					<tbody id="timers">
+					</tbody>
+				</table>
+				<hr>
+				<div class="btn-group btn-group-justified">
+					<div class="btn-group" role="group">
+						<button id="createTimer" class="btn btn-info" disabled>
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+					<div class="btn-group" role="group">
+						<button id="pause" class="btn btn-info">
+							<i class="fa fa-pause"></i>
+						</button>
+					</div>
+					<div class="btn-group" role="group">
+						<button id="hide" class="btn btn-info">
+							<i class="fa fa-eye-slash"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div id="timer">
+				<span id="title" style="font-size: 20px">Welcome</span><br>
+				<span id="minutes">00</span>:<span
 					 id="seconds">00</span></div>
 		</div>
 	</div>
 </div>
 
-<div class="modal fade" id="create-category">
-	<div class="modal-dialog" role="document">
+<div class="modal fade" id="category">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				<form>
-					<div class="form-group">
-						<input type="text" class="form-control" id="category-name"
-						       placeholder="Category">
-					</div>
-				</form>
-				<button class="btn btn-primary btn-block" onclick="createCategory()">
-					Create
-				</button>
+				<div class="form-group">
+					<input type="text" class="form-control name" placeholder="Name">
+				</div>
+				<button class="btn btn-primary btn-block submit">Create</button>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="modal fade" id="create-timer">
-	<div class="modal-dialog" role="document">
+<div class="modal fade" id="timer">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				<form style="width: 100%">
-					<div class="form-group">
-						<input type="text" class="form-control" id="timer-name"
-						       placeholder="Timer Name">
-					</div>
-					<div class="form-inline">
-						<input type="number" class="form-control" id="timer-hours"
-						       placeholder="Hours">
-						<input type="number" class="form-control" id="timer-minutes"
-						       placeholder="Minutes">
-						<input type="number" class="form-control" id="timer-seconds"
-						       placeholder="Seconds">
-					</div>
-				</form>
-				<button class="btn btn-primary btn-block" onclick="createTimer()">
-					Create
-				</button>
+				<div class="form-group">
+					<input type="text" class="form-control name"
+					       placeholder="Name">
+				</div>
+				<div class="form-group">
+					<input type="number" class="form-control minutes"
+					       placeholder="Minutes">
+				</div>
+				<div class="form-group">
+					<select class="form-control" id="goToNext">
+						<option value="false" disabled selected>Go to next?</option>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
+					</select>
+				</div>
+				<button class="btn btn-primary btn-block submit">Save</button>
 			</div>
 		</div>
 	</div>
@@ -113,146 +135,210 @@
 <script
 		 src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js"></script>
 <script
-		 src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		 src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/static/category.js"></script>
+<script src="/static/timer.js"></script>
 <script>
+
+    {############ SOCKETS ###############}
     var socket = io.connect('//' + document.domain + ':' + location.port);
-    var categories = $('nav #categories');
-    var timers = $('#timers');
-    var title = $('#category-title');
-    var currentCategory = null;
+    var pauseButton = $('button#pause');
+    var hideButton = $('button#hide');
+    var createTButton = $('button#createTimer');
 
-    getCategories();
+    socket.on('timer', function (timer) {
+        timer = JSON.parse(timer);
+        $('#timer #title').text(timer.title);
+        $('#timer #minutes').text(("0" + timer.minutes).slice(-2));
+        $('#timer #seconds').text(("0" + timer.seconds).slice(-2));
 
-    function deleteTimer(timer) {
-        $.ajax({
-            url: "//" + document.domain + ':' + location.port + "/timers/" + timer._id,
-            dataType: "JSON",
-            method: 'DELETE',
-            success: function (data) {
+        if (timer.done && timer.next){
+            startTimer(timers[1]);
+        }
 
+        if (timer.done) {
+            $('#timer').css('color', '#d43f3a');
+        } else if (timer.warning) {
+            $('#timer').css('color', '#eea236');
+        } else {
+            $('#timer').css('color', 'black');
+        }
+
+        if (timer.paused) {
+            pauseButton.find('i').removeClass('fa-pause');
+            pauseButton.find('i').addClass('fa-play');
+            pauseButton.removeClass('btn-info');
+            pauseButton.addClass('btn-warning');
+        } else {
+            pauseButton.find('i').removeClass('fa-play');
+            pauseButton.find('i').addClass('fa-pause');
+            pauseButton.removeClass('btn-warning');
+            pauseButton.addClass('btn-info');
+        }
+
+        if (timer.hidden) {
+            hideButton.find('i').removeClass('fa-eye');
+            hideButton.find('i').addClass('fa-eye-slash');
+            hideButton.removeClass('btn-info');
+            hideButton.addClass('btn-warning');
+        } else {
+            hideButton.find('i').removeClass('fa-eye-slash');
+            hideButton.find('i').addClass('fa-eye');
+            hideButton.removeClass('btn-warning');
+            hideButton.addClass('btn-info');
+        }
+    });
+
+    pauseButton.click(function () {
+        socket.emit("pause");
+    });
+
+    hideButton.click(function () {
+        socket.emit("hide");
+    });
+
+    createTButton.click(function () {
+        var modal = $('.modal#timer');
+        modal.modal('show');
+        modal.find('button.submit').click(function () {
+            var data = {};
+            data.title = modal.find('input.name').val();
+            data.minutes = modal.find('input.minutes').val();
+            if (modal.find('select#goToNext').val() === 'false') {
+                data.next = false;
+            } else {
+                data.next = true;
             }
+            data.category = selectedCategory.name;
+            createTimer(data, function (timer) {
+                insertTimer(timer);
+                modal.modal('hide');
+            });
         });
-    }
+    });
 
-    function getCategories() {
-        categories.empty();
-        $.ajax({
-            url: "//" + document.domain + ':' + location.port + "/categories",
-            dataType: "JSON",
-            success: function (data) {
-                $.each(data, function (i, obj) {
-                    var category = $('<a>');
-                    category.text(obj.name);
-                    category.click(function () {
-                        getTimers(obj.name)
-                    });
-                    currentCategory = obj.name;
-                    categories.append($('<li>').append(category));
-                });
-            }
+    $('a#createCategory').click(function () {
+        var modal = $('.modal#category');
+        modal.modal('show');
+        modal.find('button.submit').click(function () {
+            var name = modal.find('input.name').val();
+            createCategory(name, function (category) {
+                insertCategory(category);
+                modal.modal('hide');
+                selectedCategory = category;
+                $('h1#title').text(selectedCategory.name);
+                createTButton.removeAttr('disabled');
+                $('tbody#timers').empty();
+            });
         });
-    }
-
-    function getTimers(categoryName) {
-        timers.empty();
-        title.text(categoryName);
-        $.ajax({
-            url: "//" + document.domain + ':' + location.port + "/timers",
-            dataType: "JSON",
-            data: {category: categoryName},
-            success: function (data) {
-                $.each(data, function (i, timer) {
-                    insertTimer(timer);
-                })
-            }
-        }).done(function () {
-            var b = $('<button class="btn btn-block btn-warning" data-toggle="modal" data-target="#create-timer">Create Timer</button>');
-            $('#timers').append(b);
-        });
-    }
+    });
 
     function startTimer(timer) {
-        socket.emit('start_timer', timer);
+        socket.emit('start', {_id: timer['_id']['$oid']});
     }
 
-    function insertTimer(timer) {
-        var button = $('<button>');
-        button.addClass('btn btn-success btn-block');
-        button.click(function () {
-            startTimer(timer)
-        });
-        button.append("<span class='pull-left'>" + timer.title + "</span>");
+    {############ LOGIC ###############}
+    var categories = [];
+    var timers = [];
+    var selectedCategory = null;
 
-        if (timer.hours === undefined) {
-            timer.hours = "00";
-        }
+    function insertTimer(timer) {
         if (timer.minutes === undefined) {
             timer.minutes = "00";
         }
         if (timer.seconds === undefined) {
             timer.seconds = "00";
         }
-        timer.hours = ("0" + timer.hours).slice(-2);
-        timer.minutes = ("0" + timer.minutes).slice(-2);
-        timer.seconds = ("0" + timer.seconds).slice(-2);
+        timer.minutes = ("00" + timer.minutes).slice(-2);
+        timer.seconds = ("00" + timer.seconds).slice(-2);
 
-        var badge = $('<span>');
-        badge.addClass('pull-right badge');
-        badge.text(timer.hours + ":" + timer.minutes + ":" + timer.seconds);
+        var row = $('<tr>');
 
-        button.append(badge);
-        $('#timers').append(button);
-    }
-
-    function createCategory() {
-        var name = $('#category-name').val();
-        $.ajax({
-            method: "POST",
-            url: "//" + document.domain + ':' + location.port + "/categories",
-            dataType: "JSON",
-            data: JSON.stringify({name: name}),
-            success: function () {
-                $('#create-category').modal('hide');
-                getCategories();
-            }
+        var start = $('<td>');
+        start.css('width', '80%');
+        var sButton = $('<button class="btn btn-primary btn-block start">');
+        sButton.click(function () {
+            startTimer(timer);
         });
-    }
-
-    function createTimer() {
-        var name = $('#timer-name').val();
-        var hours = $('#timer-hours').val();
-        var minutes = $('#timer-minutes').val();
-        var seconds = $('#timer-seconds').val();
-        $.ajax({
-            method: "POST",
-            url: "//" + document.domain + ':' + location.port + "/timers",
-            dataType: "JSON",
-            data: JSON.stringify({
-                title: name,
-                hours: hours,
-                minutes: minutes,
-                seconds: seconds,
-                category: currentCategory
-            }),
-            success: function () {
-                $('#create-timer').modal('hide');
-                getTimers(currentCategory);
-            }
-        });
-    }
-
-    socket.on('timer_changed', function (time) {
-        $('#timer').css('color', 'black');
-        $('#hours').text(("0" + time.hours).slice(-2));
-        $('#minutes').text(("0" + time.minutes).slice(-2));
-        $('#seconds').text(("0" + time.seconds).slice(-2));
-        if (time.overtime) {
-            $('#hours').text("+ " + ("0" + time.hours).slice(-2));
-            $('#timer').css('color', 'red');
+        var title = $('<span class="pull-left title"></span>');
+        title.text(timer.title);
+        var time = $('<span class="badge pull-right time"></span>');
+        time.text(timer.minutes + ":" + timer.seconds);
+        sButton.append(title);
+        sButton.append(time);
+        if (timer.next) {
+            var next = $('<i class="fa fa-arrow-down pull-right"></i>');
+            next.css('margin-right', '10px');
+            sButton.append(next);
         }
-    })
+        start.append(sButton);
 
-    $('#create-category')
+        var edit = $('<td>');
+        var eButton = $('<button class="btn btn-warning btn-block edit">');
+        eButton.click(function () {
+            var editModal = $('#update-timer');
+            editModal.modal('show');
+            editModal.find('#timer-name').val(timer.title);
+            editModal.find('#timer-minutes').val(timer.minutes);
+        });
+        eButton.append('<i class="fa fa-pencil"></i>');
+        edit.append(eButton);
+
+        var remove = $('<td>');
+        var rButton = $('<button class="btn btn-danger btn-block remove">');
+        rButton.click(function () {
+            deleteTimer(timer, function () {
+                row.remove();
+            });
+        });
+        rButton.append('<i class="fa fa-trash"></i>');
+        remove.append(rButton);
+
+        row.append(start);
+        row.append(edit);
+        row.append(remove);
+        $('tbody#timers').append(row);
+    }
+
+    function insertCategory(category) {
+        var obj = $('<a>');
+        obj.text(category.name);
+        obj.click(function () {
+            $('tbody#timers').empty();
+            selectedCategory = category;
+            $('h1#title').text(selectedCategory.name);
+            getTimers(category.name, function (data) {
+                timers = data;
+                $.each(data, function (i, timer) {
+                    insertTimer(timer);
+                });
+            });
+        });
+        $('nav #categories').append($('<li>').append(obj));
+    }
+
+    function initialize() {
+        getCategories(function (data) {
+            categories = data;
+            $.each(data, function (i, category) {
+                insertCategory(category);
+            });
+            if (categories.length) {
+                createTButton.removeAttr('disabled');
+                selectedCategory = categories[0];
+                $('h1#title').text(selectedCategory.name);
+                getTimers(selectedCategory.name, function (data) {
+                    timers = data;
+                    $.each(data, function (index, timer) {
+                        insertTimer(timer);
+                    })
+                });
+            }
+        });
+    }
+
+    initialize();
+
 </script>
 </body>
 </html>
