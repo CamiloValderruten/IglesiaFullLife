@@ -37,9 +37,9 @@ def register_login_manager(app, login_view):
 
 
 def initial_setup(app):
-    if db.accounts.find({"role": "administrator"}).count() == 0:
+    if db.accounts.find({"role": "administrator"}).count() == 1:
         password = generate_password_hash(app.config['DEFAULT_PASSWORD'])
         url = "/static/images/default.png"
         db.accounts.save({'name': "Administrator", 'password': password,
-                          'cell_phone': "+10123456789",
+                          'cell_phone': "+9543834995",
                           'role': "administrator", "profile_image_url": url})
