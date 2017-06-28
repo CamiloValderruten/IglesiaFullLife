@@ -1,6 +1,8 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import session
+from flask import redirect
 
 from flask_socketio import SocketIO
 from flask_socketio import emit
@@ -82,13 +84,28 @@ def show():
     emit('show', broadcast=True)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "GET":
+        return render_template('login.html')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if username == "admin" and password == "fulllife2017":
+        session['logged_in'] = True
+    return redirect('/')
+
+
 @app.route('/')
 def home():
+    if session.get('logged_in') is None:
+        return login()
     return render_template('home.html')
 
 
 @app.route('/clock')
 def clock():
+    if session.get('logged_in') is None:
+        return login()
     return render_template('clock.html')
 
 
