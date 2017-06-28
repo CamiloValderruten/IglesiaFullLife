@@ -131,9 +131,11 @@
 							<div id="events" style="overflow-y: scroll; height:180px;">
 								{% set events =  [{"title": "Wet", "color": "#00a65a"},
 								{"title": "BM", "color": "#00c0ef"},
-								{"title": "Lunch", "color": "#FF5B61"},
+								{"title": "Lunch", "color": "#FF7CB9"},
 								{"title": "Snack", "color": "#B764D7"},
-								{"title": "Nap", "color": "#F6B250"}] %}
+								{"title": "Nap", "color": "#F6B250"},
+								{"title": "Breakfast", "color": "#35FF40"},
+								{"title": "Accident", "color": "#FF5B61"}] %}
 								{% for event in events %}
 									<div class="event"
 									     style="background-color: {{ event.color }}">{{ event.title }}</div>
