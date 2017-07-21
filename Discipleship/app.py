@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from datetime import datetime
 from werkzeug import secure_filename
 from pymongo import MongoClient
 import boto3
@@ -30,7 +31,7 @@ def upload():
     if request.method == "POST" and request.form['password'] == a_password:
         data = {"author": request.form['author'],
                 "title": request.form['title'],
-                "date": request.form['date'],
+                "date": datetime(request.form['date']),
                 "category": request.form['category'].lower(),
                 "subcategory": request.form['subcategory'].lower()}
 
