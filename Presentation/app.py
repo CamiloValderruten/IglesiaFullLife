@@ -84,6 +84,16 @@ def show():
     emit('show', broadcast=True)
 
 
+@socket.on('add_minute')
+def addMinute():
+    currentTimer['minutes'] += 1
+
+
+@socket.on('subtract_minute')
+def subtractMinute():
+    currentTimer['minutes'] -= 1
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "GET":

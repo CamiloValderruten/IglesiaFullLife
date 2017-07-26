@@ -62,11 +62,11 @@
         $('#timer #seconds').text(("0" + timer.seconds).slice(-2));
 
         if (timer.done) {
-            $('#timer').css('color', '#d43f3a');
+            $('#clock').css('backgroundColor', '#d43f3a');
         } else if (timer.warning) {
-            $('#timer').css('color', '#eea236');
+            $('#clock').css('backgroundColor', '#eea236');
         } else {
-            $('#timer').css('color', 'white');
+            $('#clock').css('backgroundColor', 'white');
         }
 
         if (timer.hidden){

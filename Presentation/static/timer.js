@@ -22,7 +22,7 @@ function updateTimer(timer, callback) {
     $.ajax({
         url: "//" + document.domain + ':' + location.port + "/timers/" + timer._id,
         dataType: "JSON",
-        data: JSON.stringify(timer),
+        data: timer,
         method: 'PUT',
         success: callback
     });
