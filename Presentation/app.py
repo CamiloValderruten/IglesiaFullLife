@@ -27,6 +27,7 @@ hidden = False
 
 
 def background_thread():
+    global currentTimer
     while True:
         if currentTimer and not paused:
             time = timedelta(hours=int(currentTimer.get('hours', 0)),
@@ -45,8 +46,18 @@ def background_thread():
             currentTimer['hours'] = hours
             currentTimer['minutes'] = minutes
             currentTimer['seconds'] = seconds
+            if currentTimer['done'] and currentTimer['next']:
+                query = {"category": currentTimer['category']}
+                objects = db.timers.find(query)
+                for obj in objects:
+                    if obj["_id"] == currentTimer['_id']:
+                        currentTimer = objects.next()
+                        print(currentTimer)
+                        currentTimer['done'] = False
+                        break
         currentTimer['paused'] = paused
         currentTimer['hidden'] = hidden
+        currentTimer['seconds'] = currentTimer.get('seconds', 0)
         socket.emit('timer', dumps(currentTimer), broadcast=True)
         socket.sleep(1)
 
