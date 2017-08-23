@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+	      content="Discipleship content for Full Life Ministry's Leadership">
+	<meta name="robots" content="noindex">
+	<meta name="author" content="Full Life Ministry">
+	<title>Media | Full Life Ministry</title>
+	<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+	<link
+			 href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+			 rel='stylesheet' type='text/css'/>
+	<link
+			 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+			 rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.plyr.io/2.0.13/plyr.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+
+<body>
+<section>
+
+	<div class="container"
+	     style="text-align: center; max-width: 300px; padding-bottom: 20px;">
+		<img src="{{ url_for('static', filename='logo-black.png') }}"
+		     class="img img-responsive">
+	</div>
+
+	<div class="container">
+		{% for entry in db.media.find({'category': 'discipulado'}).sort("date", -1) %}
+			{% set type = 'audio/mp3' if entry.url.endswith('mp3') else 'video/mp4' %}
+			<div class="media-box col-md-3">
+				<div class="audio-box">
+					<video poster="{{ entry.poster_url }}" controls>
+						<source src="{{ entry.url }}" type="{{ type }}">
+					</video>
+					<div class="description" style="height: 100px">
+						<h4>{{ entry.title }}</h4>
+						<p>{{ entry.author }}<br><span
+								 class="date">{{ entry.date }}</span></p>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+</section>
+
+<script
+		 src="https://code.jquery.com/jquery-3.2.1.min.js"
+		 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		 crossorigin="anonymous"></script>
+<script
+		 src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.plyr.io/2.0.13/plyr.js"></script>
+<script
+		 src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+<script>
+    plyr.setup();
+    $('.date').each(function (i, obj) {
+        obj.innerHTML = moment(obj.innerHTML).calendar();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends "base-nav.html" %} {% block title %} Home {% endblock %}
+
+{% block content %}
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+				<div id="students-box" class="box">
+					<div class="box-body" id="student-list">
+						<div class="form-group">
+							<input class="search form-control" placeholder="Search"/>
+						</div>
+						<ul class="list list-group accounts"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+      var studentList = $('#student-list');
+      function insert_student(student) {
+          var li = $('<li>');
+          li.click(function () {
+              window.location = "/students/" + student._id;
+          });
+          li.addClass('info-box box-success');
+          var span = $('<span>');
+          span.addClass('info-box-icon');
+          var img = $('<img>');
+          img.addClass('img img-responsive');
+          img.attr('src', student.profile_image_url);
+          span.append(img);
+          var div = $('<div>');
+          div.addClass('info-box-content name');
+          div.text(student.name);
+          li.append(span);
+          li.append(div);
+          studentList.find('.accounts').append(li)
+      }
+      get_students(function (students) {
+          $.each(students, function (i, student) {
+              insert_student(student)
+          });
+          new List('student-list', {valueNames: ['name']});
+      });
+
+	</script>
+{% endblock %}

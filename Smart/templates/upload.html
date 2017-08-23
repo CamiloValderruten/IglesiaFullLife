@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Full Life Ministry">
+	<title>Upload | Full Life Ministry</title>
+	<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+	<link
+			 href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+			 rel='stylesheet' type='text/css'/>
+	<link
+			 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+			 rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+<section>
+	<div class="container">
+		{% if media_url %}
+			<div class="alert alert-success" role="alert">
+				Successfully uploaded! You can now access it here: {{ media_url }}
+			</div>
+		{% endif %}
+		<div class="jumbotron">
+			<form method="post"
+			      action="{{ url_for('upload') }}" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="title">Title</label>
+					<input type="text" class="form-control" name="title" required>
+				</div>
+				<div class="form-group">
+					<label for="author">Author</label>
+					<input type="text" class="form-control" name="author" required>
+				</div>
+				<div class="form-group">
+					<label for="category">Category</label>
+					<input type="text" class="form-control" name="category" required>
+				</div>
+				<div class="form-group">
+					<label for="subcategory">Subcategory</label>
+					<input type="text" class="form-control" id="subcategory"
+					       name="subcategory">
+				</div>
+				<div class="form-group">
+					<label for="date">Date</label>
+					<input type="date" class="form-control" name="date" required>
+				</div>
+				<div class="form-group">
+					<label for="media">Media</label>
+					<input type="file" class="form-control-file" name="media" required>
+				</div>
+				<div class="form-group">
+					<label for="poster">Poster Image</label>
+					<input type="file" class="form-control-file" name="poster" required>
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" class="form-control" name="password" required>
+				</div>
+				<br><br>
+				<button type="submit" class="btn btn-primary btn-block">Upload</button>
+			</form>
+		</div>
+	</div>
+</section>
+
+<script
+		 src="https://code.jquery.com/jquery-3.2.1.min.js"
+		 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		 crossorigin="anonymous"></script>
+<script
+		 src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

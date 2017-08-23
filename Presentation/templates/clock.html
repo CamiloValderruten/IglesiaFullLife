@@ -1,0 +1,79 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex">
+	<meta name="author" content="Full Life Ministry">
+
+	<title>Presentation | Full Life Ministry</title>
+
+	<link rel="icon" href="/static/favicon.png">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+		html, body {
+			text-align: center;
+			background: black;
+			font-family: sans-serif;
+			color: white;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			display: table
+		}
+
+		#clock {
+			display: table-cell;
+			vertical-align: middle;
+		}
+
+		#title {
+			font-size: 100px;
+			font-weight: lighter;
+		}
+
+		#timer {
+			font-size: 500px;
+		}
+	</style>
+</head>
+<body>
+
+<section id="clock">
+	<div id="title">Welcome</div>
+	<div id="timer">
+		<span id="minutes">00</span>:<span id="seconds">00</span>
+	</div>
+</section>
+
+<script
+		 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script
+		 src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js">
+</script>
+<script>
+    var socket = io.connect('//' + document.domain + ':' + location.port);
+
+    socket.on('timer', function (timer) {
+        timer = JSON.parse(timer);
+        $('div#title').text(timer.title);
+        $('#timer #minutes').text(("0" + timer.minutes).slice(-2));
+        $('#timer #seconds').text(("0" + timer.seconds).slice(-2));
+
+        if (timer.done) {
+            $('#clock').css('backgroundColor', '#d43f3a');
+        } else if (timer.warning) {
+            $('#clock').css('backgroundColor', '#eea236');
+        } else {
+            $('#clock').css('backgroundColor', 'black');
+        }
+
+        if (timer.hidden){
+            $('#clock').hide();
+        } else {
+            $('#clock').show();
+        }
+    });
+</script>
+</body>

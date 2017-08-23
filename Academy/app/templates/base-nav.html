@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block header %}
+	{% block nav %}
+		<a href="{{ url_for('home.dashboard') }}" class="logo">
+			<span class="logo-mini"><b>FL</b>A</span>
+			<span class="logo-lg"><b>FullLife</b>Academy</span>
+		</a>
+		<nav class="navbar navbar-static-top">
+			<a class="sidebar-toggle" data-toggle="offcanvas" role="button">
+				<span class="sr-only">Toggle navigation</span>
+			</a>
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="{{ url_for('home.logout') }}">
+							<i class="fa fa-sign-out"></i> <span>Logout</span>
+							<span class="pull-right-container"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	{% endblock %}
+{% endblock %}
+
+
+{% block sideleft %}
+	<aside class="main-sidebar">
+		<section class="sidebar">
+			<div class="user-panel"
+			     onclick="window.location = '/{{ current_user.role }}s/{{ current_user._id }}'">
+				<div class="pull-left image">
+					<img src="{{ current_user.profile_image_url }}" class="img-circle">
+				</div>
+				<div class="pull-left info">
+					<h4>{{ current_user.name.title() }}</h4>
+				</div>
+			</div>
+			<br>
+
+			<ul class="sidebar-menu">
+				<li>
+					<a href="{{ url_for('home.dashboard') }}">
+						<i class="fa fa-dashboard"></i> <span>Dashboard</span>
+						<span class="pull-right-container"></span>
+					</a>
+				</li>
+
+				{% if current_user.role == 'administrator' %}
+{#					<li>#}
+{#						<a href="{{ url_for('administrators.administrators') }}">#}
+{#							<i class="fa fa-users"></i> <span>Administrators</span>#}
+{#							<span class="pull-right-container"></span>#}
+{#						</a>#}
+{#					</li>#}
+{#					<li>#}
+{#						<a href="{{ url_for('teachers.teachers') }}">#}
+{#							<i class="fa fa-graduation-cap"></i> <span>Teachers</span>#}
+{#							<span class="pull-right-container"></span>#}
+{#						</a>#}
+{#					</li>#}
+					<li>
+						<a href="{{ url_for('parents.parents') }}">
+							<i class="fa fa-male"></i> <span>Parents</span>
+							<span class="pull-right-container"></span>
+						</a>
+					</li>
+					<li>
+
+						{% elif current_user.role == 'teacher' %}
+					<li>
+						<a href="{{ url_for('parents.parents') }}">
+							<i class="fa fa-male"></i> <span>Parents</span>
+							<span class="pull-right-container"></span>
+						</a>
+					</li>
+				{% endif %}
+
+				<li>
+					<a href="{{ url_for('students.students') }}">
+						<i class="fa fa-child"></i> <span>Students</span>
+						<span class="pull-right-container"></span>
+					</a>
+				</li>
+				<li>
+					<a href="/settings">
+						<i class="fa fa-wrench"></i> <span>Settings</span>
+						<span class="pull-right-container"></span>
+					</a>
+				</li>
+
+			</ul>
+		</section>
+	</aside>
+{% endblock %}

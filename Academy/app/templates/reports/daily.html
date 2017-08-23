@@ -1,0 +1,424 @@
+{% extends "base-nav.html" %}
+
+{% block title %} {{ student.name.title() }} {% endblock %}
+
+{% block styles %}
+	{{ super() }}
+	<style>
+		#report-header {
+			color: white;
+		}
+		#events {
+			overflow-y: scroll;
+			min-height: 30px;
+			max-height: 100px;
+		}
+		.event {
+			color: #fff !important;
+			padding: 5px 10px;
+			font-weight: bold;
+			text-align: center;
+			width: 100%;
+			margin-bottom: 4px;
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			border-radius: 3px;
+			cursor: move;
+			touch-action: none;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<section class="content">
+		<div id="alert" class="alert alert-success" style="display:none"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<div id="report-header" class="small-box">
+					<div class="inner">
+						<h3 id="report-date"></h3>
+						<p id="report-description"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-5">
+				<div id="report-box" class="box box-primary">
+					<div class="box-body">
+						<form id="report-form">
+							<fieldset {% if current_user.role not in ['administrator', 'teacher'] %}disabled{% endif %}>
+								<div class="form-group">
+									<label>How did I feel today?</label>
+									<select class="form-control" name="feeling">
+										{% set feelings = ['energetic', 'happy', 'active', 'quiet',
+																				'participated', 'irritable', 'sad'] %}
+										{% for feeling in feelings %}
+											{% set s = 'selected' if report.feeling == feeling %}
+											<option {{ s }} value="{{ feeling }}">
+												{{ feeling.title() }}
+											</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-group">
+									<label>How was my behavior?</label>
+									<select class="form-control" name="behavior">
+										{% set behaviors = ['excellent', 'cooperative', 'uncooperative'] %}
+										{% for behavior in behaviors %}
+											{% set s = 'selected' if report.behavior == behavior %}
+											<option {{ s }} value="{{ behavior }}">
+												{{ behavior.title() }}
+											</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Was much did I eat?</label>
+									<select class="form-control" name="eat_amount">
+										{% set eat_amount = ['all', 'half', "little", "none"] %}
+										{% for amount in eat_amount %}
+											{% set s = 'selected' if report.eat_amount == amount %}
+											<option {{ s }} value="{{ amount }}">
+												{{ amount.title() }}
+											</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Did I have any accidents?</label>
+									<textarea name="accident" class="form-control"
+									          rows="2">{{ report.accident }}</textarea>
+								</div>
+								<div class="form-group">
+									<label>Bible teaching</label>
+									<textarea name="bible" class="form-control"
+									          rows="2">{{ report.bible }}</textarea>
+								</div>
+								<div class="form-group">
+									<label>Skills to practice</label>
+									<textarea name="skills" class="form-control"
+									          rows="2">{{ report.skills }}</textarea>
+								</div>
+								<div class="form-group">
+									<label>Homework</label>
+									<textarea name="homework" class="form-control"
+									          rows="2">{{ report.homework }}</textarea>
+								</div>
+							</fieldset>
+						</form>
+						{% if current_user.role in ['administrator', 'teacher'] %}
+							<button id="update" class="btn btn-success btn-block">
+								Update
+							</button>
+							<button class="btn btn-primary btn-block"
+							        data-toggle="modal" data-target="#send_modal">Send
+							</button>
+							<button class="btn btn-danger btn-block"
+							        data-toggle="modal" data-target="#delete_modal">Delete
+							</button>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7">
+				{% if current_user.role in ['administrator', 'teacher'] %}
+					<div id="events-box" class="box box-solid">
+						<div class="box-header with-border">
+							<h4 class="box-title pull-left">Create a new event!</h4>
+						</div>
+						<div class="box-body">
+							<div id="events" style="overflow-y: scroll; height:180px;">
+								{% set events =  [{"title": "Wet", "color": "#00a65a"},
+								{"title": "BM", "color": "#00c0ef"},
+								{"title": "Lunch", "color": "#FF7CB9"},
+								{"title": "Snack", "color": "#B764D7"},
+								{"title": "Nap", "color": "#F6B250"},
+								{"title": "Breakfast", "color": "#35FF40"},
+								{"title": "Accident", "color": "#FF5B61"}] %}
+								{% for event in events %}
+									<div class="event"
+									     style="background-color: {{ event.color }}">{{ event.title }}</div>
+								{% endfor %}
+								{#							<h4>Diaper</h4>#}
+								{#							<div class="report" style="background-color: "></div>#}
+								{#							<div class="external-event bg-green ui-draggable ui-draggable-handle">#}
+								{#								Wet#}
+								{#							</div>#}
+								{#							<div class="external-event bg-yellow ui-draggable ui-draggable-handle">#}
+								{#								Dry#}
+								{#							</div>#}
+								{#							<div class="external-event bg-aqua ui-draggable ui-draggable-handle">#}
+								{#								BM#}
+								{#							</div>#}
+								{#							<h4>Foods</h4>#}
+								{#							<div class="external-event bg-blue ui-draggable ui-draggable-handle">#}
+								{#								Breakfast#}
+								{#							</div>#}
+								{#							<div class="external-event bg-green ui-draggable ui-draggable-handle">#}
+								{#								Lunch#}
+								{#							</div>#}
+								{#							<div class="external-event bg-red ui-draggable ui-draggable-handle">#}
+								{#								Snack#}
+								{#							</div>#}
+								{#							<h4>Activities</h4>#}
+								{#							<div class="external-event bg-aqua ui-draggable ui-draggable-handle">#}
+								{#								Sleep#}
+								{#							</div>#}
+								{#							<div class="external-event bg-green ui-draggable ui-draggable-handle">#}
+								{#								Bible#}
+								{#							</div>#}
+								{#							<div class="external-event bg-yellow ui-draggable ui-draggable-handle">#}
+								{#								Playing#}
+								{#							</div>#}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				<div id="calendar-box" class="box box-solid">
+					<div class="box-header with-border">
+						<h3 class="box-title">Events</h3>
+					</div>
+					<div id='calendar'></div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+	<section id="modals">
+		<div class="modal fade" id="delete_modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h5 style="text-align: center;">Are you sure you want to delete this
+							report?</h5>
+					</div>
+					<div class="modal-body">
+						<button id="delete" type="button"
+						        class="btn btn-danger btn-block">Delete
+						</button>
+						<button type="button" class="btn btn-success btn-block"
+						        data-dismiss="modal">Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="send_modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="exampleModalLabel">Send the report</h3>
+						<button type="button" class="close" data-dismiss="modal"
+						        aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div id="parents" class="modal-body"></div>
+					<div class="modal-footer">
+						<button class="btn btn-danger" data-dismiss="modal">
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="event_modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+						        aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4>Create a new <span id="title"></span> event</h4>
+					</div>
+					<div class="modal-body">
+						<form id="create-form">
+							<div class="form-group">
+								<label for="start_time">Start time</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-clock-o"></i>
+									</div>
+									<input name="start"
+									       type="text"
+									       class="form-control timepicker">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="end_time">End time</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-clock-o"></i>
+									</div>
+									<input name="end"
+									       type="text"
+									       class="form-control timepicker">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="event_notes">Notes</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-sticky-note-o"></i>
+									</div>
+									<textarea name="notes"
+									          class="form-control"
+									          rows="3"></textarea>
+								</div>
+							</div>
+						</form>
+						<button id="create" style="color: white" class="btn btn-block">
+							Create
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+      var studentId = "{{ student._id }}";
+      var reportId = "{{ report._id }}";
+      var header = $('#report-header');
+      var form = $('#report-form');
+      var alert = $('#alert');
+      var calendar = $('#calendar');
+      var events = $('.event');
+      var timepickers = $('.timepicker');
+
+      var eventModal = $('#event_modal');
+      var sendModal = $('#send_modal');
+
+      function _create_event(date) {
+          var data = {};
+          data.title = $(this).text();
+          data.start = moment(date).format('HH:mm');
+          data.color = $(this).css("background-color");
+          create_event(studentId, reportId, data, function (event) {
+              calendar.fullCalendar('renderEvent', event, true);
+          });
+      }
+      function _update_report() {
+          var data = {};
+          $.each(form.serializeArray(), function (i, field) {
+              data[field.name] = field.value;
+          });
+          update_report(studentId, reportId, data, function () {
+              alert.text('The report has been updated!');
+              alert.fadeTo(2000, 500).slideUp(500, function () {
+                  alert.slideUp(500);
+              });
+          });
+      }
+      function initialize(student, report) {
+          calendar.fullCalendar({
+              {% if current_user.role in ['administrator', 'teacher'] %}
+                  editable: true,
+                  droppable: true,
+              {% endif %}
+              header: false,
+              defaultView: 'agendaDay',
+              contentHeight: 'auto',
+              allDaySlot: false,
+              minTime: '7:30:00',
+              maxTime: '18:00:00',
+              defaultDate: moment(report.start),
+              defaultTimedEventduration: '00:10:00',
+              events: function (start, end, timezone, callback) {
+                  get_events(studentId, reportId, callback);
+              },
+              eventResize: function (event) {
+                  var data = {start: event.start, end: event.end};
+                  update_event(studentId, reportId, event._id, data);
+              },
+              eventRender: function (event, element) {
+                  if (event.notes) {
+                      var message = "<i class='fa fa-comments'></i> ";
+                      element.find(".fc-title").prepend(message);
+                      element.tooltip({title: event.notes}).tooltip('show');
+                  }
+              },
+              eventDrop: function (event) {
+                  var data = {start: event.start, end: event.end};
+                  update_event(studentId, reportId, event._id, data);
+              },
+              drop: _create_event
+          });
+          timepickers.timepicker({
+              timeFormat: 'h:mm p',
+              dropdown: false
+          });
+
+          $('#update').click(_update_report);
+          $('#delete').click(function () {
+              delete_report(studentId, reportId)
+          });
+          $('#create').click(function () {
+              var data = {};
+              var form = eventModal.find('#create-form');
+              var report_date = moment(report.start).format('MM/DD/YY ');
+              $.each(form.serializeArray(), function (i, field) {
+                  data[field.name] = field.value;
+              });
+              eventModal.modal('hide');
+              data.title = eventModal.find('#title').text();
+              console.log(report_date + data.start);
+              data.start = moment(report_date + data.start).format('HH:mm');
+              data.end = moment(report_date + data.end).format('HH:mm');
+              data.color = eventModal.find('#create').css('background-color');
+              create_event(studentId, reportId, data, function (event) {
+                  calendar.fullCalendar('renderEvent', event, true);
+              });
+          });
+
+          events.click(function () {
+              eventModal.find('#title').text($(this).text());
+              eventModal.find('#create').css('background-color', $(this).css("background-color"));
+              eventModal.modal('show');
+          });
+          events.draggable({
+              zIndex: 1070,
+              helper: 'clone',
+              revert: true,
+              revertDuration: 0
+          });
+
+          $.each(student.parent_ids, function (i, parent_id) {
+              get_parent(parent_id['$oid'], function (parent) {
+                  var button = $("<button>");
+                  button.addClass('parent btn btn-success btn-block');
+                  button.click(function () {
+                      send_report(studentId, reportId, parent._id, function () {
+                          button.text("Report sent to " + parent.name);
+                          setTimeout(function () {
+                              sendModal.modal('hide')
+                          }, 2000);
+                      });
+                  });
+                  button.text(parent.name);
+                  $('#parents').append(button);
+              });
+          });
+      }
+
+      get_report(studentId, reportId, function (report) {
+          header.css('backgroundColor', report.color);
+          var date = moment(report.start).format('MM/DD/YYYY');
+          header.find('#report-date').text(date);
+          get_student(studentId, function (student) {
+              var text = student.name + "'s " + report.title + " report";
+              header.find('#report-description').text(text);
+              initialize(student, report);
+          });
+      });
+	</script>
+{% endblock %}

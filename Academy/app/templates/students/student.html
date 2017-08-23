@@ -1,0 +1,219 @@
+{% extends "base-nav.html" %}
+{% block title %}{{ student.name }}{% endblock %}
+{% set report_type = [{"type": "daily", "color": "#00c0ef"}] %}
+
+
+{% block styles %}
+	{{ super() }}
+	<style>
+		#reports {
+			overflow-y: scroll;
+			max-height: 100px;
+		}
+
+		.report {
+			color: #fff !important;
+			padding: 5px 10px;
+			font-weight: bold;
+			text-align: center;
+			width: 100%;
+			margin-bottom: 4px;
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			border-radius: 3px;
+			cursor: move;
+			touch-action: none;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<section class="content">
+		<div id="alert" class="alert alert-success" style="display:none">
+			{{ student.name.title() }} has been updated!
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div id="profile-box" class="box box-primary">
+					<div class="box-body box-profile">
+						<img id="profile-image"
+						     class="img img-responsive img-circle profile-user-img"
+						     src="{{ student.profile_image_url }}">
+						<h3 class="profile-username text-center">
+							<span id="name">{{ student.name }}</span>
+						</h3>
+						<form id="account-form">
+							<div class="form-group">
+								<label>Name</label>
+								<input id='name' name="name" type="text" class="form-control"
+								       value="{{ student.name }}">
+							</div>
+							<div class="form-group">
+								<label>Birthday</label>
+								<input name="birthday" id='birthday' type="date"
+								       class="form-control"
+								       value="{{ student.birthday }}">
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Doctor's Name</label>
+										<input id='doctor_name' name="doctor_name" type="text"
+										       class="form-control"
+										       value="{{ student.doctor_name }}">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Doctor's Phone</label>
+										<input id='doctor_phone' name="doctor_phone" type="tel"
+										       class="form-control"
+										       value="{{ student.doctor_phone }}">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Medical Problems</label>
+								<textarea name="medical_problems" rows="4"
+								          class="form-control">{{ student.medical_problems }}</textarea>
+							</div>
+							<div class="form-group">
+								<label>Allergies</label>
+								<textarea name="allergies" class="form-control"
+								          rows="4">{{ student.allergies }}</textarea>
+							</div>
+						</form>
+						<button type="button" onclick="_update_account()"
+						        class="btn bg-aqua btn-block">Update
+						</button>
+						{% if current_user.role == 'administrator' %}
+							<button type="button" data-toggle="modal"
+							        data-target="#delete_modal"
+							        class="btn btn-danger btn-block">Delete
+							</button>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				{% if current_user.role in ['teacher', 'administrator'] %}
+					<div class="box box-solid" id="events-box">
+						<div class="box-header with-border">
+							<h4 class="box-title">Create a new report!</h4>
+						</div>
+						<div class="box-body">
+							<div id="reports">
+								{% for report in report_type %}
+									<div class="report"
+									     style="background-color: {{ report.color }}">{{ report.type.title() }}</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				<div class="box box-primary" id="calendar-box">
+					<div class="box-body no-padding">
+						<div id="calendar"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="modals">
+		<div class="modal fade" id="delete_modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h5 style="text-align: center;">Are you sure you want to
+							remove {{ student.name.title() }}?</h5>
+					</div>
+					<div class="modal-body">
+						<button id="delete" class="btn btn-danger btn-block">Delete
+						</button>
+						<button class="btn btn-success btn-block" data-dismiss="modal">
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript">
+      var studentId = "{{ student._id }}";
+      var alert = $("#alert");
+      var calendar = $("#calendar");
+      var form = $("#account-form");
+      var profileImage = $('#profile-image');
+      var deleteButton = $('#delete');
+      var reports = $(".report");
+
+      function _create_report(date) {
+          var data = {};
+          if (!date) {
+              date = new Date()
+          }
+          data.start = moment(date).format("MM/DD/YYYY");
+          data.title = $(this).text();
+          data.color = $(this).css('backgroundColor');
+          create_report(studentId, data, function (report) {
+              calendar.fullCalendar('renderEvent', report, true);
+          });
+      }
+      function _update_account() {
+          var data = {};
+          $.each(form.serializeArray(), function (i, field) {
+              data[field.name] = field.value;
+          });
+          update_student(studentId, data, function () {
+              alert.fadeTo(2000, 500).slideUp(500, function () {
+                  alert.slideUp(500);
+              });
+          });
+      }
+
+      alert.hide();
+      reports.draggable({
+          zIndex: 1070,
+          helper: 'clone',
+          revert: true,
+          revertDuration: 0
+      }).click(_create_report);
+      calendar.fullCalendar({
+          {% if current_user.role in ['teacher', 'administrator'] %}
+              editable: true,
+              droppable: true,
+          {% endif %}
+          events: function (start, end, timezone, callback) {
+              get_reports(studentId, callback);
+          },
+          eventClick: function (report) {
+              window.document.location = "/students/" + studentId + '/reports/' + report._id;
+          },
+          eventDrop: function (report) {
+              var data = {start: report.start, end: report.end};
+              update_report(studentId, report._id, data)
+          },
+          drop: _create_report
+      });
+      profileImage.dropzone({
+          url: "/students/" + studentId + '/image',
+          init: function () {
+              this.on('success', function (file, image) {
+                  image = JSON.parse(image);
+                  profileImage.attr('src', '/static/' + image.source);
+              });
+          }
+      });
+      deleteButton.click(function () {
+          delete_student(studentId)
+      });
+	</script>
+{% endblock %}

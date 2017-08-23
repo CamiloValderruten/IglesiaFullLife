@@ -1,0 +1,109 @@
+{% extends "base-nav.html" %}
+
+{% block title %} Parents {% endblock %}
+
+{% block styles %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<section class="content-header">
+		{% if current_user.role in ['administrator'] %}
+		<button class="pull-right btn btn-success" data-toggle="modal"
+		        data-target="#create_account_modal">Create
+		</button>
+		{% endif %}
+		<h1>Parents</h1>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<div class="box-body" id="account-list">
+						<div class="form-group">
+							<input class="search form-control" placeholder="Search"/>
+						</div>
+						<ul id="parents" class="list list-group"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="modals">
+		<div class="modal fade" id="create_account_modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						Create a new parent
+						<button type="button" class="close" data-dismiss="modal"
+						        aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="create-form">
+							<div class="form-group">
+								<label>Name</label>
+								<input name="name" type="text" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Cell Phone</label>
+								<input name="cell_phone" type="tel" class="form-control">
+							</div>
+						</form>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+							        data-dismiss="modal">Close
+							</button>
+							<button type="submit" id="create" class="btn btn-success">Create
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+      function insert_parent(parent) {
+          var li = $('<li>');
+          li.click(function(){
+              window.location = "/parents/" + parent._id;
+          });
+          li.addClass('info-box box-success');
+          var span = $('<span>');
+          span.addClass('info-box-icon');
+          var img = $('<img>');
+          img.addClass('img img-responsive');
+          img.attr('src', parent.profile_image_url);
+          span.append(img);
+          var div = $('<div>');
+          div.addClass('info-box-content name');
+          div.text(parent.name);
+          li.append(span);
+          li.append(div);
+          $('#parents').append(li)
+      }
+      get_parents(function(parents){
+          $.each(parents, function(i, parent){
+              insert_parent(parent)
+          });
+		      new List('account-list', {valueNames: ['name']});
+      });
+
+      var form = $('#create-form');
+      $('#create').click(function () {
+          var data = {};
+          $.each(form.serializeArray(), function (i, field) {
+              data[field.name] = field.value;
+          });
+          create_parent(data, function (parent) {
+              insert_parent(parent);
+              $('#create_account_modal').modal('hide');
+          });
+      });
+	</script>
+{% endblock %}

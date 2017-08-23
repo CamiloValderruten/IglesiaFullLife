@@ -1,0 +1,106 @@
+{% extends "base.html" %} {% block title %} Login {% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block body %}
+	<body class="hold-transition login-page">
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="/"><b>Academy</b>Center</a>
+		</div>
+		<div class="login-box-body">
+			<div class="alert hide"></div>
+			<div class="form-group" id="cell-phone">
+				<input type="tel" class="form-control" placeholder="Cell Phone">
+			</div>
+			<div class="form-group hide" id="code">
+				<input type="text" class="form-control" placeholder="Verification Code"
+				       id="activation-code">
+			</div>
+			<div class="form-group hide" id="password">
+				<input type="password" class="form-control" placeholder="Password">
+			</div>
+			<div class="form-group hide" id="confirm-password">
+				<input type="password" class="form-control"
+				       placeholder="Confirm Password">
+			</div>
+			<button id="send" class="btn bg-aqua btn-block">Send Verification</button>
+			<button id="verify" class="btn bg-purple btn-block hide">Verify</button>
+			<button id="activate" class="btn bg-green btn-block hide">Activate
+			</button>
+		</div>
+	</div>
+	</body>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript">
+      var phoneDiv = $('#cell-phone');
+      var codeDiv = $('#code');
+      var passwordDiv = $('#password');
+      var cPasswordDiv = $('#confirm-password');
+      var sendButton = $('#send');
+      var verifyButton = $('#verify');
+      var activateButton = $('#activate');
+      var alert = $('.alert');
+      var accountId = null;
+
+      sendButton.click(function () {
+          var phoneNumber = phoneDiv.find('input').val();
+          send_verification(phoneNumber, function () {
+              alert.addClass('hide');
+              codeDiv.removeClass('hide');
+              verifyButton.removeClass('hide');
+              phoneDiv.find('input').prop('disabled', true);
+              sendButton.hide();
+          }, function (response) {
+              alert.addClass();
+              alert.addClass('alert alert-danger');
+              alert.removeClass('hide');
+              alert.text(response.responseJSON.message);
+          });
+      });
+
+      verifyButton.click(function () {
+          var phoneNumber = phoneDiv.find('input').val();
+          var code = codeDiv.find('input').val();
+          verify_account(phoneNumber, code, function (account) {
+              passwordDiv.removeClass('hide');
+              cPasswordDiv.removeClass('hide');
+              activateButton.removeClass('hide');
+              codeDiv.find('input').prop('disabled', true);
+              verifyButton.hide();
+              alert.addClass('hide');
+              accountId = account['_id']['$oid'];
+          }, function (response) {
+              alert.addClass();
+              alert.addClass('alert alert-danger');
+              alert.removeClass('hide');
+              alert.text(response.responseJSON.message);
+          });
+      });
+
+      activateButton.click(function () {
+          var password = passwordDiv.find('input').val();
+          var cPassword = cPasswordDiv.find('input').val();
+          if (password.length < 8) {
+              alert.addClass();
+              alert.addClass('alert alert-warning');
+              alert.removeClass('hide');
+              alert.text("Password must be at least 8 characters long.");
+          } else if (password === cPassword) {
+              change_password(accountId, password, function () {
+                  window.location = "/";
+              });
+          } else {
+              alert.addClass();
+              alert.addClass('alert alert-danger');
+              alert.removeClass('hide');
+              alert.text("Your password's don't match");
+          }
+      });
+
+	</script>
+{% endblock %}

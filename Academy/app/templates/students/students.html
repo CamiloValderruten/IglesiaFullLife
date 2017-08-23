@@ -1,0 +1,62 @@
+{% extends "base-nav.html" %}
+
+{% block title %} Students {% endblock %}
+
+{% block styles %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+	<section class="content-header">
+		<h1>Students</h1>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<div class="box-body" id="account-list">
+						<div class="form-group">
+							<input class="search form-control" placeholder="Search"/>
+						</div>
+						<ul id="students" class="list list-group"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+      function insert_student(student) {
+          var li = $('<li>');
+          li.click(function () {
+              window.location = "/students/" + student._id;
+          });
+          li.addClass('info-box box-success');
+          var span = $('<span>');
+          span.addClass('info-box-icon');
+          var img = $('<img>');
+          img.addClass('img img-responsive');
+          img.attr('src', student.profile_image_url);
+          span.append(img);
+          var div = $('<div>');
+          div.addClass('info-box-content name');
+          div.text(student.name);
+          li.append(span);
+          li.append(div);
+          $('#students').append(li)
+      }
+      get_students(function (students) {
+          $.each(students, function (i, student) {
+              insert_student(student)
+          });
+          new List('account-list', {valueNames: ['name']});
+      });
+      new List('account-list', {valueNames: ['name']});
+      $('#birthday_input').datepicker();
+	</script>
+{% endblock %}
