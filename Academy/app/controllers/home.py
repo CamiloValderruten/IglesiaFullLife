@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, \
     url_for, abort
+from bson.json_util import dumps
 from app.decorators import access_level
 from .students import students
 from bson import json_util, ObjectId
@@ -9,8 +10,7 @@ from ..models import Account
 import boto3
 import random
 from flask import current_app as app
-from ..utilities import clean_phone, db
-import jwt
+from ..utilities import clean_phone, db, upload_profile_image
 
 blueprint = Blueprint("home", __name__)
 
@@ -95,3 +95,8 @@ def reset_password():
                            {"$set": {"password": hashed_password}})
         return jsonify({"success": True})
     return jsonify({"success": False}), 400
+
+@blueprint.route("/<account_type>/<id_>/image", methods=["POST"])
+def image(account_type, id_):
+    url = upload_profile_image(id_, request.files['file'])
+    return dumps({"source": url})

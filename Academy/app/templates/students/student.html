@@ -208,7 +208,7 @@
           init: function () {
               this.on('success', function (file, image) {
                   image = JSON.parse(image);
-                  profileImage.attr('src', '/static/' + image.source);
+                  profileImage.attr('src', image.source);
               });
           }
       });
