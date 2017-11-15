@@ -21,8 +21,8 @@ services:
     container_name: "Discipleship"
     environment:
      - ENVIRONMENT=PRODUCTION
-     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+     - AWS_ACCESS_KEY_ID=AKIAJL2B5EX2NSIBJZOQ
+     - AWS_SECRET_ACCESS_KEY=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
      - AWS_DEFAULT_REGION=us-east-1
     ports:
      - "5000:5000"
@@ -44,8 +44,8 @@ services:
     container_name: "Academy"
     environment:
      - ENVIRONMENT=PRODUCTION
-     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+     - AWS_ACCESS_KEY_ID=AKIAJL2B5EX2NSIBJZOQ
+     - AWS_SECRET_ACCESS_KEY=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
      - AWS_DEFAULT_REGION=us-east-1
     ports:
      - "5002:5000"
