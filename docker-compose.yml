@@ -1,5 +1,21 @@
 version: '2'
 services:
+  wordpress:
+    restart: always
+    container_name: wordpress
+    image: wordpress
+    ports:
+        - "8000:80"
+    volumes:
+        - ./Wordpress/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+        - ./Wordpress/data:/var/www/html
+    environment:
+        WORDPRESS_DB_NAME: fulllifechurch
+        WORDPRESS_DB_HOST: fulllifechurch.cevfojaxcfyj.us-east-1.rds.amazonaws.com
+        WORDPRESS_DB_USER: iglesiafulllife
+        WORDPRESS_DB_PASSWORD: sf93mM0aoAU2IvOsH7F8
+
+
   discipleship:
     build: "Discipleship"
     container_name: "Discipleship"
@@ -12,6 +28,7 @@ services:
      - "5000:5000"
     links:
      - mongodb
+
   presentation:
     build: "Presentation"
     container_name: "Presentation"
@@ -21,6 +38,7 @@ services:
      - "5001:5000"
     links:
      - mongodb
+
   academy:
     build: "Academy"
     container_name: "Academy"
@@ -38,5 +56,6 @@ services:
     image: "mongo:latest"
     volumes:
     - ~/.mongo/db/:/data/db/
+
 volumes:
     mongodb:
