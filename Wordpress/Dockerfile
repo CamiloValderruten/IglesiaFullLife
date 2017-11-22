@@ -4,4 +4,6 @@ RUN apt-get update -y && apt-get install pkg-config libssl-dev -y
 
 RUN pecl install mongodb
 
-RUN echo "extension=mongodb.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+RUN apt-get install unzip
+
+COPY configurations.ini /usr/local/etc/php/conf.d/configurations.ini
