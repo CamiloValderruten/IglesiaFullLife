@@ -25,10 +25,6 @@ RUN composer install -d /var/www/html/wp-content/themes/yootheme/
 
 COPY page-* /var/www/html/wp-content/themes/yootheme/
 
-COPY cache.zip /var/www/html/wp-content/themes/yootheme/
-
-RUN unzip /var/www/html/wp-content/themes/yootheme/cache.zip -d /var/www/html/wp-content/themes/yootheme/
-
 COPY wp-config.php /var/www/html/
 
 RUN chown -R www-data:www-data html;
