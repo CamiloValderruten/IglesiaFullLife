@@ -27,4 +27,6 @@ COPY page-* /var/www/html/wp-content/themes/yootheme/
 
 COPY wp-config.php /var/www/html/
 
+COPY htaccess /var/www/html/.htaccess
+
 RUN chown -R www-data:www-data html;
