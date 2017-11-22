@@ -6,14 +6,13 @@ services:
     build: "Wordpress"
     ports:
         - "8000:80"
-    volumes:
-        - ./Wordpress/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-        - ./Wordpress/data:/var/www/html
     environment:
         WORDPRESS_DB_NAME: fulllifechurch
         WORDPRESS_DB_HOST: fulllifechurch.cevfojaxcfyj.us-east-1.rds.amazonaws.com
         WORDPRESS_DB_USER: iglesiafulllife
         WORDPRESS_DB_PASSWORD: sf93mM0aoAU2IvOsH7F8
+    links:
+         - mongodb
 
 
   discipleship:
@@ -51,8 +50,9 @@ services:
      - "5002:5000"
     links:
      - mongodb
+
   mongodb:
-    container_name: "mongodb"
+    container_name: "MongoDB"
     image: "mongo:latest"
     volumes:
     - ~/.mongo/db/:/data/db/
