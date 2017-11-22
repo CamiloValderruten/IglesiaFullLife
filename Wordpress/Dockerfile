@@ -29,4 +29,6 @@ COPY wp-config.php /var/www/html/
 
 COPY htaccess /var/www/html/.htaccess
 
+RUN a2enmod rewrite
+
 RUN chown -R www-data:www-data html;
