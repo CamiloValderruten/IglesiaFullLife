@@ -22,7 +22,7 @@ password = "fulllife2018"
 thread = None
 
 if not db.configurations.find_one():
-    db.configurations.save({})
+    db.configurations.save({"paused": True, "hidden": False, "timer": {"minutes": 0, "hours": 0, "seconds": 0}})
 
 configuration_schema = {
     "_id": {"type": "string"},
@@ -58,7 +58,7 @@ def background_thread():
             paused = configuration_.get('paused')
             if selected_timer and not paused:
                 t = configuration_['timer']
-                if t['hours'] == 0 and t['minutes'] == 0 and t['seconds'] == 0:
+                if t.get('hours') == 0 and t.get('minutes') == 0 and t.get('seconds') == 0:
                     if t.get('next', False):
                         cursor = db.timers.find({"category_id": t.get('category_id')})
                         for timer_ in cursor:
@@ -84,7 +84,6 @@ def authentication_required(f):
         if not session.get('logged_in'):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
-
     return decorated_function
 
 
