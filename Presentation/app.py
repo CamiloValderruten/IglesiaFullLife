@@ -42,6 +42,7 @@ configuration_schema = {
 
 
 def remove_second(timer):
+    print(timer)
     seconds = (int(timer.get('seconds', 0))) + (int(timer.get('minutes', 0)) * 60) + (int(timer.get('hours', 0)) * 3600)
     seconds -= 1
     m, s = divmod(seconds, 60)
@@ -99,8 +100,7 @@ def connect():
 @authentication_required
 def configuration(data):
     configuration_ = db.configurations.find_one()
-    configuration_.update(data)
-    db.configurations.save(configuration_)
+    db.configurations.update(configuration_, {"$set": data})
     return dumps(data)
 
 

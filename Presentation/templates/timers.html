@@ -222,11 +222,11 @@
     });
 
     addMinuteButton.click(function () {
-        socket.emit("configuration", {"timer": {"minutes": configuration.timer.minutes + 1}});
+        socket.emit("configuration", {"timer.minutes": configuration.timer.minutes + 1});
     });
 
     subtractMinuteButton.click(function () {
-        socket.emit("configuration", {"timer": {"minutes": configuration.timer.minutes - 1}});
+        socket.emit("configuration", {"timer.minutes": configuration.timer.minutes - 1});
     });
 
     pauseButton.click(function () {
