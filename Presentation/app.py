@@ -122,7 +122,7 @@ def login():
         form = request.form
         if username == form.get('username') and password == form.get('password'):
             session['logged_in'] = True
-        return redirect(url_for('home'))
+        return redirect(url_for('categories'))
 
 
 @app.route('/logout', methods=['GET'])
