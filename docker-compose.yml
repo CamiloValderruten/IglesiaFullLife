@@ -1,17 +1,33 @@
 version: '2'
 services:
+  wordpress:
+    restart: always
+    container_name: Wordpress
+    build: "Wordpress"
+    ports:
+        - "8000:80"
+    environment:
+        WORDPRESS_DB_NAME: fulllifechurch
+        WORDPRESS_DB_HOST: fulllifechurch.cevfojaxcfyj.us-east-1.rds.amazonaws.com
+        WORDPRESS_DB_USER: iglesiafulllife
+        WORDPRESS_DB_PASSWORD: sf93mM0aoAU2IvOsH7F8
+    links:
+         - mongodb
+
+
   discipleship:
     build: "Discipleship"
     container_name: "Discipleship"
     environment:
      - ENVIRONMENT=PRODUCTION
-     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+     - AWS_ACCESS_KEY_ID=AKIAJL2B5EX2NSIBJZOQ
+     - AWS_SECRET_ACCESS_KEY=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
      - AWS_DEFAULT_REGION=us-east-1
     ports:
      - "5000:5000"
     links:
      - mongodb
+
   presentation:
     build: "Presentation"
     container_name: "Presentation"
@@ -21,22 +37,25 @@ services:
      - "5001:5000"
     links:
      - mongodb
+
   academy:
     build: "Academy"
     container_name: "Academy"
     environment:
      - ENVIRONMENT=PRODUCTION
-     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+     - AWS_ACCESS_KEY_ID=AKIAJL2B5EX2NSIBJZOQ
+     - AWS_SECRET_ACCESS_KEY=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
      - AWS_DEFAULT_REGION=us-east-1
     ports:
      - "5002:5000"
     links:
      - mongodb
+
   mongodb:
-    container_name: "mongodb"
+    container_name: "MongoDB"
     image: "mongo:latest"
     volumes:
     - ~/.mongo/db/:/data/db/
+
 volumes:
     mongodb:
