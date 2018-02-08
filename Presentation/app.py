@@ -3,176 +3,188 @@ from flask import request
 from flask import render_template
 from flask import session
 from flask import redirect
+from flask import url_for
 
 from flask_socketio import SocketIO
-from flask_socketio import emit
+from functools import wraps
 
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson import ObjectId
 
-import os
-from datetime import timedelta
-
-host = "mongodb" if os.environ.get('ENVIRONMENT') == "PRODUCTION" else "0.0.0.0"
-db = MongoClient(host=host)['Presentation']
+db = MongoClient("mongodb")['Presentation']
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'BNJqqX8cuQe^$U68DrxMb8aGSk8LaD0CKO$78WKB!ySM'
-socket = SocketIO(app, async=None)
 
+socket = SocketIO(app, async=None)
+username = "admin"
+password = "fulllife2018"
 thread = None
-currentTimer = None
-paused = False
-hidden = False
+
+if not db.configurations.find_one():
+    db.configurations.save({})
+
+configuration_schema = {
+    "_id": {"type": "string"},
+    "hidden": {"type": "boolean"},
+    "paused": {"type": "boolean"},
+    "timer": {
+        "type": "dictionary",
+        "schema": {
+            "hours": {"type": "integer"},
+            "minutes": {"type": "integer"},
+            "seconds": {"type": "integer"},
+            "_id": {"type": "ObjectId"},
+            "category_id": {"type": "ObjectId"}
+        }
+    }
+}
+
+
+def remove_second(timer):
+    seconds = (int(timer.get('seconds', 0))) + (int(timer.get('minutes', 0)) * 60) + (int(timer.get('hours', 0)) * 3600)
+    seconds -= 1
+    m, s = divmod(seconds, 60)
+    h, m = divmod(m, 60)
+    timer.update(dict(hours=h, minutes=m, seconds=s))
+    return timer
 
 
 def background_thread():
-    global currentTimer, paused
-    while True:
-        if currentTimer and not paused:
-            time = timedelta(hours=int(currentTimer.get('hours', 0)),
-                             minutes=int(currentTimer.get('minutes', 0)),
-                             seconds=int(currentTimer.get('seconds', 0)))
-            if currentTimer['done']:
-                time += timedelta(seconds=1)
-            else:
-                time -= timedelta(seconds=1)
-            if time.seconds == 0:
-                currentTimer['done'] = True
-            elif time.seconds <= 300:
-                currentTimer['warning'] = True
-            hours, remainder = divmod(time.seconds, 3600)
-            minutes, seconds = divmod(remainder, 60)
-            currentTimer['hours'] = hours
-            currentTimer['minutes'] = minutes
-            currentTimer['seconds'] = seconds
-            if currentTimer['done'] and currentTimer['next']:
-                query = {"category": currentTimer['category']}
-                objects = db.timers.find(query)
-                for obj in objects:
-                    if obj["_id"] == currentTimer['_id']:
-                        try:
-                            currentTimer = objects.next()
-                            currentTimer['done'] = False
-                        except Exception:
-                            paused = True
-                        finally:
-                            break
-        currentTimer['paused'] = paused
-        currentTimer['hidden'] = hidden
-        currentTimer['seconds'] = currentTimer.get('seconds', 0)
-        currentTimer['minutes'] = currentTimer.get('minutes', 0)
-        socket.emit('timer', dumps(currentTimer), broadcast=True)
-        socket.sleep(1)
+    with app.app_context():
+        while True:
+            configuration_ = db.configurations.find_one()
+            selected_timer = configuration_.get('timer')
+            paused = configuration_.get('paused')
+            if selected_timer and not paused:
+                t = configuration_['timer']
+                if t['hours'] == 0 and t['minutes'] == 0 and t['seconds'] == 0:
+                    if t.get('next', False):
+                        cursor = db.timers.find({"category_id": t.get('category_id')})
+                        for timer_ in cursor:
+                            if str(timer_['_id']) == str(t['_id']):
+                                next_timer = next(cursor, None)
+                                if next_timer:
+                                    configuration_['timer'] = next_timer
+                                    break
+                                else:
+                                    configuration_['paused'] = True
+                    else:
+                        configuration_['paused'] = True
+                else:
+                    configuration_['timer'] = remove_second(configuration_['timer'])
+                db.configurations.save(configuration_)
+            socket.emit('changed', dumps(dict(configuration=configuration_)), broadcast=True)
+            socket.sleep(1)
+
+
+def authentication_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('logged_in'):
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
+@socket.on('connect')
+@authentication_required
+def connect():
+    global thread
+    thread = thread if thread else socket.start_background_task(target=background_thread)
+    return dumps(db.configurations.find_one())
+
+
+@socket.on('configuration')
+@authentication_required
+def configuration(data):
+    configuration_ = db.configurations.find_one()
+    configuration_.update(data)
+    db.configurations.save(configuration_)
+    return dumps(data)
 
 
 @socket.on('start')
+@authentication_required
 def start(data):
-    global thread
-    global currentTimer
-    currentTimer = db.timers.find_one(ObjectId(data["_id"]))
-    currentTimer['done'] = False
-    if thread is None:
-        thread = socket.start_background_task(target=background_thread)
-
-
-@socket.on('hide')
-def hide():
-    global hidden
-    hidden = False if hidden else True
-
-
-@socket.on('pause')
-def pause():
-    global paused
-    paused = False if paused else True
-
-
-@socket.on('next')
-def next_(data):
-    global currentTimer
-    timers_ = db.timers.find({"category": data['category']})
-
-
-@socket.on('show')
-def show():
-    emit('show', broadcast=True)
-
-
-@socket.on('add_minute')
-def addMinute():
-    currentTimer['minutes'] += 1
-
-
-@socket.on('subtract_minute')
-def subtractMinute():
-    currentTimer['minutes'] -= 1
+    timer = db.timers.find_one({"_id": ObjectId(data['timer_id'])})
+    db.configurations.update({}, {"$set": {"timer": timer}})
+    return dumps(db.configurations.find_one())
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "GET":
         return render_template('login.html')
-    username = request.form.get('username')
-    password = request.form.get('password')
-    if username == "admin" and password == "fulllife2017":
-        session['logged_in'] = True
-    return redirect('/')
+
+    if request.method == "POST":
+        form = request.form
+        if username == form.get('username') and password == form.get('password'):
+            session['logged_in'] = True
+        return redirect(url_for('home'))
 
 
-@app.route('/')
-def home():
-    if session.get('logged_in') is None:
-        return login()
-    return render_template('home.html')
+@app.route('/logout', methods=['GET'])
+@authentication_required
+def logout():
+    del (session['logged_in'])
+    return redirect(url_for('login'))
 
 
 @app.route('/clock')
+@authentication_required
 def clock():
-    if session.get('logged_in') is None:
-        return login()
     return render_template('clock.html')
 
 
-@app.route('/timers', methods=['POST', 'GET'])
-def timers():
-    if request.method == "GET":
-        return dumps(db.timers.find(request.args))
-    data = request.get_json(force=True)
-    db.timers.save(data)
-    return dumps(data)
+#######################################################
+
+timer_schema = {"name": {"type": "string"},
+                "hours": {"type": "integer"},
+                "minutes": {"type": "integer"},
+                "seconds": {"type": "integer"},
+                "category_id": {"type": "ObjectId"}}
 
 
-@app.route('/timers/<_id>', methods=['PUT', 'GET', 'DELETE'])
-def timer(_id):
-    if request.method == "GET":
-        return dumps(db.timer.find_one(ObjectId(_id)))
-    if request.method == "PUT":
-        data = request.get_json(force=True)
-        db.timers.update({"_id": ObjectId(_id)}, data)
-        return dumps(data)
-    if request.method == "DELETE":
-        db.timers.delete_one({"_id": ObjectId(_id)})
-        return dumps({"success": True})
+@app.route('/categories/<category_id>/timers', methods=['POST', 'GET'])
+@authentication_required
+def timers(category_id):
+    if request.method == "POST":
+        data = {k: v for k, v in request.form.items()}
+        data['category_id'] = ObjectId(category_id)
+        data['name'] = data['name'].title()
+        data['hours'] = data.get('hours', 0)
+        data['minutes'] = data.get('minutes', 0)
+        data['seconds'] = data.get('seconds', 0)
+        db.timers.save(data)
+        return redirect(url_for('timers', category_id=category_id))
+
+    timers_ = db.timers.find({"category_id": ObjectId(category_id)})
+    category_ = db.categories.find_one({"_id": ObjectId(category_id)})
+    return render_template("timers.html", timers=timers_, category=category_)
 
 
+@app.route('/categories/<category_id>/timers/<timer_id>/delete', methods=['GET'])
+@authentication_required
+def delete_timer(category_id, timer_id):
+    db.timers.delete_one({"_id": ObjectId(timer_id)})
+    return redirect(url_for('timers', category_id=category_id))
+
+
+@app.route('/', methods=['POST', 'GET'])
 @app.route('/categories', methods=['POST', 'GET'])
+@authentication_required
 def categories():
-    if request.method == "GET":
-        return dumps(db.categories.find())
-    data = request.get_json(force=True)
-    db.categories.save(data)
-    return dumps(data)
+    if request.method == "POST":
+        db.categories.save({"name": request.form['name']})
+        return redirect(url_for('categories'))
+    return render_template('home.html', categories=db.categories.find())
 
 
-@app.route('/categories/<_id>', methods=['PUT', 'GET', 'DELETE'])
-def category(_id):
-    if request.method == "GET":
-        return dumps(db.categories.find_one(ObjectId(_id)))
-    if request.method == "PUT":
-        data = request.get_json(force=True)
-        db.categories.update({"_id": ObjectId(_id)}, data)
-        return dumps(data)
-    if request.method == "DELETE":
-        db.categories.delete_one({"_id": ObjectId(_id)})
-        return dumps({"success": True})
+@app.route('/categories/<category_id>/delete', methods=['GET'])
+@authentication_required
+def delete_category(category_id):
+    db.timers.delete_many({"category_id": ObjectId(category_id)})
+    db.categories.delete_one({"_id": ObjectId(category_id)})
+    return redirect(url_for('categories'))

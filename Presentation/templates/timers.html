@@ -1,0 +1,247 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Presentation | Full Life Ministry</title>
+    <link rel="icon" href="/static/favicon.png">
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .fa {
+            font-size: 20px;
+        }
+
+        .timer {
+            font-size: 50px;
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 50px;
+        }
+    </style>
+</head>
+<body style="padding-top: 70px;">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#mobile-menu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('categories') }}">PresentationCenter</a>
+        </div>
+        <div class="collapse navbar-collapse" id="mobile-mensu">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('clock') }}" target="_blank">Clock</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 id="title">{{ category.name | title }}</h1>
+            <div id="table-content">
+                <table class="table">
+                    <tbody id="timers">
+                    {% for timer in timers %}
+                        <tr>
+                            <td style="width: 80%;">
+                                <button class="btn btn-primary btn-block start" id="{{ timer._id }}">
+                                    <span class="pull-left title">{{ timer.name }}</span>
+                                    {% set hours = "0" + timer.hours | string if timer.hours | string | length < 2 else timer.hours %}
+                                    {% set minutes = "0" + timer.minutes | string if timer.minutes | string | length < 2 else timer.minutes %}
+                                    {% set seconds = "0" + timer.seconds | string if timer.seconds | string | length < 2 else timer.seconds %}
+                                    {% set hours = "0" + hours if hours | string | length < 2 else hours %}
+                                    {% set minutes = "0" + minutes if minutes | string | length < 2 else minutes %}
+                                    {% set seconds = "0" + seconds if seconds | string | length < 2 else seconds %}
+                                    <span class="badge pull-right">
+                                            {{ hours }}:{{ minutes }}:{{ seconds }}
+                                        </span>
+                                    {% if timer.next %}
+                                        <i class="fa fa-arrow-down pull-right" style="margin-right: 10px;"></i>
+                                    {% endif %}
+                                </button>
+                            </td>
+                            <td style="width: 20%;">
+                                <a class="btn btn-warning btn-block" data-toggle="modal" data-target="#edit-timer"
+                                   href="#">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('delete_timer', category_id=category._id, timer_id=timer._id) }}"
+                                   class="btn btn-danger btn-block"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr>
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-info" data-toggle="modal" data-target="#create-timer">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button id="pause" class="btn btn-info">
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button id="hide" class="btn btn-info">
+                            <i class="fa fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button id="subtractMinute" class="btn btn-warning">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button id="addMinute" class="btn btn-warning">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timer">
+                <h2 class="name">Welcome</h2>
+                <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="create-timer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form method="post" action="{{ url_for('timers', category_id=category._id) }}">
+                    <label>Name</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Hours</label>
+                                <input type="number" class="form-control" name="hours" value="0" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Minutes</label>
+                                <input type="number" class="form-control" name="minutes" value="0" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Seconds</label>
+                                <input type="number" class="form-control" name="seconds" value="0" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Start the next timer when this one finishes? </label>
+                        <input type="checkbox" name="next">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    var socket = io.connect('//' + document.domain + ':' + location.port);
+
+    var pauseButton = $('button#pause');
+    var hideButton = $('button#hide');
+    var addMinuteButton = $('button#addMinute');
+    var subtractMinuteButton = $('button#subtractMinute');
+
+    var configuration = {};
+
+    function update_configuration_ui() {
+        $('.timer .name').text(configuration.timer.name);
+        $('.timer .hours').text(("0" + configuration.timer.hours).slice(-2));
+        $('.timer .minutes').text(("0" + configuration.timer.minutes).slice(-2));
+        $('.timer .seconds').text(("0" + configuration.timer.seconds).slice(-2));
+
+        $('button.start').each(function () {
+            if ($(this).attr('id') === configuration.timer._id['$oid']) {
+                $(this).removeClass('btn-primary').addClass('btn-success');
+            } else {
+                $(this).removeClass('btn-success').addClass('btn-primary');
+            }
+        });
+
+        if (configuration.paused) {
+            pauseButton.find('i').removeClass('fa-pause');
+            pauseButton.find('i').addClass('fa-play');
+            pauseButton.removeClass('btn-info');
+            pauseButton.addClass('btn-warning');
+        } else {
+            pauseButton.find('i').removeClass('fa-play');
+            pauseButton.find('i').addClass('fa-pause');
+            pauseButton.removeClass('btn-warning');
+            pauseButton.addClass('btn-info');
+        }
+
+        if (configuration.hidden) {
+            hideButton.find('i').removeClass('fa-eye');
+            hideButton.find('i').addClass('fa-eye-slash');
+            hideButton.removeClass('btn-info');
+            hideButton.addClass('btn-warning');
+        } else {
+            hideButton.find('i').removeClass('fa-eye-slash');
+            hideButton.find('i').addClass('fa-eye');
+            hideButton.removeClass('btn-warning');
+            hideButton.addClass('btn-info');
+        }
+    }
+
+    socket.on('changed', function (data) {
+        configuration = JSON.parse(data)['configuration'];
+        configuration._id = configuration._id['$oid'];
+        update_configuration_ui();
+    });
+
+    addMinuteButton.click(function () {
+        socket.emit("configuration", {"timer": {"minutes": configuration.timer.minutes + 1}});
+    });
+
+    subtractMinuteButton.click(function () {
+        socket.emit("configuration", {"timer": {"minutes": configuration.timer.minutes - 1}});
+    });
+
+    pauseButton.click(function () {
+        socket.emit("configuration", {"paused": !configuration.paused});
+    });
+
+    hideButton.click(function () {
+        socket.emit("configuration", {"hidden": !configuration.hidden});
+    });
+
+    $("#timers .start").click(function () {
+        socket.emit("start", {"timer_id": this.getAttribute('id')});
+        socket.emit("configuration", {"paused": false});
+    });
+
+</script>
+</body>
+</html>

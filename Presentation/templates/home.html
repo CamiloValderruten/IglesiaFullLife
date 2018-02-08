@@ -1,389 +1,131 @@
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Presentation | Full Life Ministry</title>
-	<link rel="icon" href="/static/favicon.png">
-	<meta
-			 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-			 name="viewport">
-	<link rel="stylesheet"
-	      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet"
-	      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<style>
-		.fa {
-			font-size: 20px;
-		}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Presentation | Full Life Ministry</title>
+    <link rel="icon" href="/static/favicon.png">
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .fa {
+            font-size: 20px;
+        }
 
-		body {
-			padding-top: 70px;
-		}
+        .timer {
+            font-size: 50px;
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 50px;
+        }
 
-		.category, .category-title {
-			text-transform: capitalize;
-		}
-
-		#timer {
-			font-size: 50px;
-			text-align: center;
-			padding-top: 20px;
-			padding-bottom: 50px;
-		}
-	</style>
+        .row {
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
-<body>
+<body style="padding-top: 70px;">
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-			        data-target="#mobile-menu">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="/">PresentationCenter</a>
-		</div>
-		<div class="collapse navbar-collapse" id="mobile-menu">
-			<ul class="nav navbar-nav" id="categories"></ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a id="createCategory">Create Category</a></li>
-				<li><a href="/clock" target="_blank">Clock</a></li>
-			</ul>
-		</div>
-	</div>
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#mobile-menu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('categories') }}">PresentationCenter</a>
+        </div>
+        <div class="collapse navbar-collapse" id="mobile-mensu">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('clock') }}" target="_blank">Clock</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <div class="container">
-	<div class="row">
-		<div class="col-lg-12">
-			<h1 id="title"></h1>
-			<div id="table-content">
-				<table class="table">
-					<tbody id="timers">
-					</tbody>
-				</table>
-				<hr>
-				<div class="btn-group btn-group-justified">
-					<div class="btn-group" role="group">
-						<button id="createTimer" class="btn btn-info" disabled>
-							<i class="fa fa-plus"></i>
-						</button>
-					</div>
-					<div class="btn-group" role="group">
-						<button id="pause" class="btn btn-info">
-							<i class="fa fa-pause"></i>
-						</button>
-					</div>
-					<div class="btn-group" role="group">
-						<button id="hide" class="btn btn-info">
-							<i class="fa fa-eye-slash"></i>
-						</button>
-					</div>
-					<div class="btn-group" role="group">
-						<button id="subtractMinute" class="btn btn-warning">
-							<i class="fa fa-minus"></i>
-						</button>
-					</div>
-					<div class="btn-group" role="group">
-						<button id="addMinute" class="btn btn-warning">
-							<i class="fa fa-plus"></i>
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<div id="timer">
-				<span id="title" style="font-size: 20px">Welcome</span><br>
-				<span id="minutes">00</span>:<span
-					 id="seconds">00</span></div>
-		</div>
-	</div>
+    <div class="row">
+        <h1 id="title">Categories</h1>
+    </div>
+    <div>
+        <table class="table">
+            <tbody id="timers">
+            {% for category in categories %}
+                <tr class="category" id="{{ category._id }}">
+                    <td style="width: 80%;">
+                        <a href="{{ url_for('timers', category_id=category._id) }}">
+                            <button class="btn btn-primary btn-block start">
+                                <span class="pull-left title">{{ category.name }}</span>
+                            </button>
+                        </a>
+                    </td>
+                    <td style="width: 20%;">
+                        <a class="btn btn-warning btn-block" data-toggle="modal" data-target="#edit-category"
+                           href="#">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('delete_category', category_id=category._id) }}"
+                           class="btn btn-danger btn-block"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="#" data-toggle="modal" data-target="#create-category" class="btn btn-block btn-warning">
+                Create a Category
+            </a>
+        </div>
+    </div>
+    <div class="timer">
+        <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+    </div>
 </div>
 
-<div class="modal fade" id="category">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="form-group">
-					<input type="text" class="form-control name" placeholder="Name">
-				</div>
-				<button class="btn btn-primary btn-block submit">Create</button>
-			</div>
-		</div>
-	</div>
+<div class="modal fade" id="create-category">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="{{ url_for('categories') }}" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Name" name="name">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="modal fade" id="timer">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="form-group">
-					<input type="text" class="form-control name"
-					       placeholder="Name">
-				</div>
-				<div class="form-group">
-					<input type="number" class="form-control minutes"
-					       placeholder="Minutes">
-				</div>
-				<div class="form-group">
-					<select class="form-control next">
-						<option value="false" disabled selected>Go to next?</option>
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select>
-				</div>
-				<button class="btn btn-primary btn-block submit">Save</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<script
-		 src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-		 src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js"></script>
-<script
-		 src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="/static/category.js"></script>
-<script src="/static/timer.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-
-    {############ SOCKETS ###############}
     var socket = io.connect('//' + document.domain + ':' + location.port);
-    var pauseButton = $('button#pause');
-    var hideButton = $('button#hide');
-    var createTButton = $('button#createTimer');
-    var addMinuteButton = $('button#addMinute');
-    var subtractMinuteButton = $('button#subtractMinute');
 
-    socket.on('timer', function (timer) {
-        timer = JSON.parse(timer);
-        $('#timer #title').text(timer.title);
-        $('#timer #minutes').text(("0" + timer.minutes).slice(-2));
-        $('#timer #seconds').text(("0" + timer.seconds).slice(-2));
+    var configuration = {};
 
-        if (timer.done && timer.next) {
-            startTimer(timers[1]);
-        }
-
-        if (timer.done) {
-            $('#timer').css('color', '#d43f3a');
-        } else if (timer.warning) {
-            $('#timer').css('color', '#eea236');
-        } else {
-            $('#timer').css('color', 'black');
-        }
-
-        if (timer.paused) {
-            pauseButton.find('i').removeClass('fa-pause');
-            pauseButton.find('i').addClass('fa-play');
-            pauseButton.removeClass('btn-info');
-            pauseButton.addClass('btn-warning');
-        } else {
-            pauseButton.find('i').removeClass('fa-play');
-            pauseButton.find('i').addClass('fa-pause');
-            pauseButton.removeClass('btn-warning');
-            pauseButton.addClass('btn-info');
-        }
-
-        if (timer.hidden) {
-            hideButton.find('i').removeClass('fa-eye');
-            hideButton.find('i').addClass('fa-eye-slash');
-            hideButton.removeClass('btn-info');
-            hideButton.addClass('btn-warning');
-        } else {
-            hideButton.find('i').removeClass('fa-eye-slash');
-            hideButton.find('i').addClass('fa-eye');
-            hideButton.removeClass('btn-warning');
-            hideButton.addClass('btn-info');
-        }
-    });
-
-    addMinuteButton.click(function(){
-       socket.emit('add_minute');
-    });
-
-    subtractMinuteButton.click(function(){
-        socket.emit('subtract_minute');
-    });
-
-    pauseButton.click(function () {
-        socket.emit("pause");
-    });
-
-    hideButton.click(function () {
-        socket.emit("hide");
-    });
-
-    createTButton.click(function () {
-        var modal = $('.modal#timer');
-        modal.modal('show');
-        modal.find('button.submit').click(function () {
-            var data = {};
-            data.title = modal.find('input.name').val();
-            data.minutes = modal.find('input.minutes').val();
-            if (modal.find('select#goToNext').val() == 'false') {
-                data.next = false;
-            } else {
-                data.next = true;
-            }
-            data.category = selectedCategory.name;
-            createTimer(data, function (timer) {
-                insertTimer(timer);
-                modal.modal('hide');
-            });
-        });
-    });
-
-    $('a#createCategory').click(function () {
-        var modal = $('.modal#category');
-        modal.modal('show');
-        modal.find('button.submit').click(function () {
-            var name = modal.find('input.name').val();
-            createCategory(name, function (category) {
-                insertCategory(category);
-                modal.modal('hide');
-                selectedCategory = category;
-                $('h1#title').text(selectedCategory.name);
-                createTButton.removeAttr('disabled');
-                $('tbody#timers').empty();
-            });
-        });
-    });
-
-    function startTimer(timer) {
-        socket.emit('start', {_id: timer['_id']['$oid']});
+    function update_configuration_ui() {
+        $('.timer .hours').text(("0" + configuration.timer.hours).slice(-2));
+        $('.timer .minutes').text(("0" + configuration.timer.minutes).slice(-2));
+        $('.timer .seconds').text(("0" + configuration.timer.seconds).slice(-2));
     }
 
-    {############ LOGIC ###############}
-    var categories = [];
-    var timers = [];
-    var selectedCategory = null;
-
-    function insertTimer(timer) {
-        if (timer.minutes === undefined) {
-            timer.minutes = "00";
-        }
-        if (timer.seconds === undefined) {
-            timer.seconds = "00";
-        }
-        timer.minutes = ("00" + timer.minutes).slice(-2);
-        timer.seconds = ("00" + timer.seconds).slice(-2);
-
-        var row = $('<tr>');
-
-        var start = $('<td>');
-        start.css('width', '80%');
-        var sButton = $('<button class="btn btn-primary btn-block start">');
-        sButton.click(function () {
-            startTimer(timer);
-        });
-        var title = $('<span class="pull-left title"></span>');
-        title.text(timer.title);
-        var time = $('<span class="badge pull-right time"></span>');
-        time.text(timer.minutes + ":" + timer.seconds);
-        sButton.append(title);
-        sButton.append(time);
-        if (timer.next) {
-            var next = $('<i class="fa fa-arrow-down pull-right"></i>');
-            next.css('margin-right', '10px');
-            sButton.append(next);
-        }
-        start.append(sButton);
-        var edit = $('<td>');
-        var eButton = $('<button class="btn btn-warning btn-block edit">');
-        eButton.attr("data-toggle", "collapse");
-        eButton.attr("href", "#collapse" + timer['_id']['$oid']);
-        eButton.click(function () {
-            var editModal = $('.modal#timer');
-            var name = editModal.find('.name');
-            var minutes = editModal.find('.minutes');
-            var next = editModal.find('.next');
-            var submit = editModal.find('.submit');
-            name.val(timer.title);
-            minutes.val(timer.minutes);
-            if (timer.next) {
-                next.val('true');
-            } else {
-                next.val('false');
-            }
-            editModal.find('.submit').click(function () {
-
-            });
-            submit.click(function () {
-                var data = {
-                    minutes: minutes,
-                    _id: timer['_id']['$oid'],
-                    title: title
-                };
-                updateTimer(data, function () {
-                    time.text(minutes + ":00");
-                    title.text(name);
-                });
-            });
-            editModal.modal('show');
-        });
-        eButton.append('<i class="fa fa-pencil"></i>');
-        edit.append(eButton);
-
-        var remove = $('<td>');
-        var rButton = $('<button class="btn btn-danger btn-block remove">');
-        rButton.click(function () {
-            deleteTimer(timer, function () {
-                row.remove();
-            });
-        });
-        rButton.append('<i class="fa fa-trash"></i>');
-        remove.append(rButton);
-
-
-        row.append(start);
-        row.append(edit);
-        row.append(remove);
-        $('tbody#timers').append(row);
-
-    }
-
-    function insertCategory(category) {
-        var obj = $('<a>');
-        obj.text(category.name);
-        obj.click(function () {
-            $('tbody#timers').empty();
-            selectedCategory = category;
-            $('h1#title').text(selectedCategory.name);
-            getTimers(category.name, function (data) {
-                timers = data;
-                $.each(data, function (i, timer) {
-                    insertTimer(timer);
-                });
-            });
-        });
-        $('nav #categories').append($('<li>').append(obj));
-    }
-
-    function initialize() {
-        getCategories(function (data) {
-            categories = data;
-            $.each(data, function (i, category) {
-                insertCategory(category);
-            });
-            if (categories.length) {
-                createTButton.removeAttr('disabled');
-                selectedCategory = categories[0];
-                $('h1#title').text(selectedCategory.name);
-                getTimers(selectedCategory.name, function (data) {
-                    timers = data;
-                    $.each(data, function (index, timer) {
-                        insertTimer(timer);
-                    })
-                });
-            }
-        });
-    }
-
-    initialize();
+    socket.on('changed', function (data) {
+        configuration = JSON.parse(data)['configuration'];
+        configuration._id = configuration._id['$oid'];
+        update_configuration_ui();
+    });
 
 </script>
 </body>

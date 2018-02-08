@@ -32,8 +32,8 @@
 			font-weight: lighter;
 		}
 
-		#timer {
-			font-size: 500px;
+		.timer {
+			font-size: 350px;
 		}
 	</style>
 </head>
@@ -41,8 +41,8 @@
 
 <section id="clock">
 	<div id="title">Welcome</div>
-	<div id="timer">
-		<span id="minutes">00</span>:<span id="seconds">00</span>
+	<div class="timer">
+		<span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
 	</div>
 </section>
 
@@ -55,25 +55,25 @@
 <script>
     var socket = io.connect('//' + document.domain + ':' + location.port);
 
-    socket.on('timer', function (timer) {
-        timer = JSON.parse(timer);
-        $('div#title').text(timer.title);
-        $('#timer #minutes').text(("0" + timer.minutes).slice(-2));
-        $('#timer #seconds').text(("0" + timer.seconds).slice(-2));
+    var configuration = {};
 
-        if (timer.done) {
-            $('#clock').css('backgroundColor', '#d43f3a');
-        } else if (timer.warning) {
-            $('#clock').css('backgroundColor', '#eea236');
-        } else {
-            $('#clock').css('backgroundColor', 'black');
-        }
-
-        if (timer.hidden){
+    function update_configuration_ui() {
+        $('#title').text(configuration.timer.name);
+        $('.timer .hours').text(("0" + configuration.timer.hours).slice(-2));
+        $('.timer .minutes').text(("0" + configuration.timer.minutes).slice(-2));
+        $('.timer .seconds').text(("0" + configuration.timer.seconds).slice(-2));
+        if (configuration.hidden){
             $('#clock').hide();
         } else {
             $('#clock').show();
         }
+
+    }
+
+    socket.on('changed', function (data) {
+        configuration = JSON.parse(data)['configuration'];
+        configuration._id = configuration._id['$oid'];
+        update_configuration_ui();
     });
 </script>
 </body>
