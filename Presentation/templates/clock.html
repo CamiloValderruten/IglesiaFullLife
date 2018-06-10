@@ -46,34 +46,34 @@
 	</div>
 </section>
 
-<script
-		 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-</script>
-<script
-		 src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js">
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.2/socket.io.js"></script>
 <script>
-    var socket = io.connect('//' + document.domain + ':' + location.port);
+    let socket = io.connect('//' + document.domain + ':' + location.port);
 
-    var configuration = {};
+    function update_timer(timer) {
+        $('#clock #title').text(timer.name);
 
-    function update_configuration_ui() {
-        $('#title').text(configuration.timer.name);
-        $('.timer .hours').text(("0" + configuration.timer.hours).slice(-2));
-        $('.timer .minutes').text(("0" + configuration.timer.minutes).slice(-2));
-        $('.timer .seconds').text(("0" + configuration.timer.seconds).slice(-2));
-        if (configuration.hidden){
-            $('#clock').hide();
-        } else {
-            $('#clock').show();
-        }
+        let hours = Math.floor(timer.seconds / 3600);
+        let minutes = Math.floor(timer.seconds / 60) - (hours * 60);
+        let seconds = timer.seconds - (minutes * 60);
 
+        $('.timer .hours').text(("0" + hours).slice(-2));
+        $('.timer .minutes').text(("0" + minutes).slice(-2));
+        $('.timer .seconds').text(("0" + seconds).slice(-2));
     }
 
-    socket.on('changed', function (data) {
-        configuration = JSON.parse(data)['configuration'];
-        configuration._id = configuration._id['$oid'];
-        update_configuration_ui();
+    socket.on('timer', function (timer) {
+        update_timer(timer);
+    });
+
+    socket.on('configuration', function(configuration){
+        let clock = $('#clock');
+        if (configuration.hidden){
+            clock.hide();
+        } else {
+            clock.show();
+        }
     });
 </script>
 </body>

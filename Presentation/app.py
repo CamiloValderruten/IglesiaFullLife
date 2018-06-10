@@ -6,77 +6,24 @@ from flask import redirect
 from flask import url_for
 
 from flask_socketio import SocketIO
+from flask_sqlalchemy import SQLAlchemy
+
 from functools import wraps
 
-from pymongo import MongoClient
-from bson.json_util import dumps
-from bson import ObjectId
-
-db = MongoClient("mongodb")['Presentation']
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'BNJqqX8cuQe^$U68DrxMb8aGSk8LaD0CKO$78WKB!ySM'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/countdown.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 socket = SocketIO(app, async=None)
+db = SQLAlchemy(app)
+
 username = "admin"
 password = "fulllife2018"
+
 thread = None
-
-if not db.configurations.find_one():
-    db.configurations.save({"paused": True, "hidden": False, "timer": {"minutes": 0, "hours": 0, "seconds": 0}})
-
-configuration_schema = {
-    "_id": {"type": "string"},
-    "hidden": {"type": "boolean"},
-    "paused": {"type": "boolean"},
-    "timer": {
-        "type": "dictionary",
-        "schema": {
-            "hours": {"type": "integer"},
-            "minutes": {"type": "integer"},
-            "seconds": {"type": "integer"},
-            "_id": {"type": "ObjectId"},
-            "category_id": {"type": "ObjectId"}
-        }
-    }
-}
-
-
-def remove_second(timer):
-    print(timer)
-    seconds = (int(timer.get('seconds', 0))) + (int(timer.get('minutes', 0)) * 60) + (int(timer.get('hours', 0)) * 3600)
-    seconds -= 1
-    m, s = divmod(seconds, 60)
-    h, m = divmod(m, 60)
-    timer.update(dict(hours=h, minutes=m, seconds=s))
-    return timer
-
-
-def background_thread():
-    with app.app_context():
-        while True:
-            configuration_ = db.configurations.find_one()
-            selected_timer = configuration_.get('timer')
-            paused = configuration_.get('paused')
-            if selected_timer and not paused:
-                t = configuration_['timer']
-                if t.get('hours') == 0 and t.get('minutes') == 0 and t.get('seconds') == 0:
-                    if t.get('next', False):
-                        cursor = db.timers.find({"category_id": t.get('category_id')})
-                        for timer_ in cursor:
-                            if str(timer_['_id']) == str(t['_id']):
-                                next_timer = next(cursor, None)
-                                if next_timer:
-                                    configuration_['timer'] = next_timer
-                                    break
-                                else:
-                                    configuration_['paused'] = True
-                    else:
-                        configuration_['paused'] = True
-                else:
-                    configuration_['timer'] = remove_second(configuration_['timer'])
-                db.configurations.save(configuration_)
-            socket.emit('changed', dumps(dict(configuration=configuration_)), broadcast=True)
-            socket.sleep(1)
+current_timer = None
+paused = False
+hidden = False
 
 
 def authentication_required(f):
@@ -85,7 +32,58 @@ def authentication_required(f):
         if not session.get('logged_in'):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
+
     return decorated_function
+
+
+#  #####################################################################################################################
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    timers = db.relationship('Timer', backref='category', lazy=True, cascade="all,delete")
+
+    def __repr__(self):
+        return '<Category %r>' % self.name
+
+
+class Timer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    seconds = db.Column(db.Integer, unique=False, nullable=False)
+    order = db.Column(db.Integer, unique=False, nullable=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+
+    def __repr__(self):
+        return '<Timer %r>' % self.name
+
+
+db.create_all()
+
+
+#  #####################################################################################################################
+
+
+def background_thread():
+    with app.app_context():
+        global current_timer, paused, hidden
+        while True:
+            if current_timer and current_timer.seconds < 0:
+                current_timer = db.session.query(Timer).order_by(Timer.id.asc()).filter(
+                    Timer.id > current_timer.id).filter(Timer.category_id == current_timer.category_id).first()
+
+            if current_timer is not None and not paused:
+                data = dict(id=current_timer.id, name=current_timer.name, seconds=current_timer.seconds)
+                socket.emit('timer', data, broadcast=True)
+                current_timer.seconds -= 1
+
+            data = dict(paused=paused, hidden=hidden)
+            socket.emit('configuration', data, broadcast=True)
+            socket.sleep(1)
+
+
+#  #####################################################################################################################
 
 
 @socket.on('connect')
@@ -93,23 +91,47 @@ def authentication_required(f):
 def connect():
     global thread
     thread = thread if thread else socket.start_background_task(target=background_thread)
-    return dumps(db.configurations.find_one())
-
-
-@socket.on('configuration')
-@authentication_required
-def configuration(data):
-    configuration_ = db.configurations.find_one()
-    db.configurations.update(configuration_, {"$set": data})
-    return dumps(data)
 
 
 @socket.on('start')
 @authentication_required
-def start(data):
-    timer = db.timers.find_one({"_id": ObjectId(data['timer_id'])})
-    db.configurations.update({}, {"$set": {"timer": timer}})
-    return dumps(db.configurations.find_one())
+def start(timer_id):
+    global current_timer, paused
+    paused = False
+    current_timer = Timer.query.get(timer_id)
+
+
+@socket.on('add_minute')
+@authentication_required
+def add_minute():
+    global current_timer
+    if current_timer:
+        current_timer.seconds += 60
+
+
+@socket.on('subtract_minute')
+@authentication_required
+def subtract_minute():
+    global current_timer
+    if current_timer:
+        current_timer.seconds -= 60
+
+
+@socket.on('pause')
+@authentication_required
+def pause():
+    global paused
+    paused = not paused
+
+
+@socket.on('hide')
+@authentication_required
+def hide():
+    global hidden
+    hidden = not hidden
+
+
+#  #####################################################################################################################
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -137,37 +159,30 @@ def clock():
     return render_template('clock.html')
 
 
-#######################################################
-
-timer_schema = {"name": {"type": "string"},
-                "hours": {"type": "integer"},
-                "minutes": {"type": "integer"},
-                "seconds": {"type": "integer"},
-                "category_id": {"type": "ObjectId"}}
+#  #####################################################################################################################
 
 
 @app.route('/categories/<category_id>/timers', methods=['POST', 'GET'])
 @authentication_required
 def timers(category_id):
+    category = Category.query.get(category_id)
     if request.method == "POST":
-        data = {k: v for k, v in request.form.items()}
-        data['category_id'] = ObjectId(category_id)
-        data['name'] = data['name'].title()
-        data['hours'] = data.get('hours', 0)
-        data['minutes'] = data.get('minutes', 0)
-        data['seconds'] = data.get('seconds', 0)
-        db.timers.save(data)
+        seconds = int(request.form['seconds']) + (int(request.form['minutes']) * 60) + (
+                    int(request.form['hours']) * 3600)
+        timer = Timer(name=request.form['name'], seconds=seconds, order=0, category=category)
+        db.session.add(timer)
+        db.session.commit()
         return redirect(url_for('timers', category_id=category_id))
 
-    timers_ = db.timers.find({"category_id": ObjectId(category_id)})
-    category_ = db.categories.find_one({"_id": ObjectId(category_id)})
-    return render_template("timers.html", timers=timers_, category=category_)
+    return render_template("timers.html", timers=category.timers, category=category)
 
 
 @app.route('/categories/<category_id>/timers/<timer_id>/delete', methods=['GET'])
 @authentication_required
 def delete_timer(category_id, timer_id):
-    db.timers.delete_one({"_id": ObjectId(timer_id)})
+    timer = Timer.query.get(timer_id)
+    db.session.delete(timer)
+    db.session.commit()
     return redirect(url_for('timers', category_id=category_id))
 
 
@@ -176,14 +191,17 @@ def delete_timer(category_id, timer_id):
 @authentication_required
 def categories():
     if request.method == "POST":
-        db.categories.save({"name": request.form['name']})
+        category = Category(name=request.form['name'])
+        db.session.add(category)
+        db.session.commit()
         return redirect(url_for('categories'))
-    return render_template('home.html', categories=db.categories.find())
+    return render_template('home.html', categories=Category.query.all())
 
 
 @app.route('/categories/<category_id>/delete', methods=['GET'])
 @authentication_required
 def delete_category(category_id):
-    db.timers.delete_many({"category_id": ObjectId(category_id)})
-    db.categories.delete_one({"_id": ObjectId(category_id)})
+    category = Category.query.get(category_id)
+    db.session.delete(category)
+    db.session.commit()
     return redirect(url_for('categories'))

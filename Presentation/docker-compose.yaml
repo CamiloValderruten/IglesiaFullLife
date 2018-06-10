@@ -1,0 +1,15 @@
+version: '2'
+services:
+
+  countdown:
+    build: .
+    container_name: "Countdown"
+    environment:
+     - ENVIRONMENT=PRODUCTION
+    ports:
+     - "5001:5000"
+    volumes:
+    - /tmp
+
+volumes:
+    countdown:
