@@ -1,0 +1,178 @@
+// Style variables
+// ========================================================================
+
+//
+// Global
+//
+
+@global-font-family:                                'Roboto';
+@global-primary-font-family:                        'Roboto Condensed';
+@global-secondary-font-family:                      'Roboto Condensed';
+
+@global-medium-font-size:                           20px;
+
+@global-color:                                      #868a9f;
+@global-muted-color:                                #5b6079;
+@global-emphasis-color:                             #ffffff;
+@global-link-color:                                 #30ff88;
+@global-link-hover-color:                           #fc4b4e;
+
+@global-inverse-color:                              @global-background;
+
+@global-background:                                 #171924;
+@global-muted-background:                           #1f212f;
+@global-primary-background:                         #25CF84;
+@global-secondary-background:                       #2c3046;
+@global-success-background:                         #2ad04c;
+
+@global-border:                                     #202231;
+
+@global-small-box-shadow:                           2px 6px 15px 0 rgba(9, 13, 22, 0.62);
+@global-medium-box-shadow:                          2px 15px 50px 0 rgba(9, 13, 22, 0.62);
+@global-large-box-shadow:                           2px 21px 50px 0 rgba(9, 13, 22, 0.62);
+@global-xlarge-box-shadow:                          2px 26px 60px 0 rgba(9, 13, 22, 0.62);
+
+//
+// Alert
+//
+
+@alert-background:                                  @global-muted-background;
+
+//
+// Article
+//
+
+@article-meta-font-family:                          @global-primary-font-family;
+
+//
+// Base
+//
+
+@base-code-color:                                   #9d5bf9;
+@base-ins-background:                               rgba(255, 254, 124, 0.13);
+@base-ins-color:                                    #f6ff86;
+
+//
+// Button
+//
+
+@button-default-background:                         @global-muted-background;
+
+@button-primary-hover-background:                   darken(spin(@button-primary-background, 7%), 6%);
+@button-primary-active-background:                  darken(spin(@button-primary-background, 7%), 12%);
+@button-primary-box-shadow:                         2px 6px 15px fade(@button-primary-background, 15%);
+@button-primary-hover-box-shadow:                   2px 4px 12px fade(@button-primary-background, 18%);
+@internal-button-primary-gradient:                  linear-gradient(135deg, @button-primary-background, darken(spin(@button-primary-background, 14%), 18%));
+
+@button-secondary-hover-color:                      lighten(@button-secondary-color, 10%);
+@button-secondary-box-shadow:                       inset 2px 2px 7px fade(@global-primary-background, 10%), 2px 2px 7px fade(@global-primary-background, 10%);
+@button-secondary-hover-box-shadow:                 inset 2px 4px 15px fade(@global-primary-background, 10%), 2px 4px 15px fade(@global-primary-background, 6%);
+
+@button-danger-hover-color:                         lighten(@button-danger-color, 5%);
+@button-danger-box-shadow:                          inset 2px 2px 7px fade(@global-danger-background, 20%), 2px 2px 7px fade(@global-danger-background, 10%);
+@button-danger-hover-box-shadow:                    inset 2px 4px 15px fade(@global-danger-background, 20%), 2px 4px 15px fade(@global-danger-background, 6%);
+
+@inverse-button-default-color:                      @global-primary-background;
+
+//
+// Card
+//
+
+@card-default-background:                           @global-muted-background;
+@internal-card-default-gradient:                    linear-gradient(135deg, lighten(@card-default-background, 2%), darken(@card-default-background, 4%));
+
+@card-primary-color-mode:                           dark;
+@card-primary-hover-background:                     darken(spin(@card-primary-background, 7%), 6%);
+@internal-card-primary-gradient:                    linear-gradient(135deg, @card-primary-background, darken(spin(@card-primary-background, 14%), 18%));
+@card-primary-box-shadow:                           2px 15px 50px fade(@card-primary-background, 15%);
+@card-primary-hover-box-shadow:                     2px 21px 50px fade(@card-primary-background, 18%);
+
+@card-secondary-color:                              @global-emphasis-color;
+@card-secondary-hover-background:                   darken(@card-secondary-background, 1%);
+@internal-card-secondary-gradient:                  linear-gradient(45deg, darken(@card-secondary-background, 2%), darken(@card-secondary-background, 7%));
+
+//
+// Comment
+//
+
+@comment-meta-font-family:                          @global-primary-font-family;
+
+//
+// Dropdown
+//
+
+@dropdown-background:                               @global-muted-background;
+
+//
+// Form
+//
+
+@form-focus-background:                             @global-muted-background;
+@form-radio-border:                                 lighten(@global-border, 10%);
+
+//
+// Icon
+//
+
+@icon-button-background:                            @global-muted-background;
+
+//
+// Inverse
+//
+
+@inverse-global-color-mode:                         dark;
+@inverse-global-inverse-color:                      @global-background;
+
+//
+// Navbar
+//
+
+@navbar-dropdown-background:                        @global-muted-background;
+
+//
+// Offcnavas
+//
+
+@offcanvas-bar-color-mode:                          light;
+
+//
+// Pagination
+//
+
+@pagination-item-hover-background:                  @global-muted-background;
+
+
+//
+// Section
+//
+
+@section-muted-background:                          @global-muted-background;
+@section-primary-color-mode:                        dark;
+@internal-section-muted-image:                      "../../master-fjord/images/background-texture-stripes-w.png";
+@internal-section-primary-image:                    "../../master-fjord/images/background-texture-stripes-w.png";
+@internal-section-secondary-image:                  "../../master-fjord/images/background-texture-stripes-w.png";
+
+@internal-section-overlap-image:                    "../../../../uikit-themes/master-fjord/images/section-overlap-image-4.svg";
+@internal-section-overlap-height:                   6px;
+
+//
+// Subnav
+//
+
+@subnav-pill-item-hover-background:                 @global-muted-background;
+@subnav-pill-item-active-box-shadow:                2px 6px 15px fade(@subnav-pill-item-active-background, 10%);
+
+//
+// Table
+//
+
+@table-row-active-background:                       fade(@global-primary-background, 5%);
+
+//
+// Text
+//
+
+@text-lead-font-family:                             @global-primary-font-family;
+@text-lead-font-style:                              normal;
+@text-meta-font-family:                             @global-primary-font-family;
+@text-meta-font-style:                              normal;

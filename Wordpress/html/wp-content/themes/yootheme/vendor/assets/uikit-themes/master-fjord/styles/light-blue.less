@@ -1,0 +1,152 @@
+// Style variables
+// ========================================================================
+
+//
+// Global
+//
+
+@global-font-family:                                'Raleway';
+@global-primary-font-family:                        'Indie Flower';
+@global-primary-font-weight:                        300;
+@global-primary-text-transform:                     inherit;
+@global-secondary-font-family:                      'Raleway';
+@global-secondary-font-weight:                      inherit;
+@global-secondary-text-transform:                   inherit;
+@global-secondary-letter-spacing:                   inherit;
+
+@global-xxlarge-font-size:                          54px;
+@global-xlarge-font-size:                           38px;
+@global-large-font-size:                            32px;
+@global-medium-font-size:                           28px;
+@global-small-font-size:                            13px;
+
+@global-muted-background:                           #f2f2f2;
+@global-primary-background:                         #494fe9;
+@global-secondary-background:                       #222222;
+
+@global-color:                                      #444444;
+@global-muted-color:                                #999999;
+@global-emphasis-color:                             #222222;
+
+@global-link-color:                                 #494fe9;
+@global-link-hover-color:                           #f46856;
+
+@global-border:                                     #e9e9e9;
+@global-border-radius:                              0;
+
+@global-large-box-shadow:                           0 21px 50px 0 rgba(85, 95, 109, 0.1);
+@global-medium-box-shadow:                          0 15px 50px 0 rgba(85, 95, 109, 0.1);
+@global-small-box-shadow:                           0 6px 15px 0 rgba(85, 95, 109, 0.1);
+@global-xlarge-box-shadow:                          0 26px 60px 0 rgba(85, 95, 109, 0.1);
+
+//
+// Article
+//
+
+@article-meta-font-family:                          @global-secondary-font-family;
+
+//
+// Base
+//
+
+@base-h2-font-weight:                               300;
+@base-h3-font-weight:                               300;
+@base-h4-font-size:                                 24px;
+@base-h5-font-size:                                 22px;
+@base-h6-font-size:                                 18px;
+
+@base-h4-font-family:                               @base-heading-font-family;
+@base-h4-font-weight:                               @base-heading-font-weight;
+@base-h4-text-transform:                            @base-heading-text-transform;
+@base-h4-letter-spacing:                            @base-heading-letter-spacing;
+
+@base-h5-font-family:                               @base-heading-font-family;
+@base-h5-font-weight:                               @base-heading-font-weight;
+@base-h5-text-transform:                            @base-heading-text-transform;
+@base-h5-letter-spacing:                            @base-heading-letter-spacing;
+
+@base-h6-font-family:                               @base-heading-font-family;
+@base-h6-font-weight:                               @base-heading-font-weight;
+@base-h6-text-transform:                            @base-heading-text-transform;
+@base-h6-letter-spacing:                            @base-heading-letter-spacing;
+
+//
+// Button
+//
+
+@internal-button-default-active-gradient:           linear-gradient(135deg, darken(spin(@button-default-active-background, -10%), 6%), @button-default-active-background);
+
+@button-primary-hover-background:                   darken(spin(@button-primary-background, -4%), 8%);
+@button-primary-active-background:                  darken(spin(@button-primary-background, -4%), 12%);
+@internal-button-primary-gradient:                  linear-gradient(165deg, darken(spin(@button-primary-background, 6%), 8%), lighten(spin(@button-primary-background, -14%), 3%));
+@internal-button-primary-hover-gradient:            linear-gradient(145deg, darken(spin(@button-primary-background, 6%), 12%), lighten(spin(@button-primary-background, -14%), 3%));
+@internal-button-primary-active-gradient:           linear-gradient(135deg, darken(spin(@button-primary-background, -10%), 6%), @button-primary-background);
+
+@internal-button-secondary-active-gradient:         linear-gradient(135deg, darken(spin(@button-secondary-active-background, -10%), 6%), @button-secondary-active-background);
+
+//
+// Card
+//
+
+@card-title-font-weight:                            300;
+
+@internal-card-default-gradient:                    linear-gradient(135deg, @card-default-background, darken(@card-default-background, 2%));
+
+@card-primary-hover-background:                     darken(spin(@card-primary-background, -4%), 8%);
+@internal-card-primary-gradient:                    linear-gradient(165deg, darken(spin(@card-primary-background, 6%), 8%), lighten(spin(@card-primary-background, -14%), 3%));
+@internal-card-primary-hover-gradient:              linear-gradient(145deg, darken(spin(@card-primary-background, 6%), 12%), lighten(spin(@card-primary-background, -14%), 3%));
+
+@internal-card-secondary-gradient:                  linear-gradient(135deg, darken(@card-secondary-background, 9%), @card-secondary-background);
+
+//
+// Comment
+//
+
+@comment-meta-font-family:                          @global-secondary-font-family;
+
+//
+// Heading
+//
+
+@heading-primary-font-weight:                       500;
+
+//
+// Label
+//
+
+@label-letter-spacing:                              0;
+
+//
+// Overlay
+//
+
+@internal-overlay-primary-gradient:                 linear-gradient(165deg, fade(darken(spin(@card-primary-background, 6%), 8%), 80%), fade(lighten(spin(@card-primary-background, -14%), 3%), 80%));
+
+//
+// Section
+//
+
+@section-muted-background:                          @global-background;
+
+@internal-section-muted-image:                      "../../master-fjord/images/section-background-image-stripes.png";
+@internal-section-primary-image:                    "../../master-fjord/images/section-background-image-stripes.png";
+@internal-section-secondary-image:                  "../../master-fjord/images/section-background-image-stripes.png";
+
+@internal-section-default-overlap-image:            "../../../../uikit-themes/master-fjord/images/section-overlap-image-grunge-s-clean.svg";
+@internal-section-muted-overlap-image:              "../../../../uikit-themes/master-fjord/images/section-overlap-image-grunge-s-stripes.svg";
+@internal-section-primary-overlap-image:            "../../../../uikit-themes/master-fjord/images/section-overlap-image-grunge-s-stripes.svg";
+@internal-section-secondary-overlap-image:          "../../../../uikit-themes/master-fjord/images/section-overlap-image-grunge-s-stripes.svg";
+@internal-section-overlap-height:                   6px;
+
+//
+// Text
+//
+
+@text-lead-font-family:                             @global-primary-font-family;
+@text-lead-font-size:                               22px;
+@text-lead-font-style:                              normal;
+@text-meta-font-family:                             @global-secondary-font-family;
+@text-meta-font-size:                               12px;
+@text-meta-font-style:                              normal;
+@text-meta-text-transform:                          uppercase;
+@text-meta-letter-spacing:                          1.5px;

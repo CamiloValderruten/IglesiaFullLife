@@ -1,0 +1,118 @@
+// Style variables
+// ========================================================================
+
+//
+// Global
+//
+
+@global-font-family:                                'PT Serif';
+@global-primary-font-family:                        'Playfair Display';
+@global-primary-text-transform:                     none;
+@global-primary-letter-spacing:                     0;
+@global-primary-font-weight:                        normal;
+@global-secondary-font-family:                      'Montserrat';
+@global-secondary-font-weight:                      normal;
+@global-secondary-text-transform:                   uppercase;
+@global-secondary-letter-spacing:                   2px;
+@global-medium-font-size:                           17px;
+@global-small-font-size:                            11px;
+
+@global-link-color:                                 #F62840;
+@global-link-hover-color:                           darken(spin(@global-link-color, -10%), 10%);
+
+@global-primary-background:                         #F62840;
+@global-secondary-background:                       #30303C;
+
+@global-border-radius:                              0;
+
+//
+// Article
+//
+
+@article-meta-font-family:                          @global-primary-font-family;
+
+//
+// Base
+//
+
+@base-body-font-weight:                             normal;
+@base-code-color:                                   #4d5e9a;
+@base-h2-font-weight:                               @global-primary-font-weight;
+@base-h2-color:                                     darken(@global-secondary-background, 5%);
+@base-h3-font-weight:                               @global-primary-font-weight;
+@base-h6-letter-spacing:                            1px;
+@base-h5-font-size:                                 13px;
+@base-h4-font-size:                                 14px;
+@base-h4-letter-spacing:                            2px;
+@base-blockquote-footer-font-size:                  13px;
+@base-blockquote-footer-font-weight:                @global-secondary-font-weight;
+
+
+//
+// Button
+//
+@internal-button-default-active-gradient:           linear-gradient(270deg, darken(spin(@button-primary-background, -10%), 6%), lighten(spin(@button-primary-background, 15%), 5%));
+
+@button-primary-hover-background:                   darken(spin(@button-primary-background, -4%), 8%);
+@button-primary-active-background:                  darken(spin(@button-primary-background, -4%), 12%);
+@internal-button-primary-gradient:                  linear-gradient(135deg, darken(spin(@button-primary-background, -10%), 10%), lighten(spin(@button-primary-background, 20%), 5%));
+@internal-button-primary-hover-gradient:            linear-gradient(65deg, darken(spin(@button-primary-background, -10%), 10%), lighten(spin(@button-primary-background, 20%), 5%));
+@internal-button-primary-active-gradient:           linear-gradient(270deg, darken(spin(@button-primary-background, -10%), 6%), lighten(spin(@button-primary-background, 15%), 5%));
+
+@internal-button-secondary-active-gradient:         linear-gradient(270deg, darken(spin(@button-primary-background, -10%), 6%), lighten(spin(@button-primary-background, 15%), 5%));
+
+//
+// Card
+//
+
+
+@card-title-font-weight:                            @global-primary-font-weight;
+@card-badge-letter-spacing:                         1px;
+
+@internal-card-default-gradient:                    linear-gradient(175deg, @card-default-background, darken(@card-default-background, 2%));
+
+@internal-card-primary-gradient:                    linear-gradient(175deg, darken(spin(@card-primary-background, -10%), 10%), lighten(spin(@card-primary-background, 20%), 5%));
+@internal-card-primary-hover-gradient:              linear-gradient(195deg, darken(spin(@card-primary-background, -10%), 10%), lighten(spin(@card-primary-background, 20%), 5%));
+
+@internal-card-secondary-gradient:                  linear-gradient(175deg, darken(spin(@card-secondary-background, -10%), 10%), lighten(spin(@card-secondary-background, 10%), 5%));
+@internal-card-secondary-hover-gradient:            linear-gradient(195deg, darken(spin(@card-secondary-background, -10%), 10%), lighten(spin(@card-secondary-background, 10%), 5%));
+
+//
+// Comment
+//
+
+@comment-meta-font-family:                          @global-primary-font-family;
+
+//
+// Overlay
+//
+
+@internal-overlay-primary-gradient:                 linear-gradient(175deg, fade(darken(spin(@button-primary-background, -10%), 10%), 80%), fade(lighten(spin(@button-primary-background, 20%), 5%), 80%));
+
+//
+// Section
+//
+
+@internal-section-default-overlap-image:            "../../../../uikit-themes/master-fjord/images/section-overlap-image-grunge-m-clean.svg";
+@internal-section-muted-overlap-image:              "../../../../uikit-themes/master-fjord/images/section-overlap-image-grunge-m-noise.svg";
+@internal-section-primary-overlap-image:            "../../../../uikit-themes/master-fjord/images/section-overlap-image-grunge-m-noise.svg";
+@internal-section-secondary-overlap-image:          "../../../../uikit-themes/master-fjord/images/section-overlap-image-grunge-m-noise.svg";
+@internal-section-overlap-height:                   10px;
+
+//
+// Table
+//
+
+@table-row-active-background:                       fade(@global-primary-background, 10%);
+
+//
+// Text
+//
+
+@text-lead-font-family:                             @global-font-family;
+@text-lead-font-weight:                             @global-primary-font-weight;
+@text-lead-font-style:                              normal;
+@text-meta-font-family:                             @global-secondary-font-family;
+@text-meta-font-size:                               14px;
+@text-lead-font-size:                               22px;
+@text-small-font-size:                              13px;

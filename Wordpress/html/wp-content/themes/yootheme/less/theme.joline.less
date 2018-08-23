@@ -1,0 +1,21 @@
+// Platform
+@import "platform.less";
+
+// UIkit Core
+@import "../vendor/assets/uikit/src/less/uikit.less";
+
+// UIkit Theme
+@import "../vendor/assets/uikit-themes/master/_import.less";
+@import "../vendor/assets/uikit-themes/master-joline/_import.less";
+
+// Theme
+@import "theme.less";
+
+//
+// Variables
+//
+
+@theme-headerbar-top-border-width:              @global-border-width;
+@theme-headerbar-top-border:                    @global-border;
+
+.tm-headerbar-top + .uk-navbar-container:not(.uk-navbar-sticky) .uk-navbar-nav > li > a::before when (@navbar-nav-item-line-mode) and (@navbar-nav-item-line-position-mode = top) { top: -@theme-headerbar-top-border-width; }

@@ -1,0 +1,39 @@
+0000.004 () Opened log file at time: Tue, 17 Jul 2018 00:39:28 +0000 on http://iglesiafulllife.org
+0000.005 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.14.11 WP: 4.9.7 PHP: 7.2.7 (apache2handler, Linux bc6bacdb588d 4.9.93-linuxkit-aufs #1 SMP Wed Jun 6 16:55:56 UTC 2018 x86_64) MySQL: 5.6.37 WPLANG: en_US Server: Apache/2.4.25 (Debian) safe_mode: 0 max_execution_time: 900 memory_limit: 500M (used: 5.3M | 2M) multisite: N openssl: OpenSSL 1.1.0f  25 May 2017 mcrypt: N LANG: C ZipArchive::addFile: Y
+0000.005 () Free space on disk containing Updraft's temporary directory: 333383.7 MB
+0000.007 () Restore job started. Entities to restore: db. Restore options: {"updraft_encryptionphrase":"","updraft_restorer_wpcore_includewpconfig":false,"updraft_incremental_restore_point":-1}
+0000.063 () Entity: db
+0000.063 () restore_backup(backup_file=backup_2017-11-15-1010_Full_Life_Church_9cc0537cc74f-db.gz, type=db, info=a:0:{}, last_one=1)
+0000.065 () Unpacking backup... (backup_2017-11-15-1010_Full_Life_Church_9cc0537cc74f-db.gz, 0.2 Mb)
+0000.088 () Database successfully unpacked
+0000.090 () Restoring the database (on a large site this can take a long time - if it times out (which can happen if your web hosting company has configured your hosting to limit resources) then you should use a different method, such as phpMyAdmin)...
+0000.093 () Using direct MySQL access; value of use_mysqli is: 1
+0000.122 () Tried to raise max_allowed_packet from 4 MB to 32 MB, but failed (Access denied; you need (at least one of) the SUPER privilege(s) for this operation, b:0;)
+0000.122 () Max packet size: 4 MB
+0000.123 () Entering maintenance mode
+0000.123 () Enabling Maintenance mode&#8230;
+0000.127 () Backup of: https://beta.fulllifeministry.org
+0000.144 () Content URL: https://beta.fulllifeministry.org/wp-content
+0000.144 () Uploads URL: https://beta.fulllifeministry.org/wp-content/uploads
+0000.145 () Old table prefix: wp_
+0000.146 () Site information: multisite=0
+0000.148 () New table prefix: wp_
+0000.158 () Processing table (InnoDB): wp_options
+0000.330 () Restoring prior UD configuration (table: wp_options; keys: 91)
+0000.548 () Processing table (InnoDB): wp_users
+0000.581 () Processing table (InnoDB): wp_usermeta
+0000.616 () Processing table (InnoDB): wp_commentmeta
+0000.651 () Processing table (InnoDB): wp_comments
+0000.696 () Processing table (InnoDB): wp_links
+0000.730 () Processing table (InnoDB): wp_postmeta
+0000.773 () Processing table (InnoDB): wp_posts
+0000.953 () Processing table (InnoDB): wp_term_relationships
+0000.991 () Processing table (InnoDB): wp_term_taxonomy
+0001.041 () Processing table (InnoDB): wp_termmeta
+0001.075 () Processing table (InnoDB): wp_terms
+0001.103 () Unlocking database and leaving maintenance mode
+0001.104 () Disabling Maintenance mode&#8230;
+0001.106 () Finished: lines processed: 45 in 1.01 seconds
+0001.110 () Cleaning up rubbish...
+0001.131 () Restore successful!
+0001.132 () Restore successful

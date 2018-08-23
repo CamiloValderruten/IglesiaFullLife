@@ -1,0 +1,55 @@
+<div class="uk-section uk-height-viewport uk-flex uk-flex-middle">
+    <div class="uk-container uk-container-small">
+
+        <div>
+
+            <p class="uk-margin-large" uk-margin>
+                <button class="uk-button uk-button-small uk-button-default" type="button" data-message="Message" data-pos="top-left">Top Left</button>
+                <button class="uk-button uk-button-small uk-button-default uk-margin-small-top" type="button" data-message="Message" data-pos="top-center">Top Center</button>
+                <button class="uk-button uk-button-small uk-button-default uk-margin-small-top" type="button" data-message="Message" data-pos="top-right">Top Right</button>
+                <button class="uk-button uk-button-small uk-button-default uk-margin-small-top" type="button" data-message="Message" data-pos="bottom-left">Bottom Left</button>
+                <button class="uk-button uk-button-small uk-button-default uk-margin-small-top" type="button" data-message="Message" data-pos="bottom-center">Bottom Center</button>
+                <button class="uk-button uk-button-small uk-button-default uk-margin-small-top" type="button" data-message="Message" data-pos="bottom-right">Bottom Right</button>
+            </p>
+
+            <p class="uk-notification-message">
+                <a href="#" class="uk-notification-close" uk-close></a>
+                Message
+            </p>
+
+            <p class="uk-notification-message uk-notification-message-primary">
+                <a href="#" class="uk-notification-close" uk-close></a>
+                Primary message
+            </p>
+
+            <p class="uk-notification-message uk-notification-message-success">
+                <a href="#" class="uk-notification-close" uk-close></a>
+                Success message
+            </p>
+
+            <p class="uk-notification-message uk-notification-message-warning">
+                <a href="#" class="uk-notification-close" uk-close></a>
+                Warning message
+            </p>
+
+            <p class="uk-notification-message uk-notification-message-danger">
+                <a href="#" class="uk-notification-close" uk-close></a>
+                Danger message
+            </p>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    jQuery('button').on('click', function() {
+        UIkit.notification($(this).data());
+    });
+
+    jQuery('#close-all').on('click',  function () {
+        UIkit.notification.closeAll();
+    });
+
+</script>

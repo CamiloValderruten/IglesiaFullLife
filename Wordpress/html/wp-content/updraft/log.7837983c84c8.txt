@@ -1,0 +1,208 @@
+0000.007 (0) Opened log file at time: Sat, 11 Aug 2018 16:19:18 +0000 on http://iglesiafulllife.org
+0000.010 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.14.12 WP: 4.9.8 PHP: 7.2.8 (apache2handler, Linux 6a21cdae96c7 4.9.93-linuxkit-aufs #1 SMP Wed Jun 6 16:55:56 UTC 2018 x86_64) MySQL: 5.6.37 WPLANG: en_US Server: Apache/2.4.25 (Debian) safe_mode: 0 max_execution_time: 900 memory_limit: 500M (used: 5M | 8M) multisite: N openssl: OpenSSL 1.1.0f  25 May 2017 mcrypt: N LANG: C ZipArchive::addFile: Y
+0000.013 (0) Free space on disk containing Updraft's temporary directory: 280525.2 MB
+0000.027 (0) Tasks: Backup files: 1 (schedule: weekly) Backup DB:  (schedule: weekly)
+0000.029 (0) Processed schedules. Combining jobs from identical schedules. Tasks now: Backup files: 1 Backup DB: 1
+0000.111 (0) Requesting semaphore lock (fd) (apparently via scheduler: last_scheduled_action_called_at=1533321252, seconds_ago=683106)
+0000.115 (0) Set semaphore last lock (fd) time to 2018-08-11 16:19:18
+0000.116 (0) Semaphore lock (fd) complete
+0000.121 (0) Backup run: resumption=0, nonce=7837983c84c8, begun at=1534004358 (0s ago), job type=backup
+0000.123 (0) Scheduling a resumption (1) after 300 seconds (1534004658) in case this run gets aborted
+0000.156 (0) Checking if we have a zip executable available
+0000.162 (0) Creation of backups of directories: beginning
+0000.177 (0) Beginning creation of dump of plugins (split every: 400 MB)
+0006.474 (0) Total entities for the zip file: 528 directories, 3015 files (0 skipped as non-modified), 68.7 MB
+0006.483 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 2.0 seconds have passed since the last write (0 MB, 1 (1) files added so far); re-opening (prior size: 0 KB)
+0007.378 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 100 files added (on-disk size: 98.9 KB)
+0007.666 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 200 files added (on-disk size: 98.9 KB)
+0007.948 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 300 files added (on-disk size: 98.9 KB)
+0008.284 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 400 files added (on-disk size: 98.9 KB)
+0008.638 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 500 files added (on-disk size: 98.9 KB)
+0008.646 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (17.3 MB, 3015 files batched, 501 (502) added so far); re-opening (prior size: 98.9 KB)
+0016.322 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 600 files added (on-disk size: 7108.8 KB)
+0016.586 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 700 files added (on-disk size: 7108.8 KB)
+0016.893 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 800 files added (on-disk size: 7108.8 KB)
+0017.174 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 900 files added (on-disk size: 7108.8 KB)
+0017.456 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1000 files added (on-disk size: 7108.8 KB)
+0017.465 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (21.5 MB, 3015 files batched, 501 (1003) added so far); re-opening (prior size: 7108.8 KB)
+0025.746 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1100 files added (on-disk size: 19103.8 KB)
+0026.040 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1200 files added (on-disk size: 19103.8 KB)
+0026.304 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1300 files added (on-disk size: 19103.8 KB)
+0026.561 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1400 files added (on-disk size: 19103.8 KB)
+0026.857 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1500 files added (on-disk size: 19103.8 KB)
+0026.876 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (3.6 MB, 3015 files batched, 501 (1504) added so far); re-opening (prior size: 19103.8 KB)
+0032.894 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1600 files added (on-disk size: 20258.2 KB)
+0033.181 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1700 files added (on-disk size: 20258.2 KB)
+0033.440 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1800 files added (on-disk size: 20258.2 KB)
+0033.706 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 1900 files added (on-disk size: 20258.2 KB)
+0033.972 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2000 files added (on-disk size: 20258.2 KB)
+0033.986 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (20.3 MB, 3015 files batched, 501 (2005) added so far); re-opening (prior size: 20258.2 KB)
+0042.470 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2100 files added (on-disk size: 25549.9 KB)
+0042.718 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2200 files added (on-disk size: 25549.9 KB)
+0043.029 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2300 files added (on-disk size: 25549.9 KB)
+0043.330 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2400 files added (on-disk size: 25549.9 KB)
+0043.650 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2500 files added (on-disk size: 25549.9 KB)
+0043.668 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (3.9 MB, 3015 files batched, 501 (2506) added so far); re-opening (prior size: 25549.9 KB)
+0048.897 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2600 files added (on-disk size: 26741.1 KB)
+0049.145 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2700 files added (on-disk size: 26741.1 KB)
+0049.410 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2800 files added (on-disk size: 26741.1 KB)
+0049.677 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 2900 files added (on-disk size: 26741.1 KB)
+0049.907 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip.tmp: 3000 files added (on-disk size: 26741.1 KB)
+0049.934 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (2 MB, 3015 files batched, 501 (3007) added so far); re-opening (prior size: 26741.1 KB)
+0055.736 (0) Created plugins zip (0) - 27565.8 KB in 55.5 s (496.4 KB/s) (sha1: b6ca0816b9f0d5c225da831a79648f7eca8d3239, sha256: 157f3aec3221d1d867653c6029f60f63667e4c1dcaba76ba4bc1aa9b4464dd54)
+0055.756 (0) Beginning creation of dump of themes (split every: 400 MB)
+0058.214 (0) Total entities for the zip file: 163 directories, 1479 files (0 skipped as non-modified), 7 MB
+0058.221 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 2.0 seconds have passed since the last write (0 MB, 1 (1) files added so far); re-opening (prior size: 0 KB)
+0058.691 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 100 files added (on-disk size: 31.1 KB)
+0059.082 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 200 files added (on-disk size: 31.1 KB)
+0059.415 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 300 files added (on-disk size: 31.1 KB)
+0059.795 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 400 files added (on-disk size: 31.1 KB)
+0060.115 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 500 files added (on-disk size: 31.1 KB)
+0060.123 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (4.5 MB, 1479 files batched, 501 (502) added so far); re-opening (prior size: 31.1 KB)
+0064.774 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 600 files added (on-disk size: 1198.6 KB)
+0065.073 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 700 files added (on-disk size: 1198.6 KB)
+0065.435 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 800 files added (on-disk size: 1198.6 KB)
+0065.721 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 900 files added (on-disk size: 1198.6 KB)
+0065.984 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 1000 files added (on-disk size: 1198.6 KB)
+0065.991 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 500 files added on this batch (1.9 MB, 1479 files batched, 501 (1003) added so far); re-opening (prior size: 1198.6 KB)
+0069.706 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 1100 files added (on-disk size: 1833.8 KB)
+0070.003 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 1200 files added (on-disk size: 1833.8 KB)
+0070.280 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 1300 files added (on-disk size: 1833.8 KB)
+0070.561 (0) Zip: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip.tmp: 1400 files added (on-disk size: 1833.8 KB)
+0073.551 (0) Created themes zip (0) - 2068.3 KB in 17.8 s (116.3 KB/s) (sha1: 55c82680b46b990f6705dd989c50acef08a23972, sha256: c9c5e09210d9e0bfdee3aa9f2045c874e6b0cf5074310aa56781db4b088ede63)
+0073.570 (0) No backup of uploads: excluded by user's options
+0073.572 (0) Beginning backup of other directories found in the content directory (index: 0)
+0073.573 (0) Exclusion option setting (others): upgrade,cache,updraft,backup*,*backups,mysql.sql,debug.log
+0073.574 (0) Looking for candidates to backup in: /var/www/html/wp-content
+0073.576 (0) finding files: upgrade: skipping: excluded by options
+0073.577 (0) finding files: index.php: adding to list (1)
+0073.578 (0) finding files: plugins: skipping: this is the plugins directory
+0073.579 (0) finding files: uploads: skipping: this is the uploads directory
+0073.580 (0) finding files: updraft: skipping: this is the updraft directory
+0073.581 (0) finding files: themes: skipping: this is the themes directory
+0073.603 (0) Total entities for the zip file: 0 directories, 1 files (0 skipped as non-modified), 0 MB
+0073.626 (0) Created others zip (0) - 0.1 KB in 0 s (5 KB/s) (sha1: 95d38693258ac501d98b9a28eea864ba01537423, sha256: 81e04fec86a010e5cce2c4703da479fdeb72b69efaa0d2ae56cc8537c3ee57f7)
+0073.647 (0) Saving backup status to database (elements: 6)
+0073.655 (0) Beginning creation of database dump (WordPress DB)
+0073.691 (0) Table wp_options: Total expected rows (approximate): 264
+0073.698 (0) Table wp_options: Total rows added: 259 in 0.01 seconds
+0073.703 (0) Table wp_options: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_options.table.gz - 19.8 KB)
+0073.711 (0) Table wp_users: Total expected rows (approximate): 0
+0073.714 (0) Table wp_users: Total rows added: 1 in 0.00 seconds
+0073.718 (0) Table wp_users: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_users.table.gz - 0.6 KB)
+0073.728 (0) Table wp_usermeta: Total expected rows (approximate): 21
+0073.730 (0) Table wp_usermeta: Total rows added: 23 in 0.00 seconds
+0073.733 (0) Table wp_usermeta: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_usermeta.table.gz - 1.1 KB)
+0073.741 (0) Table wp_commentmeta: Total expected rows (approximate): 0
+0073.743 (0) Table wp_commentmeta: Total rows added: 0 in 0.00 seconds
+0073.747 (0) Table wp_commentmeta: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_commentmeta.table.gz - 0.4 KB)
+0073.756 (0) Table wp_comments: Total expected rows (approximate): 0
+0073.759 (0) Table wp_comments: Total rows added: 0 in 0.00 seconds
+0073.762 (0) Table wp_comments: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_comments.table.gz - 0.5 KB)
+0073.775 (0) Table wp_links: Total expected rows (approximate): 0
+0073.777 (0) Table wp_links: Total rows added: 0 in 0.00 seconds
+0073.780 (0) Table wp_links: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_links.table.gz - 0.4 KB)
+0073.789 (0) Table wp_postmeta: Total expected rows (approximate): 79
+0073.792 (0) Table wp_postmeta: Total rows added: 85 in 0.00 seconds
+0073.794 (0) Table wp_postmeta: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_postmeta.table.gz - 1.2 KB)
+0073.802 (0) Table wp_posts: Total expected rows (approximate): 65
+0073.820 (0) Table wp_posts: Total rows added: 83 in 0.02 seconds
+0073.828 (0) Table wp_posts: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_posts.table.gz - 27.1 KB)
+0073.838 (0) Table wp_term_relationships: Total expected rows (approximate): 7
+0073.840 (0) Table wp_term_relationships: Total rows added: 7 in 0.00 seconds
+0073.843 (0) Table wp_term_relationships: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_term_relationships.table.gz - 0.4 KB)
+0073.852 (0) Table wp_term_taxonomy: Total expected rows (approximate): 2
+0073.855 (0) Table wp_term_taxonomy: Total rows added: 2 in 0.00 seconds
+0073.858 (0) Table wp_term_taxonomy: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_term_taxonomy.table.gz - 0.4 KB)
+0073.872 (0) Table wp_termmeta: Total expected rows (approximate): 0
+0073.874 (0) Table wp_termmeta: Total rows added: 0 in 0.00 seconds
+0073.876 (0) Table wp_termmeta: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_termmeta.table.gz - 0.4 KB)
+0073.887 (0) Table wp_terms: Total expected rows (approximate): 2
+0073.889 (0) Table wp_terms: Total rows added: 2 in 0.00 seconds
+0073.891 (0) Table wp_terms: finishing file (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_terms.table.gz - 0.4 KB)
+0073.897 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_options.table.gz (1/12): adding to final database dump
+0073.904 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_users.table.gz (2/12): adding to final database dump
+0073.907 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_usermeta.table.gz (3/12): adding to final database dump
+0073.910 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_commentmeta.table.gz (4/12): adding to final database dump
+0073.913 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_comments.table.gz (5/12): adding to final database dump
+0073.918 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_links.table.gz (6/12): adding to final database dump
+0073.922 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_postmeta.table.gz (7/12): adding to final database dump
+0073.925 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_posts.table.gz (8/12): adding to final database dump
+0073.935 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_term_relationships.table.gz (9/12): adding to final database dump
+0073.942 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_term_taxonomy.table.gz (10/12): adding to final database dump
+0073.945 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_termmeta.table.gz (11/12): adding to final database dump
+0073.948 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db-table-wp_terms.table.gz (12/12): adding to final database dump
+0073.953 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db.gz: finished writing out complete database file (24 KB)
+0073.976 (0) Total database tables backed up: 12 (backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db.gz, size: 51196, sha256)
+0073.984 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+0073.986 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+0073.988 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-others.zip: others: This file has not yet been successfully uploaded: will queue
+0073.990 (0) backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db.gz: db: This file has not yet been successfully uploaded: will queue
+0073.991 (0) Saving backup history. Total backup size: 29 MB
+0073.993 (0) Requesting upload of the files that have not yet been successfully uploaded (4)
+0073.996 (0) Cloud backup selection (1/1): s3 with instance (1/1) (last)
+0073.998 (0) Beginning dispatch of backup to remote (s3) (instance identifier s-aff6694c46eb7f43d333ca43461ddde7)
+0074.837 (0) Set region: us-east-2
+0074.840 (0) S3 upload (us-east-2): backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip (chunks: 6) -> s3://full-life-church/website/backup/backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip
+0075.162 (0) S3 chunked upload: got multipart ID: dXGlyszs2O14TRm7Lcjd9AWqLGG3kiSfvup1Nx0nLL4SmXH8_3Ttf5t9bTRALazGJkxO7V6Z_J2L1r8ex5LrejiEgYEbJYKwlnrQlOBC7u_MkpQImc80rfbhmKgc0hxf
+0083.434 (0) S3 chunked upload: 16.7 % uploaded (1, "e3c62a2008a4402251218095a762257f")
+0092.340 (0) S3 chunked upload: 33.3 % uploaded (2, "e0dca13571817efc56d1562783016ae1")
+0101.513 (0) S3 chunked upload: 50 % uploaded (3, "cbd4cddb9778638df37e857f6c437dfd")
+0112.355 (0) S3 chunked upload: 66.7 % uploaded (4, "a70eda3a943500cb1b8b7a818bd3e587")
+0122.878 (0) S3 chunked upload: 83.3 % uploaded (5, "133fddefa6ce853c9d4526195bb94668")
+0126.159 (0) S3 chunked upload: 100 % uploaded (6, "5da519492eaebcc3614f82967975eb5c")
+0126.164 (0) S3 upload: all chunks uploaded; will now instruct S3 to re-assemble
+0126.340 (0) S3 upload (plugins0): re-assembly succeeded
+0126.351 (0) Recording as successfully uploaded: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip (fa2e5d061412ecce9ac7f8fed530fdf6)
+0126.361 (0) Deleting local file: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-plugins.zip: OK
+0126.364 (0) S3 upload (us-east-2): backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip (chunks: 1) -> s3://full-life-church/website/backup/backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip
+0133.496 (0) S3 regular upload: success
+0133.506 (0) Recording as successfully uploaded: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip (9264a22e5192a188818c1288a49876a1)
+0133.512 (0) Deleting local file: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-themes.zip: OK
+0133.515 (0) S3 upload (us-east-2): backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-others.zip (chunks: 1) -> s3://full-life-church/website/backup/backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-others.zip
+0133.590 (0) S3 regular upload: success
+0133.596 (0) Recording as successfully uploaded: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-others.zip (ae24bc04c71c7247c7db08032577fc95)
+0133.603 (0) Deleting local file: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-others.zip: OK
+0133.605 (0) S3 upload (us-east-2): backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db.gz (chunks: 1) -> s3://full-life-church/website/backup/backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db.gz
+0133.715 (0) S3 regular upload: success
+0133.721 (0) Recording as successfully uploaded: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db.gz (1702b5066d6e14e745b075e7a1a2ca26)
+0133.727 (0) Deleting local file: backup_2018-08-11-1619_Full_Life_Church_7837983c84c8-db.gz: OK
+0133.730 (0) Retain: beginning examination of existing backup sets; user setting: retain_files=2, retain_db=2
+0133.732 (0) Number of backup sets in history: 3; groups (db): 1
+0133.734 (0) Examining (for databases) backup set with group_id=0, nonce=7837983c84c8, datestamp=1534004358 (Aug 11 2018 16:19:18)
+0133.735 (0) This backup set is the backup set just made, so will not be deleted.
+0133.735 (0) Examining (for databases) backup set with group_id=0, nonce=fb087a53b22d, datestamp=1533321252 (Aug 03 2018 18:34:12)
+0133.735 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0133.737 (0) Examining (for databases) backup set with group_id=0, nonce=ed7cbc8082c9, datestamp=1532793568 (Jul 28 2018 15:59:28)
+0133.737 (0) 1532793568: db: this set includes a database (backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-db.gz); db count is now 2
+0133.737 (0) 1532793568: db: over retain limit (2); will delete this database
+0133.738 (0) Delete file: backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-db.gz, service=s3
+0133.740 (0) S3: Delete remote: bucket=full-life-church, URI=website/backup/backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-db.gz
+0133.803 (0) This backup set remains non-empty (f=1/d=0); will retain in history
+0133.807 (0) Number of backup sets in history: 3; groups (files): 1
+0133.809 (0) Examining (for files) backup set with nonce=7837983c84c8, datestamp=1534004358 (Aug 11 2018 16:19:18)
+0133.809 (0) This backup set is the backup set just made, so will not be deleted.
+0133.811 (0) This backup set is the backup set just made, so will not be deleted.
+0133.812 (0) This backup set is the backup set just made, so will not be deleted.
+0133.812 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0133.813 (0) Examining (for files) backup set with nonce=fb087a53b22d, datestamp=1533321252 (Aug 03 2018 18:34:12)
+0133.814 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0133.814 (0) Examining (for files) backup set with nonce=ed7cbc8082c9, datestamp=1532793568 (Jul 28 2018 15:59:28)
+0133.814 (0) plugins: over retain limit (2); will delete this file entity
+0133.815 (0) themes: over retain limit (2); will delete this file entity
+0133.815 (0) others: over retain limit (2); will delete this file entity
+0133.815 (0) Delete file: backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-plugins.zip, service=s3
+0133.817 (0) Delete file: backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-themes.zip, service=s3
+0133.819 (0) Delete file: backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-others.zip, service=s3
+0133.820 (0) S3: Delete remote: bucket=full-life-church, URI=website/backup/backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-plugins.zip
+0133.924 (0) S3: Delete remote: bucket=full-life-church, URI=website/backup/backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-themes.zip
+0133.987 (0) S3: Delete remote: bucket=full-life-church, URI=website/backup/backup_2018-07-28-1559_Full_Life_Church_ed7cbc8082c9-others.zip
+0134.055 (0) This backup set is now empty; will remove from history
+0134.059 (0) Deleting log file (log.ed7cbc8082c9.txt)
+0134.062 (0) Retain: saving new backup history (sets now: 2) and finishing retain operation
+0134.066 (0) Resume backup (7837983c84c8, 0): finish run
+0134.069 (0) Decremented the semaphore (fd) by 1
+0134.070 (0) Semaphore (fd) unlocked
+0134.071 (0) There were no errors in the uploads, so the 'resume' event (1) is being unscheduled
+0134.074 (0) No email will/can be sent - the user has not configured an email address.
+0134.075 (0) The backup apparently succeeded and is now complete

@@ -1,0 +1,20 @@
+{
+    "\"%name%\" already exists in library, it will be overwritten when saving.": "\"%name%\" متواجد مسبقا في المكتبة. سيتم استبداله عند الحفظ.",
+    "%label% Position": "موضع %label%",
+    "- Select -": "- اختر -",
+    "- Select Module -": "- اختر وحدة -",
+    "About": "حول",
+    "Add": "إضافة",
+    "Add Element": "إضافة عنصر",
+    "Add Folder": "إضافة مجلد",
+    "Add Item": "إضافة عنصر",
+    "Add Menu Item": "إضافة عنصر القائمة",
+    "Add Module": "إضافة وحدة",
+    "Add Row": "إضافة سطر",
+    "Add Section": "إضافة مقطع",
+    "Add a colon": "اضافة عمود",
+    "Add a comma separated list of font subsets to load, e.g. cyrillic, cyrillic-ext, greek, greek-ext, latin-ext, vietnamese. The Latin subset is always included. Look up available subsets at <a href=\"https://fonts.google.com\" target=\"_blank\">Google Fonts</a>.": "أضف لائحة مفرقة بالفاصلة لفروع الخطوط التي تريد تحميلها، مثل: cyrillic، cyrillic-ext، greek، greek-ext، latin-ext، vietnamese. الفرع اللاتيني دائما متوفر. يمكنك معرفة الفروع المتوفرة على <a href=\"https://fonts.google.com\" target=\"_blank\">خطوط Google</a>.",
+    "Add a comma separated list of font weights to load, e.g. 300, 400, 600. Look up available variants at <a href=\"https://fonts.google.com\" target=\"_blank\">Google Fonts</a>.": "أضف لائحة مفرقة بالفاصلة لأوزان الخط التي تريد تحميلها، مثل: 300، 400، 600. يمكنك معرفة المتغيرات المتوفرة على <a href=\"https://fonts.google.com\" target=\"_blank\">خطوط Google</a>.",
+    "Add custom CSS or LESS to your site. All LESS theme variables and mixins are available. The &lt;style&gt; tag is not needed.": "أضف CSS أو LESS خاص لموقعك. كل متغيرات القالب والمزيجات متوفرة. لا داعي لإضافة وسم &lt;style&gt;.",
+    "Add custom JavaScript to your site. The &lt;script&gt; tag is not needed.": "أضف JavaScript خاص لموقعك. لا داعي لإضافة وسم &lt;script&gt;."
+}

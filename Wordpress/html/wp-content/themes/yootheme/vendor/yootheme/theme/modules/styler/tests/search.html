@@ -1,0 +1,67 @@
+<div class="uk-section uk-height-viewport uk-flex uk-flex-middle">
+    <div class="uk-container uk-flex-auto">
+
+        <h3 class="uk-h5 uk-heading-divider uk-margin-medium-bottom">Search overlay in navbar</h3>
+
+        <nav class="uk-navbar-container" uk-navbar>
+
+            <div class="test-overlay uk-navbar-left">
+                <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+            </div>
+
+            <div class="test-overlay uk-navbar-right">
+                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .test-overlay; animation: uk-animation-fade" href="#"></a>
+            </div>
+
+            <div class="uk-navbar-left uk-flex-1 test-overlay" hidden>
+
+                <div class="uk-navbar-item uk-width-1-1">
+                    <form class="uk-search uk-search-navbar uk-width-1-1">
+                        <input class="uk-search-input" type="search" placeholder="Search...">
+                    </form>
+                </div>
+
+                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .test-overlay; animation: uk-animation-fade" href="#"></a>
+
+            </div>
+
+        </nav>
+
+        <p class="uk-text-right uk-text-meta">*The color of the search icon can be changed in the Navbar component.</p>
+
+        <div class="uk-margin-large-top uk-margin-large-bottom" uk-grid>
+            <div class="uk-width-expand@m">
+                <div class="uk-panel">
+                    <h3 class="uk-h5 uk-heading-divider uk-margin-medium-bottom">Default</h3>
+                    <form class="uk-search uk-search-default">
+                        <span uk-search-icon></span>
+                        <input class="uk-search-input" type="search" placeholder="Search...">
+                    </form>
+                </div>
+            </div>
+            <div class="uk-width-expand@m">
+                <div class="uk-panel">
+                    <h3 class="uk-h5 uk-heading-divider uk-margin-medium-bottom">Navbar</h3>
+                    <form class="uk-search uk-search-navbar">
+                        <span uk-search-icon></span>
+                        <input class="uk-search-input" type="search" placeholder="Search...">
+                    </form>
+                </div>
+            </div>
+            <div class="uk-width-1-6@m">
+                <div class="uk-panel">
+                    <h3 class="uk-h5 uk-heading-divider uk-margin-medium-bottom">Toggle</h3>
+                    <a class="uk-search-toggle" href="#" uk-search-icon></a>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="uk-h5 uk-heading-divider uk-margin-medium-bottom">Large</h3>
+        <form class="uk-search uk-search-large">
+            <span uk-search-icon></span>
+            <input class="uk-search-input" type="search" placeholder="Search...">
+        </form>
+
+
+    </div>
+</div>

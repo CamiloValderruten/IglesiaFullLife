@@ -1,0 +1,212 @@
+// Style variables
+// ========================================================================
+
+//
+// Global
+//
+
+@global-font-family:                                'Pt Serif';
+@global-primary-font-family:                        'Playfair Display';
+@global-secondary-font-family:                      'Roboto Mono';
+
+@global-color:                                      #ffffff;
+@global-emphasis-color:                             #ffffff;
+@global-muted-color:                                fade(@global-emphasis-color, 60%);
+@global-link-color:                                 #ffffff;
+@global-link-hover-color:                           #a5e3ff;
+@global-inverse-color:                              #1563EE;
+
+@global-background:                                 #1563EE;
+@global-muted-background:                           lighten(@global-background, 3%);
+@global-primary-background:                         #ffffff;
+@global-secondary-background:                       #162248;
+@global-danger-background:                          #ff5b5f;
+@global-warning-background:                         #ffab56;
+@global-success-background:                         #59e88f;
+
+@global-border:                                     rgba(255,255,255,0.08);
+@global-small-box-shadow:                           2px 6px 15px 0 rgba(10,62,155, 0.3);
+@global-medium-box-shadow:                          2px 15px 40px 0 rgba(10,62,155, 0.3);
+@global-large-box-shadow:                           2px 21px 50px 0 rgba(10,62,155, 0.3);
+@global-xlarge-box-shadow:                          2px 26px 60px 0 rgba(10,62,155, 0.3);
+
+//
+// Alert
+//
+
+@alert-background:                                  @global-muted-background;
+@alert-primary-color:                               @global-muted-color;
+
+//
+// Article
+//
+
+@article-meta-font-family:                          @global-primary-font-family;
+
+//
+// Base
+//
+
+@base-code-color:                                   #faffbd;
+@base-ins-background:                               rgba(255, 254, 124, 0.13);
+@base-ins-color:                                    #f6ff86;
+
+//
+// Button
+//
+
+@button-default-background:                         @global-primary-background;
+@button-default-color:                              @global-background;
+@button-default-hover-color:                        fade(@button-default-color, 70%);
+@button-default-active-background:                  mix(@card-primary-background, @global-background, 88%);
+
+@button-primary-background:                         @global-muted-background;
+@button-primary-color:                              @global-emphasis-color;
+@button-primary-hover-background:                   @button-primary-background;
+@button-primary-hover-color:                        lighten(@button-primary-color, 10%);
+@button-primary-active-background:                  lighten(@button-primary-background, 3%);
+@button-primary-active-color:                       darken(@button-primary-color, 5%);
+@button-primary-box-shadow:                         2px 6px 15px 0 rgba(10,62,155, 0.3);
+@button-primary-hover-box-shadow:                   2px 4px 12px 0 rgba(10,62,155, 0.3);
+
+@button-secondary-hover-border:                     fade(@button-secondary-border, 70%);
+@button-secondary-hover-color:                      fade(@button-secondary-color, 70%);
+@button-secondary-box-shadow:                       inset 0 0 2px fade(@global-primary-background, 20%), 0 0 2px fade(@global-primary-background, 20%);
+@button-secondary-hover-box-shadow:                 inset 0 0 4px fade(@global-primary-background, 10%), 0 0 4px fade(@global-primary-background, 10%);
+
+@button-danger-background:                          @global-danger-background;
+@button-danger-color:                               @global-emphasis-color;
+@button-danger-hover-background:                    darken(@button-danger-background, 3%);
+@button-danger-hover-color:                         fade(@button-danger-color, 70%);
+@button-danger-active-background:                   @global-primary-background;
+@button-danger-active-color:                        @global-danger-background;
+@button-danger-hover-border:                        @button-danger-hover-background;
+@button-danger-box-shadow:                          @global-medium-box-shadow;
+@button-danger-hover-box-shadow:                    @global-small-box-shadow;
+
+@button-primary-gradient-angle:                     180deg;
+@button-primary-gradient-start:                     lighten(@button-primary-background, 5%);
+@button-primary-gradient-stop:                      @button-primary-background;
+
+@inverse-button-default-background:                 @global-primary-background;
+@inverse-button-default-color:                      @global-background;
+@inverse-button-default-hover-color:                fade(@inverse-button-default-color, 90%);
+@inverse-button-default-active-color:               fade(@inverse-button-default-color, 70%);
+
+@inverse-button-primary-background:                 @global-background;
+@inverse-button-primary-color:                      @inverse-global-inverse-color;
+@inverse-button-primary-hover-background:           @inverse-button-primary-background;
+@inverse-button-primary-hover-color:                @inverse-button-primary-color;
+@inverse-button-primary-active-background:          @inverse-button-primary-background;
+@inverse-button-primary-active-color:               fade(@inverse-button-primary-hover-color, 90%);
+
+@inverse-button-secondary-active-color:             @global-primary-background;
+
+//
+// Card
+//
+
+@card-default-background:                           @global-muted-background;
+@card-primary-hover-background:                     mix(@card-primary-background, @global-background, 94%);
+@card-primary-color-mode:                           dark;
+@card-primary-box-shadow:                           @global-large-box-shadow;
+@card-primary-hover-box-shadow:                     @global-xlarge-box-shadow;
+
+@card-secondary-color:                              @global-emphasis-color;
+
+@card-default-gradient-angle:                       180deg;
+@card-default-gradient-start:                       lighten(@card-default-background, 3%);
+@card-default-gradient-stop:                        @card-default-background;
+@card-primary-gradient-angle:                       180deg;
+@card-primary-gradient-stop:                        @card-primary-background;
+@card-secondary-gradient-angle:                     180deg;
+
+
+//
+// Comment
+//
+
+@comment-meta-font-family:                          @global-secondary-font-family;
+
+//
+// Dropdown
+//
+
+@dropdown-background:                               @global-muted-background;
+
+//
+// Form
+//
+
+@form-focus-background:                             @global-muted-background;
+@form-radio-border:                                 lighten(@global-border, 10%);
+
+//
+// Icon
+//
+
+@icon-button-background:                            @global-muted-background;
+
+//
+// Inverse
+//
+
+@inverse-global-color-mode:                         dark;
+@inverse-global-color:                              @global-inverse-color;
+
+
+//
+// Navbar
+//
+
+@navbar-dropdown-background:                        @global-muted-background;
+
+//
+// Offcanvas
+//
+
+@offcanvas-bar-color-mode:                          light;
+
+//
+// Pagination
+//
+
+@pagination-item-hover-background:                  @global-muted-background;
+
+//
+// Section
+//
+
+@section-muted-background:                          @global-muted-background;
+@section-primary-color-mode:                        dark;
+
+@internal-section-muted-image:                      '';
+@internal-section-primary-image:                    '';
+@internal-section-secondary-image:                  '';
+
+//
+// Subnav
+//
+
+@subnav-pill-item-hover-background:                 @global-muted-background;
+@subnav-pill-item-active-box-shadow:                @global-medium-box-shadow;
+
+//
+// Subnav
+//
+
+@tooltip-background:                                @global-primary-background;
+
+//
+// Table
+//
+
+@table-row-active-background:                       lighten(@global-muted-background, 2%);
+
+//
+// Text
+//
+
+@text-lead-font-family:                             @global-font-family;
+@text-lead-font-weight:                             @global-primary-font-weight;
+@text-meta-font-family:                             @global-secondary-font-family;

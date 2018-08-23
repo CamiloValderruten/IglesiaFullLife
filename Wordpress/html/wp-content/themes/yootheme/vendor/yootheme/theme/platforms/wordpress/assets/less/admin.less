@@ -1,0 +1,255 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:600,400,300';
+@import 'https://fonts.googleapis.com/css?family=Montserrat';
+@import 'https://fonts.googleapis.com/css?family=Roboto+Mono';
+
+//
+// Import spectrum
+//
+
+@import (inline) '../../../../../../assets/spectrum/spectrum.css';
+
+//
+// No conflict mode
+//
+
+.uk-noconflict {
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: @base-body-font-family;
+    font-size: @base-body-font-size;
+    font-weight: @base-body-font-weight;
+    line-height: @base-body-line-height;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    color: @base-body-color;
+
+    //
+    // Needed for WordPress
+    //
+
+    a:focus { box-shadow: none; }
+
+    li { margin-bottom: 0; }
+
+    .hook-form-radio() { box-shadow: none; }
+    .hook-form-radio-focus() { box-shadow: none; }
+
+    .hook-form-radio-checked() {
+        &::before { content: ''; }
+    }
+
+    //
+    // Import components
+    //
+
+    @import "../../../../../../assets/uikit/src/less/uikit.less";
+
+    //
+    // Import theme
+    //
+
+    @import "../../../../assets/less/uikit/_import.less";
+
+    //
+    // Variables
+    //
+
+    @breakpoint-xlarge:                             1400px;
+
+    @global-z-index:                                600000;
+
+    @internal-form-select-image:                    "../../../../../yootheme/theme/assets/less/uikit/images/form-select.svg";
+
+    //
+    // Import website builder
+    //
+
+    @import "../../../../assets/less/admin/_import.less";
+
+
+    /* WordPress
+    ========================================================================== */
+
+    /*
+     * Sidebar
+     * 1. Clip absolute positioned panel sections
+     * 2. Needed to make `overflow: hidden` work on absolute positioned elements
+     * 3. Prepare transition to the left
+     * 4. Needed to reset WordPress behavior
+     */
+
+    .yo-wp-sidebar {
+        /* 1 */
+        overflow: hidden;
+        /* 2 + 3 */
+        position: relative;
+        /* 3 */
+        left: 0;
+        -webkit-transition: left 0.18s cubic-bezier(0.645, 0.045, 0.355, 1);
+        transition: left 0.18s cubic-bezier(0.645, 0.045, 0.355, 1);
+        /* 4 */
+        visibility: visible;
+    }
+
+    /*
+     * Hide sidebar by transitioning it to the left/right
+     * 1. Prevent hiding when our customizer is open
+     */
+
+    .section-open & .yo-wp-sidebar:not(.yo-open), // 1
+    .in-sub-panel & .yo-wp-sidebar { left: -100%; }
+
+    .in-themes-panel & .yo-wp-sidebar { left: 100%; }
+
+    /*
+     * 1. Reset `position: relative` so sidebar sections can be positioned at top and reset `overflow: hidden`
+     */
+
+    .yo-wp-sidebar.yo-open {
+        /* 1 */
+        overflow: visible;
+        position: static;
+    }
+
+    /*
+     * Nav
+     */
+
+    .yo-wp-nav {
+        position: relative;
+        left: 0;
+        -webkit-transition: left 0.18s cubic-bezier(0.645, 0.045, 0.355, 1);
+        transition: left 0.18s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    .section-open & .yo-open .yo-wp-nav { left: -100%; }
+
+    /*
+     * Section
+     * 1. Position sidebar sections at top
+     * 2. Overlay WordPress icons
+     * 3. Fade WordPress default background color into our
+     * 4. Same transition as WordPress
+     */
+
+    .yo-wp-sidebar-section {
+        /* 1 */
+        top: 0;
+        /* 2 */
+        z-index: 1;
+        /* 3 */
+        background-color: #eee;
+        /* 4 */
+        -webkit-transition: left 0.18s cubic-bezier(0.645, 0.045, 0.355, 1), background-color 0.18s cubic-bezier(0.645, 0.045, 0.355, 1);
+        transition: left 0.18s cubic-bezier(0.645, 0.045, 0.355, 1), background-color 0.18s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    /* 3 */
+    .section-open & .yo-wp-sidebar-section { background-color: #f5f5f5; }
+
+    /*
+     * Nav List
+     */
+
+    .yo-wp-nav-list {
+        margin-top: 20px;
+        // Reset
+        padding: 0;
+    }
+
+    .yo-wp-nav-list .control-section {
+        // WP Style
+        border: none;
+    }
+
+    .yo-wp-nav-list .accordion-section-title {
+        // Reset
+        margin-bottom: 0;
+        // WP Style
+        background-color: #fff;
+        border-left: 4px solid #fff;
+        border-bottom: 1px solid #ddd;
+        color: #555d66;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;;
+        text-transform: none;
+        font-weight: 600;
+        -webkit-font-smoothing: auto;
+        -moz-osx-font-smoothing: auto;
+        -webkit-transition: 0.15s ease-in-out;
+        transition: 0.15s ease-in-out;
+        -webkit-transition-property: color, background-color, border-color;
+        transition-property: color, background-color, border-color;
+
+        // WP Style
+        &::after {
+            content: "\f345";
+            color: #a0a5aa;
+        }
+
+        &:hover::after { color: #0073aa; }
+
+    }
+
+    // WP Style
+    .yo-wp-nav-list .control-section:last-child .accordion-section-title { border-bottom-color: #ddd; }
+
+    .customize-section-title {
+        // Reset
+        margin: -@theme-sidebar-padding-vertical -@theme-sidebar-padding-horizontal 25px -@theme-sidebar-padding-horizontal;
+        // Needed for `yo-wp-sidebar-tabs-nav`
+        position: relative;
+
+        h3 {
+            // Reset
+            margin: 0;
+            // WP Style
+            font-size: 20px !important;
+            color: #555d66;
+            font-weight: 200;
+            line-height: 26px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            text-transform: none;
+            -webkit-font-smoothing: auto;
+            -moz-osx-font-smoothing: auto;
+            // Needed
+            text-transform: capitalize;
+        }
+
+    }
+
+    #customize-controls & .yo-sidebar-subheading {
+        font-size: 12px;
+    }
+
+    /*
+     * Tabs
+     */
+
+    .yo-wp-sidebar-tabs-nav {
+        position: absolute;
+        right: 50px;
+        bottom: -7px
+    }
+
+    .yo-sidebar-tabs-content { top: 110px; }
+
+    // End of uk-noconflict
+}
+
+/*
+ * Google Maps address autocomplete container
+ */
+
+.pac-container {
+    z-index: 9999999999;
+}
+
+//
+// Import codemirror
+//
+
+@import (inline) '../../../../../../assets/codemirror/lib/codemirror.css';

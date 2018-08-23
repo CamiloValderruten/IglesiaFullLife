@@ -1,0 +1,187 @@
+// Style variables
+// ========================================================================
+
+//
+// Global
+//
+
+@global-font-family:                                'Pt Serif';
+@global-primary-font-family:                        'Playfair Display';
+@global-secondary-font-family:                      'Montserrat';
+
+@global-medium-font-size:                           20px;
+
+@global-color:                                      #8f8d89;
+@global-muted-color:                                #63605c;
+@global-emphasis-color:                             #ebe3d7;
+@global-link-color:                                 #c09f70;
+@global-link-hover-color:                           #845b44;
+
+@global-inverse-color:                              @global-background;
+
+@global-background:                                 #2a2a2a;
+@global-muted-background:                           lighten(@global-background, 2%);
+@global-primary-background:                         mix(#845b44, #c09f70, 50%);
+@global-secondary-background:                       desaturate(darken(@global-background, 5%), 6%);
+
+@global-border:                                     #353535;
+
+@global-small-box-shadow:                           2px 6px 15px 0 rgba(0,0,0, 0.14);
+@global-medium-box-shadow:                          2px 15px 50px 0 rgba(0,0,0, 0.14);
+@global-large-box-shadow:                           2px 21px 50px 0 rgba(0,0,0, 0.14);
+@global-xlarge-box-shadow:                          2px 26px 60px 0 rgba(0,0,0, 0.14);
+
+//
+// Alert
+//
+
+@alert-background:                                  @global-muted-background;
+
+//
+// Article
+//
+
+@article-meta-font-family:                          @global-font-family;
+
+//
+// Base
+//
+
+@base-code-color:                                   #d28e93;
+@base-ins-background:                               rgba(255, 254, 124, 0.13);
+@base-ins-color:                                    #e8d6aa;
+
+//
+// Button
+//
+
+@button-default-background:                         @global-muted-background;
+
+@button-primary-hover-background:                   darken(spin(@button-primary-background, 1%), 6%);
+@button-default-hover-color:                        @global-color;
+@button-primary-active-background:                  darken(spin(@button-primary-background, 2%), 12%);
+@button-primary-box-shadow:                         @global-medium-box-shadow;
+@button-primary-hover-box-shadow:                   @global-small-box-shadow;
+
+@button-secondary-hover-color:                      lighten(@button-secondary-color, 15%);
+@button-secondary-hover-border:                     lighten(@button-secondary-border, 15%);
+@button-secondary-box-shadow:                       inset 2px 2px 7px fade(@global-primary-background, 10%), 2px 2px 7px fade(@global-primary-background, 10%);
+@button-secondary-hover-box-shadow:                 inset 2px 4px 15px fade(@global-primary-background, 10%), 2px 4px 15px fade(@global-primary-background, 6%);
+
+@button-danger-hover-color:                         lighten(@button-danger-color, 5%);
+@button-danger-box-shadow:                          inset 2px 2px 7px fade(@global-danger-background, 20%), 2px 2px 7px fade(@global-danger-background, 10%);
+@button-danger-hover-box-shadow:                    inset 2px 4px 15px fade(@global-danger-background, 20%), 2px 4px 15px fade(@global-danger-background, 6%);
+
+@inverse-button-default-color:                      @global-primary-background;
+
+@button-primary-gradient-start:                     lighten(spin(@button-primary-background, 3%), 6%);
+@button-primary-gradient-stop:                      darken(spin(@button-primary-background, -3%), 18%);
+
+//
+// Card
+//
+
+@card-default-background:                           @global-muted-background;
+@card-default-hover-background:                     lighten(@card-default-background, 2%);
+@card-primary-color-mode:                           dark;
+@card-primary-hover-background:                     darken(spin(@card-primary-background, 1%), 6%);
+@card-primary-box-shadow:                           @global-medium-box-shadow;
+@card-primary-hover-box-shadow:                     @global-large-box-shadow;
+@card-secondary-color:                              @global-emphasis-color;
+@card-secondary-hover-background:                   lighten(@card-secondary-background, 1%);
+
+@card-default-gradient-start:                       lighten(@card-default-background, 4%);
+@card-default-gradient-stop:                        darken(@card-default-background, 1%);
+
+@card-primary-gradient-start:                       lighten(@card-primary-background, 5%);
+@card-primary-gradient-stop:                        darken(@card-primary-background, 5%);
+
+@card-secondary-gradient-start:                     darken(@card-secondary-background, 2%);
+@card-secondary-gradient-stop:                      darken(@card-secondary-background, 4%);
+
+//
+// Comment
+//
+
+@comment-meta-font-family:                          @global-font-family;
+
+//
+// Dropdown
+//
+
+@dropdown-background:                               @global-muted-background;
+
+//
+// Form
+//
+
+@form-focus-background:                             @global-muted-background;
+@form-radio-border:                                 lighten(@global-border, 10%);
+
+//
+// Icon
+//
+
+@icon-button-background:                            @global-muted-background;
+
+//
+// Inverse
+//
+
+@inverse-global-color-mode:                         dark;
+@inverse-global-inverse-color:                      @global-background;
+
+//
+// Navbar
+//
+
+@navbar-dropdown-background:                        @global-muted-background;
+
+//
+// Offcnavas
+//
+
+@offcanvas-bar-color-mode:                          light;
+
+//
+// Pagination
+//
+
+@pagination-item-hover-background:                  @global-muted-background;
+
+
+//
+// Section
+//
+
+@section-muted-background:                          @global-muted-background;
+@section-primary-color-mode:                        dark;
+@internal-section-default-image:                    "http://192.168.1.52/yootheme_pro/2017/Fjord/Website/templates/yootheme/vendor/assets/uikit-themes/master-fjord/images/background-texture-concrete.png";
+@internal-section-muted-image:                      "http://192.168.1.52/yootheme_pro/2017/Fjord/Website/templates/yootheme/vendor/assets/uikit-themes/master-fjord/images/background-texture-concrete.png";
+@internal-section-primary-image:                    "http://192.168.1.52/yootheme_pro/2017/Fjord/Website/templates/yootheme/vendor/assets/uikit-themes/master-fjord/images/background-texture-concrete.png";
+@internal-section-secondary-image:                  "http://192.168.1.52/yootheme_pro/2017/Fjord/Website/templates/yootheme/vendor/assets/uikit-themes/master-fjord/images/background-texture-concrete.png";
+
+@internal-section-overlap-image:                    "../../../../uikit-themes/master-fjord/images/section-overlap-image-3.svg";
+@internal-section-overlap-height:                   10px;
+
+//
+// Subnav
+//
+
+@subnav-pill-item-hover-background:                 @global-muted-background;
+@subnav-pill-item-active-box-shadow:                @global-medium-box-shadow;
+
+//
+// Table
+//
+
+@table-row-active-background:                       fade(@global-primary-background, 5%);
+
+//
+// Text
+//
+
+@text-lead-font-family:                             @global-font-family;
+@text-lead-font-style:                              normal;
+@text-meta-font-family:                             @global-font-family;
+@text-meta-font-style:                              normal;

@@ -1,0 +1,188 @@
+//
+// Component: Section
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+//
+// New
+//
+
+// Gradient
+@internal-section-default-gradient:                 ;
+@internal-section-muted-gradient:                   ;
+@internal-section-primary-gradient:                 ;
+@internal-section-secondary-gradient:               ;
+
+// Image
+@internal-section-default-image:                    ;
+@internal-section-muted-image:                      ;
+@internal-section-primary-image:                    ;
+@internal-section-secondary-image:                  ;
+
+@internal-section-default-overlap-image:            ;
+@internal-section-muted-overlap-image:              ;
+@internal-section-primary-overlap-image:            ;
+@internal-section-secondary-overlap-image:          ;
+@internal-section-overlap-height:                   0;
+
+
+// Component
+// ========================================================================
+
+.hook-section() {}
+
+
+// Style modifiers
+// ========================================================================
+
+//
+// Default
+//
+
+// Gradient only
+.hook-section-default() when not (@internal-section-default-gradient = ~'') and (@internal-section-default-image = ~'') {
+    background-image: @internal-section-default-gradient;
+}
+
+// Image only
+.hook-section-default() when not (@internal-section-default-image = ~'') and (@internal-section-default-gradient = ~'') {
+    background-image: url("@{internal-section-default-image}");
+}
+
+// Both
+.hook-section-default() when not (@internal-section-default-gradient = ~'') and not (@internal-section-default-image = ~'') {
+    background-image: url("@{internal-section-default-image}"), @internal-section-default-gradient;
+}
+
+//
+// Muted
+//
+
+// Gradient only
+.hook-section-muted() when not (@internal-section-muted-gradient = ~'') and (@internal-section-muted-image = ~'') {
+    background-image: @internal-section-muted-gradient;
+}
+
+// Image only
+.hook-section-muted() when not (@internal-section-muted-image = ~'') and (@internal-section-muted-gradient = ~'') {
+    background-image: url("@{internal-section-muted-image}");
+}
+
+// Both
+.hook-section-muted() when not (@internal-section-muted-gradient = ~'') and not (@internal-section-muted-image = ~'') {
+    background-image: url("@{internal-section-muted-image}"), @internal-section-muted-gradient;
+}
+
+//
+// Primary
+//
+
+// Gradient only
+.hook-section-primary() when not (@internal-section-primary-gradient = ~'') and (@internal-section-primary-image = ~'') {
+    background-image: @internal-section-primary-gradient;
+}
+
+// Image only
+.hook-section-primary() when not (@internal-section-primary-image = ~'') and (@internal-section-primary-gradient = ~'') {
+    background-image: url("@{internal-section-primary-image}");
+}
+
+// Both
+.hook-section-primary() when not (@internal-section-primary-gradient = ~'') and not (@internal-section-primary-image = ~'') {
+    background-image: url("@{internal-section-primary-image}"), @internal-section-primary-gradient;
+}
+
+//
+// Secondary
+//
+
+// Gradient only
+.hook-section-secondary() when not (@internal-section-secondary-gradient = ~'') and (@internal-section-secondary-image = ~'') {
+    background-image: @internal-section-secondary-gradient;
+}
+
+// Image only
+.hook-section-secondary() when not (@internal-section-secondary-image = ~'') and (@internal-section-secondary-gradient = ~'') {
+    background-image: url("@{internal-section-secondary-image}");
+}
+
+// Both
+.hook-section-secondary() when not (@internal-section-secondary-gradient = ~'') and not (@internal-section-secondary-image = ~'') {
+    background-image: url("@{internal-section-secondary-image}"), @internal-section-secondary-gradient;
+}
+
+//
+// Media
+//
+
+.hook-section-media() {}
+
+
+// Overlap modifier
+// ========================================================================
+
+.hook-section-overlap() when not (@internal-section-overlap-height = 0) {
+
+    &.uk-section::after,
+    & > .uk-section::after { height: @internal-section-overlap-height; }
+
+    & + .uk-section { position: relative; }
+
+    & + .uk-section-default::before,
+    & + .uk-section-muted::before,
+    & + .uk-section-primary::before,
+    & + .uk-section-secondary::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -(@internal-section-overlap-height);
+        left: 0;
+        right: 0;
+        height: @internal-section-overlap-height;
+        background-repeat: repeat-x;
+    }
+
+}
+
+.hook-section-overlap() when not (@internal-section-default-overlap-image = ~'') {
+
+    & + .uk-section-default::before {
+        .svg-fill(@internal-section-default-overlap-image, "#000", @section-default-background);
+    }
+
+}
+
+.hook-section-overlap() when not (@internal-section-muted-overlap-image = ~'') {
+
+    & + .uk-section-muted::before {
+        .svg-fill(@internal-section-muted-overlap-image, "#000", @section-muted-background);
+    }
+
+}
+
+.hook-section-overlap() when not (@internal-section-primary-overlap-image = ~'') {
+
+    & + .uk-section-primary::before {
+        .svg-fill(@internal-section-primary-overlap-image, "#000", @section-primary-background);
+    }
+
+}
+
+.hook-section-overlap() when not (@internal-section-secondary-overlap-image = ~'') {
+
+    & + .uk-section-secondary::before {
+        .svg-fill(@internal-section-secondary-overlap-image, "#000", @section-secondary-background);
+    }
+
+}
+
+
+
+// Miscellaneous
+// ========================================================================
+
+.hook-section-misc() {}

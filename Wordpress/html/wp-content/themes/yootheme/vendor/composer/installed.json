@@ -1,0 +1,111 @@
+[
+    {
+        "name": "psr/http-message",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/http-message.git",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-08-06 14:39:51",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Http\\Message\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for HTTP messages",
+        "homepage": "https://github.com/php-fig/http-message",
+        "keywords": [
+            "http",
+            "http-message",
+            "psr",
+            "psr-7",
+            "request",
+            "response"
+        ]
+    },
+    {
+        "name": "yootheme/framework",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "git@github.com:yootheme/framework.git",
+            "reference": "2b5ca99357791e6c8992dfbe3a401ff5a28ac74e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yootheme/framework/zipball/2b5ca99357791e6c8992dfbe3a401ff5a28ac74e",
+            "reference": "2b5ca99357791e6c8992dfbe3a401ff5a28ac74e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "psr/http-message": "^1.0"
+        },
+        "time": "2017-03-17 09:28:23",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-develop": "2.0.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "YOOtheme\\": [
+                    "src",
+                    "modules/app/src",
+                    "modules/asset/src",
+                    "modules/event/src",
+                    "modules/view/src",
+                    "platforms/common/src",
+                    "platforms/joomla/src",
+                    "platforms/wordpress/src"
+                ]
+            }
+        },
+        "license": [
+            "GNU General Public License"
+        ],
+        "authors": [
+            {
+                "name": "YOOtheme",
+                "email": "info@yootheme.com"
+            }
+        ],
+        "description": "YOOtheme Framework",
+        "homepage": "https://yootheme.com",
+        "support": {
+            "source": "https://github.com/yootheme/framework/tree/develop",
+            "issues": "https://github.com/yootheme/framework/issues"
+        }
+    }
+]

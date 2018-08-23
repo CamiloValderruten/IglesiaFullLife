@@ -1,0 +1,24 @@
+{
+    "name": "yootheme",
+    "require": {
+        "yootheme/framework": "dev-develop",
+        "mongodb/mongodb": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "YOOtheme\\": "vendor/yootheme/theme/src",
+            "YOOtheme\\Theme\\": [
+                "vendor/yootheme/theme/modules/builder/src",
+                "vendor/yootheme/theme/modules/settings/src",
+                "vendor/yootheme/theme/modules/styler/src",
+                "vendor/yootheme/theme/platforms/joomla/src",
+                "vendor/yootheme/theme/platforms/joomla-modules/src",
+                "vendor/yootheme/theme/platforms/wordpress/src",
+                "vendor/yootheme/theme/platforms/wordpress-widgets/src"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
