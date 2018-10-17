@@ -6,17 +6,19 @@ services:
      volumes:
        - ./mysql:/var/lib/mysql
        - ./:/data
+       - /etc/mysql/conf.d/:/etc/mysql/conf.d
      restart: always
-     ports:
-       - 3306:3306
+     expose:
+       - 3306
      environment:
        MYSQL_ROOT_PASSWORD: somewordpress
        MYSQL_DATABASE: wordpress
        MYSQL_USER: wordpress
        MYSQL_PASSWORD: wordpress
 
-   wordpress:
+   web:
      image: wordpress:latest
+     build: .
      depends_on:
        - db
      ports:
